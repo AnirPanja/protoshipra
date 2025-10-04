@@ -285,7 +285,70 @@ public class ARNavigation : MonoBehaviour
                 debugText.text = "NO NAVIGATION DATA RECEIVED!\nPlease go back to Navigation and set Place properly.";
         }
     }
+public bool TryGetOrigin(out double lat, out double lon, out Transform originXform)
+{
+    lat = originLat;
+    lon = originLon;
+    originXform = originTransform;
+    return originSet;
+}
 
+// Public: convert (lat,lon) to scene world position using ARNavigation's logic
+// heightOffset is added on top of ARNavigation's own vertical placement rules.
+public Vector3 LatLonToWorld(Vector2 latlon, float heightOffset = 0f)
+{
+    // Convert to local meters (east, 0, north) relative to geo origin
+    Vector3 worldPosLocal = LatLonToUnity(latlon);
+
+    // Transform to scene world coordinates if originTransform exists
+    Vector3 worldPos = (originTransform != null) ? originTransform.TransformPoint(worldPosLocal) : worldPosLocal;
+
+    // --- vertical placement (mirror ARNavigation's approach) ---
+    float baseAlt = float.NaN;
+    if (originSet) baseAlt = originAlt;
+    else if (Input.location.status == LocationServiceStatus.Running) baseAlt = Input.location.lastData.altitude;
+
+    float y;
+    if (!float.IsNaN(baseAlt))
+    {
+        y = baseAlt + arGlobalHeightOffset + heightOffset;
+        if (Camera.main != null)
+        {
+            float camY = Camera.main.transform.position.y;
+            if (Mathf.Abs(y - camY) > maxVerticalDeltaFromCamera)
+                y = camY + Mathf.Sign(y - camY) * maxVerticalDeltaFromCamera;
+        }
+    }
+    else
+    {
+        y = (Camera.main != null ? Camera.main.transform.position.y : 0f) + forcedHeightAboveCamera + heightOffset;
+    }
+
+    worldPos.y = y;
+    return worldPos;
+}
+
+// Public: retrieve a lat/lon from Destination or arSpawnPoints[index]
+public bool TryGetLatLonFromNavigation(out Vector2 latlon, int spawnPointIndex = -1)
+{
+    // prefer explicit spawn point if valid
+    if (spawnPointIndex >= 0 && arSpawnPoints != null && spawnPointIndex < arSpawnPoints.Count)
+    {
+        var e = arSpawnPoints[spawnPointIndex];
+        latlon = new Vector2(e.lat, e.lon);
+        return true;
+    }
+
+    // otherwise use destination if available (non-zero)
+    if (destination != Vector2.zero)
+    {
+        latlon = destination;
+        return true;
+    }
+
+    latlon = Vector2.zero;
+    return false;
+}
     #region Public API (Navigation)
     public void OnStartButtonPressed(Vector2 source, Vector2 dest)
     {
@@ -340,8 +403,8 @@ public class ARNavigation : MonoBehaviour
                     if (debugLogs) Debug.Log($"Ready: path pts {path.Count}, steps {steps.Count}");
 
                     if (spawnAllOnDirectionsReady)
-                        // call coroutine so it waits for GPS/origin
-                        StartCoroutine(SpawnAllARObjects_WhenLocationReady());
+                        
+                       SpawnAllARObjects(); 
                 }
             }
             else
@@ -440,8 +503,49 @@ public class ARNavigation : MonoBehaviour
                 }
             }
         }
-    }
+        void UpdateARObjectsVisibility()
+{
+    if (spawnedARObjects == null || spawnedARObjects.Count == 0) return;
 
+    float userLat = currentLat;
+    float userLon = currentLon;
+
+    for (int i = 0; i < spawnedARObjects.Count; i++)
+    {
+        if (spawnedARObjects[i] == null || i >= spawnedARData.Count) continue;
+
+        var data = spawnedARData[i];
+        float dist = HaversineDistance(userLat, userLon, data.lat, data.lon);
+
+        bool shouldShow = dist < 30f; // <-- choose your visibility radius in meters
+        spawnedARObjects[i].SetActive(shouldShow);
+    }
+}
+
+    }
+public int GetARSpawnPointCount()
+{
+    return (arSpawnPoints != null) ? arSpawnPoints.Count : 0;
+}
+
+public bool TryGetARSpawnPointLatLon(int index, out Vector2 latlon, out bool enabled)
+{
+    latlon = Vector2.zero;
+    enabled = false;
+    if (arSpawnPoints == null || index < 0 || index >= arSpawnPoints.Count) return false;
+    var e = arSpawnPoints[index];
+    if (e == null) return false;
+    latlon = new Vector2(e.lat, e.lon);
+    enabled = e.enabled;
+    return true;
+}
+
+// Optional: expose destination if you want a cube there too
+public bool TryGetDestinationLatLon(out Vector2 latlon)
+{
+    latlon = destination;
+    return (destination != Vector2.zero);
+}
     #region Spawn helpers (Canvas + Anchors)
     public IEnumerator SpawnAllARObjects_WhenLocationReady(float timeoutSeconds = 8f)
     {
@@ -611,10 +715,10 @@ public class ARNavigation : MonoBehaviour
             obj.transform.localRotation = Quaternion.identity;
 
             ConfigureWorldSpaceCanvas(obj, cam);
+             ApplySpawnMaterial(obj, mat);
             ForceOpaqueMaterials(obj);
-            ApplySpawnMaterial(obj, mat);
+           
 
-            ApplySpawnMaterial(obj, mat);
             var markerComp = obj.GetComponentInChildren<ARMarker>();
             if (markerComp != null)
             {
@@ -642,8 +746,9 @@ public class ARNavigation : MonoBehaviour
             objInst.transform.localPosition = new Vector3(0f, heightOffset, 0f);
             objInst.transform.localRotation = Quaternion.identity;
             ConfigureWorldSpaceCanvas(objInst, Camera.main);
+                    ApplySpawnMaterial(objInst, mat);
             ForceOpaqueMaterials(objInst);
-            ApplySpawnMaterial(objInst, mat);
+    
 
             var marker = objInst.GetComponentInChildren<ARMarker>();
             if (marker != null)
@@ -701,8 +806,9 @@ public class ARNavigation : MonoBehaviour
             else if (originTransform != null) fallback.transform.SetParent(originTransform, true);
 
             ConfigureWorldSpaceCanvas(fallback, Camera.main);
+             ApplySpawnMaterial(fallback, mat);
             ForceOpaqueMaterials(fallback);
-            ApplySpawnMaterial(fallback, mat);
+           
             var mf = fallback.GetComponentInChildren<ARMarker>();
             if (mf != null) mf.SetData(label, icon);
             HideInWorldText(fallback);
@@ -716,8 +822,9 @@ public class ARNavigation : MonoBehaviour
         objInst2.transform.localPosition = new Vector3(0f, heightOffset, 0f);
         objInst2.transform.localRotation = Quaternion.identity;
         ConfigureWorldSpaceCanvas(objInst2, Camera.main);
-        ForceOpaqueMaterials(objInst2);
         ApplySpawnMaterial(objInst2, mat);
+        ForceOpaqueMaterials(objInst2);
+        
         var marker2 = objInst2.GetComponentInChildren<ARMarker>();
         if (marker2 != null)
         {
@@ -1856,6 +1963,7 @@ public class ARNavigation : MonoBehaviour
         return result;
     }
 
+
     class TripletEvent { public int stepIndex; public string label; public float along; }
 
     string GetManeuverLabelForStep(int stepIndex)
@@ -1890,35 +1998,120 @@ public class ARNavigation : MonoBehaviour
         return Regex.Replace(html, "<.*?>", "").Trim();
     }
 
-    string ManeuverToTextWithAngleFallback(Step step, int stepIndex)
+// --- Paste these helpers & replacement function into your ARNavigation class ---
+
+// Helper: get a (lat,lon) point along the route at the given 'along' meters (interpolated)
+Vector2 SamplePointAtAlong(float targetAlong)
+{
+    if (path == null || path.Count == 0) return Vector2.zero;
+    if (cumulative == null || cumulative.Count == 0) return path[0];
+
+    // clamp
+    if (targetAlong <= 0f) return path[0];
+    if (targetAlong >= cumulative[cumulative.Count - 1]) return path[path.Count - 1];
+
+    int idx = cumulative.BinarySearch(targetAlong);
+    if (idx < 0) idx = ~idx;
+    idx = Mathf.Clamp(idx, 1, path.Count - 1);
+
+    float aAlong = cumulative[idx - 1];
+    float bAlong = cumulative[idx];
+    float t = (bAlong - aAlong) == 0f ? 0f : (targetAlong - aAlong) / (bAlong - aAlong);
+
+    Vector2 a = path[idx - 1];
+    Vector2 b = path[idx];
+    float lat = Mathf.Lerp(a.x, b.x, t);
+    float lon = Mathf.Lerp(a.y, b.y, t);
+    return new Vector2(lat, lon);
+}
+
+// Replacement: more robust angle-based fallback for textual maneuver
+string ManeuverToTextWithAngleFallback(Step step, int stepIndex)
+{
+    // prefer explicit maneuver if present
+    if (!string.IsNullOrEmpty(step.maneuver)) return ManeuverToText(step.maneuver);
+
+    // quick textual checks
+    string plain = StripHtmlTags(step.html_instructions).ToLowerInvariant();
+    if (!string.IsNullOrEmpty(plain))
     {
-        if (!string.IsNullOrEmpty(step.maneuver)) return ManeuverToText(step.maneuver);
-        string plain = StripHtmlTags(step.html_instructions).ToLowerInvariant();
-        if (!string.IsNullOrEmpty(plain))
-        {
-            if (plain.StartsWith("head") || plain.StartsWith("continue") || plain.StartsWith("proceed") ||
-                plain.StartsWith("keep") || plain.Contains("continue straight") || plain.Contains("go straight"))
-                return "Go straight";
-        }
+        if (plain.StartsWith("head") || plain.StartsWith("continue") || plain.StartsWith("proceed") ||
+            plain.StartsWith("keep") || plain.Contains("continue straight") || plain.Contains("go straight"))
+            return "Go straight";
+    }
 
-        if (path.Count < 3 || stepIndex >= stepEndIndex.Count) return "Go straight";
+    // require path/cumulative to exist and have enough points
+    if (path == null || path.Count < 3 || cumulative == null || cumulative.Count < 2 || stepStartAlong == null || stepEndAlong == null)
+        return "Go straight";
 
-        int startIdx = Mathf.Clamp(stepStartIndex[stepIndex], 0, path.Count - 1);
-        int endIdx = Mathf.Clamp(stepEndIndex[stepIndex], 0, path.Count - 1);
-        int nextEndIdx = (stepIndex + 1 < stepEndIndex.Count) ? Mathf.Clamp(stepEndIndex[stepIndex + 1], 0, path.Count - 1) : -1;
+    // clamp indices safely
+    int sIdx = Mathf.Clamp(stepIndex, 0, Mathf.Max(0, stepStartAlong.Count - 1));
+    float startAlong = (sIdx < stepStartAlong.Count) ? stepStartAlong[sIdx] : 0f;
+    float endAlong = (sIdx < stepEndAlong.Count) ? stepEndAlong[sIdx] : startAlong;
+    int nextIdx = (sIdx + 1 < stepEndAlong.Count) ? sIdx + 1 : -1;
+    float nextEndAlong = (nextIdx >= 0 && nextIdx < stepEndAlong.Count) ? stepEndAlong[nextIdx] : -1f;
 
-        if (startIdx == endIdx && startIdx > 0) startIdx = startIdx - 1;
-        if (endIdx == startIdx && endIdx < path.Count - 1) endIdx = startIdx + 1;
-        if (nextEndIdx <= 0 || endIdx == nextEndIdx) return "Go straight";
+    // If we don't have a following step with a valid along distance, treat as straight
+    if (nextEndAlong <= 0f || nextEndAlong <= endAlong + 0.01f)
+        return "Go straight";
 
-        float bearingBefore = CalculateBearing(path[startIdx].x, path[startIdx].y, path[endIdx].x, path[endIdx].y);
-        float bearingAfter = CalculateBearing(path[endIdx].x, path[endIdx].y, path[nextEndIdx].x, path[nextEndIdx].y);
-        float angle = Mathf.DeltaAngle(bearingBefore, bearingAfter);
-        float abs = Mathf.Abs(angle);
-        if (abs >= majorTurnAngle) return angle > 0 ? "Turn right" : "Turn left";
-        if (abs >= minorTurnAngle) return angle > 0 ? "Slight right" : "Slight left";
+    // Choose meters offsets for sampling before/after the junction
+    float sampleOffset = 6f; // meters before / after; tune as needed
+    float minSegmentConsiderMeters = 3f; // ignore very tiny geometry
+
+    // sample a point slightly BEFORE the step end
+    float beforeAlong = Mathf.Max(startAlong, endAlong - sampleOffset);
+    Vector2 beforePt = SamplePointAtAlong(beforeAlong);
+
+    // sample a point slightly AFTER the step end (on the next step)
+    float afterAlong = Mathf.Min(nextEndAlong, endAlong + sampleOffset);
+    Vector2 afterPt = SamplePointAtAlong(afterAlong);
+
+    // To compute bearings, we need a short baseline before and after.
+    // We'll take small offsets to form two micro-segments for bearing.
+    float baseline = 2.0f; // meters baseline used to compute each bearing
+
+    // sample a point further back to form the "before" micro-segment
+    float beforeBaselineAlong = Mathf.Max(startAlong, beforeAlong - baseline);
+    Vector2 beforeBaselinePt = SamplePointAtAlong(beforeBaselineAlong);
+
+    // sample a point further forward to form the "after" micro-segment
+    float afterBaselineAlong = Mathf.Min(nextEndAlong, afterAlong + baseline);
+    Vector2 afterBaselinePt = SamplePointAtAlong(afterBaselineAlong);
+
+    // Compute distances to ensure geometry isn't degenerate
+    float beforeSegDist = HaversineDistance(beforeBaselinePt.x, beforeBaselinePt.y, beforePt.x, beforePt.y);
+    float afterSegDist = HaversineDistance(afterPt.x, afterPt.y, afterBaselinePt.x, afterBaselinePt.y);
+
+    if (beforeSegDist < minSegmentConsiderMeters || afterSegDist < minSegmentConsiderMeters)
+    {
+        // segments too small to make a reliable angle decision
         return "Go straight";
     }
+
+    // compute bearings (bearing uses lat, lon order as in your CalculateBearing)
+    float bearingBefore = CalculateBearing(beforeBaselinePt.x, beforeBaselinePt.y, beforePt.x, beforePt.y);
+    float bearingAfter = CalculateBearing(afterPt.x, afterPt.y, afterBaselinePt.x, afterBaselinePt.y);
+
+    float angle = Mathf.DeltaAngle(bearingBefore, bearingAfter);
+    float absAngle = Mathf.Abs(angle);
+
+    // Debugging helpful log - enable debugLogs to print this
+    if (debugLogs)
+    {
+        Debug.Log($"ManeuverFallback step {stepIndex}: bearingBefore={bearingBefore:F1} bearingAfter={bearingAfter:F1} angle={angle:F1} abs={absAngle:F1} startAlong={startAlong:F1} endAlong={endAlong:F1} nextEnd={nextEndAlong:F1}");
+    }
+
+    // Decide classification based on thresholds (minorTurnAngle, majorTurnAngle)
+    if (absAngle >= majorTurnAngle)
+        return angle > 0f ? "Turn right" : "Turn left";
+    if (absAngle >= minorTurnAngle)
+        return angle > 0f ? "Slight right" : "Slight left";
+
+    // otherwise treat as straight
+    return "Go straight";
+}
+
 
     void SpawnPathArrows()
     {

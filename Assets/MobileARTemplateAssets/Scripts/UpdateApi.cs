@@ -74,7 +74,7 @@ public class LiveUpdateFetcher : MonoBehaviour
             if (cardComp != null)
             {
                 // Use the strongly-typed Setup to avoid transform.Find lookups
-                cardComp.Setup(item.entry_date, item.lost_or_found, item.description);
+                cardComp.Setup(item.lost_or_found, item.description, item.entry_date);
             }
             else
             {

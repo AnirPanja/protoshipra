@@ -189,111 +189,65 @@ MonoBehaviour:
   forceScreenPlacement: 0
   forcedDisplayDistance: 10
   forcedHeightAboveCamera: 0.5
+  sequentialSpawnByDistance: 0
+  spawnStaggerSeconds: 0.12
   arGlobalHeightOffset: 0
   maxVerticalDeltaFromCamera: 0.25
-  billboardKeepUpright: 0
-  minScale: 0.01
-  scalePerMeter: 0.0025
   guidanceParentToCamera: 1
   guidanceSmoothingTime: 0.15
   arSpawnPoints:
   - name: Multi-Level Parking
-    lat: 23.30582
-    lon: 77.36717
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
+    lat: 23.305447
+    lon: 77.36798
+    prefab: {fileID: 8355278145675852684, guid: bccb7c3c30f504b61b61a05b061c392b,
       type: 3}
-    icon: {fileID: 21300000, guid: 3b34be1a5d0804f04b23f8118ea5b451, type: 3}
-    material: {fileID: 2100000, guid: 754e2f2331da14b6abf80b095e1884ed, type: 2}
-    heightOffset: 0
+    icon: {fileID: 0}
+    material: {fileID: 0}
+    heightOffset: 0.2
     enabled: 1
   - name: P.A. Dhirendra Shrma Pravchan
-    lat: 23.307291
-    lon: 77.36767
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
+    lat: 23.306185
+    lon: 77.3683
+    prefab: {fileID: 8355278145675852684, guid: bccb7c3c30f504b61b61a05b061c392b,
       type: 3}
-    icon: {fileID: 21300000, guid: 10fba35d742fd4d38be7811f3a9b3543, type: 3}
-    material: {fileID: 2100000, guid: 754e2f2331da14b6abf80b095e1884ed, type: 2}
-    heightOffset: 0
-    enabled: 1
-  - name: Ram Ghat Parking
-    lat: 23.307709
-    lon: 77.36793
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
-      type: 3}
-    icon: {fileID: 21300000, guid: 9845f76d41db1498fb2be9b923e3b838, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
+    icon: {fileID: 0}
+    material: {fileID: 0}
     heightOffset: 0
     enabled: 1
   - name: Ram Ghat
-    lat: 23.308054
-    lon: 77.36828
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
+    lat: 23.307888
+    lon: 77.36901
+    prefab: {fileID: 8355278145675852684, guid: bccb7c3c30f504b61b61a05b061c392b,
       type: 3}
-    icon: {fileID: 21300000, guid: ae4abb95e5b994099accbd19cb43f0f1, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
+    icon: {fileID: 0}
+    material: {fileID: 0}
     heightOffset: 0
     enabled: 1
   - name: Bhandara
-    lat: 23.308504
-    lon: 77.366905
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
+    lat: 23.30825
+    lon: 77.36819
+    prefab: {fileID: 8355278145675852684, guid: bccb7c3c30f504b61b61a05b061c392b,
       type: 3}
-    icon: {fileID: 21300000, guid: c2563456eed3f4d3488d8fe9720f77a9, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
-    heightOffset: 0
+    icon: {fileID: 0}
+    material: {fileID: 0}
+    heightOffset: 0.2
     enabled: 1
   - name: Bharat Mata Parking
-    lat: 23.309942
-    lon: 77.36702
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
+    lat: 23.30867
+    lon: 77.366905
+    prefab: {fileID: 8355278145675852684, guid: bccb7c3c30f504b61b61a05b061c392b,
       type: 3}
-    icon: {fileID: 21300000, guid: 6c54af8005caf4775a4aa76e345937c3, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
-    heightOffset: 0
+    icon: {fileID: 0}
+    material: {fileID: 0}
+    heightOffset: 0.2
     enabled: 1
   - name: Mahakal Mandir
-    lat: 23.310608
-    lon: 77.36708
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
+    lat: 23.31075
+    lon: 77.36701
+    prefab: {fileID: 8355278145675852684, guid: bccb7c3c30f504b61b61a05b061c392b,
       type: 3}
-    icon: {fileID: 21300000, guid: 980a88dd0f253466eab3cbfb5d2a1cb4, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
-    heightOffset: 0
-    enabled: 1
-  - name: Pravachan
-    lat: 23.305391
-    lon: 77.36803
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
-      type: 3}
-    icon: {fileID: 21300000, guid: 10fba35d742fd4d38be7811f3a9b3543, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
-    heightOffset: 0
-    enabled: 1
-  - name: Multi Level Parking
-    lat: 23.305588
-    lon: 77.3681
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
-      type: 3}
-    icon: {fileID: 21300000, guid: 3b34be1a5d0804f04b23f8118ea5b451, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
-    heightOffset: 0
-    enabled: 1
-  - name: Bhandara
-    lat: 23.305857
-    lon: 77.36821
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
-      type: 3}
-    icon: {fileID: 21300000, guid: 2030b110eb4be445aba977322d37d3ae, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
-    heightOffset: 0
-    enabled: 1
-  - name: Ram Ghat
-    lat: 23.310608
-    lon: 77.36708
-    prefab: {fileID: 5466988829180806118, guid: a49f24d9d8d1949c08670332ad08ed72,
-      type: 3}
-    icon: {fileID: 21300000, guid: ae4abb95e5b994099accbd19cb43f0f1, type: 3}
-    material: {fileID: 2100000, guid: ef25279717780430f989c9392e609088, type: 2}
+    icon: {fileID: 0}
+    material: {fileID: 0}
     heightOffset: 0
     enabled: 1
   spawnAllOnDirectionsReady: 1
@@ -368,8 +322,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000023365, y: -829.53766}
-  m_SizeDelta: {x: 1007.0744, y: 426.9082}
+  m_AnchoredPosition: {x: 0.000023365, y: -967.86}
+  m_SizeDelta: {x: 1007.0744, y: 183.9059}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125694065
 MonoBehaviour:
@@ -409,6 +363,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 125694063}
   m_CullTransparentMesh: 1
+--- !u!1 &152428096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 152428098}
+  - component: {fileID: 152428099}
+  m_Layer: 0
+  m_Name: Geo Cube Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &152428098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152428096}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1196.0912, y: 1097.9905, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &152428099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152428096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb248dd0737c4457d8e051053f646bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ARMirrorCubesFromARNavigation
+  nav: {fileID: 3369862}
+  cubePrefab: {fileID: 8355278145675852684, guid: bccb7c3c30f504b61b61a05b061c392b,
+    type: 3}
+  heightOffsetMeters: 0.1
+  includeDestinationToo: 1
+  onlyForEnabledPoints: 1
 --- !u!1 &173388585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,6 +1199,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 679335687}
+  - {fileID: 1122024847}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1280,6 +1285,142 @@ MonoBehaviour:
   m_CameraFloorOffsetObject: {fileID: 0}
   m_RequestedTrackingOriginMode: 0
   m_CameraYOffset: 1.1176
+--- !u!1 &528854991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528854992}
+  - component: {fileID: 528854994}
+  - component: {fileID: 528854993}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &528854992
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528854991}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1122024847}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &528854993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528854991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Spwan Cube
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4281479730
+  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 40
+  m_fontSizeBase: 40
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &528854994
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528854991}
+  m_CullTransparentMesh: 1
 --- !u!1 &652075947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,7 +1446,7 @@ Transform:
   m_GameObject: {fileID: 652075947}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: 18}
+  m_LocalPosition: {x: 0, y: -12, z: 18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1423,8 +1564,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000024796, y: 11.031}
-  m_SizeDelta: {x: 896.8443, y: 283.1619}
+  m_AnchoredPosition: {x: 0.000019073, y: 0.0000047684}
+  m_SizeDelta: {x: 806.4251, y: 152.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1008692674
 MonoBehaviour:
@@ -1511,7 +1652,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0.0028839111, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.0029449463, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1524,6 +1665,139 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008692672}
+  m_CullTransparentMesh: 1
+--- !u!1 &1122024846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122024847}
+  - component: {fileID: 1122024850}
+  - component: {fileID: 1122024849}
+  - component: {fileID: 1122024848}
+  m_Layer: 5
+  m_Name: SpwanButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1122024847
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122024846}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 528854992}
+  m_Father: {fileID: 468354157}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -794}
+  m_SizeDelta: {x: 300, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1122024848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122024846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1122024849}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 152428099}
+        m_TargetAssemblyTypeName: ARMirrorCubesFromARNavigation, Assembly-CSharp
+        m_MethodName: SpawnCubesForAllARPoints
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1122024849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122024846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1122024850
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122024846}
   m_CullTransparentMesh: 1
 --- !u!1 &1145588799
 GameObject:
@@ -2130,3 +2404,4 @@ SceneRoots:
   - {fileID: 429085865}
   - {fileID: 3369861}
   - {fileID: 652075948}
+  - {fileID: 152428098}
