@@ -419,7 +419,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1534268357}
         m_TargetAssemblyTypeName: LocationServiceManager, Assembly-CSharp
         m_MethodName: OnCheckLocationButton
         m_Mode: 1
@@ -3728,27 +3728,15 @@ MonoBehaviour:
   currentLocationInput: {fileID: 2064258128}
   destinationDropdown: {fileID: 115894008}
   points:
-  - name: Multi-Level Parking
-    lat: 23.30582
-    lon: 77.36717
-  - name: P.A. Dhirendra Sharma Pravachan
-    lat: 23.30697
-    lon: 77.36763
-  - name: Ram Ghat Parking
-    lat: 23.307709
-    lon: 77.36793
-  - name: Ram Ghat
-    lat: 23.308054
-    lon: 77.36828
-  - name: Bhandara
-    lat: 23.308504
-    lon: 77.366905
-  - name: Bharat Mata Parking
-    lat: 23.309942
-    lon: 77.36702
-  - name: Mahakal Mandir
-    lat: 23.310608
-    lon: 77.36708
+  - name: SBI ATM
+    lat: 23.285223
+    lon: 77.274277
+  - name: Parking
+    lat: 23.283895
+    lon: 77.275497
+  - name: Department of Physic
+    lat: 23.28693
+    lon: 77.275124
   targetSceneName: ARNavigation
   autoFillCurrentLocation: 1
 --- !u!114 &1748783181
