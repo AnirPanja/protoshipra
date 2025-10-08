@@ -4846,7 +4846,7 @@ struct TrackableIdComparer_t053D477716F804004DADD855155CD7AB912594B8  : public R
 struct U3CU3Ec_tC81DC3F23BA70A7E71B35E0609E6B7A8FCBBFBD1  : public RuntimeObject
 {
 };
-struct U3CInitAndMaybeStartNavU3Ed__122_tB22E0CEDF1A640FA034BD92BCD14F99C59CB27FD  : public RuntimeObject
+struct U3CInitAndMaybeStartNavU3Ed__109_t79749172E71426DF79BCE355070B5C415EADBEA9  : public RuntimeObject
 {
 	int32_t ___U3CU3E1__state;
 	RuntimeObject* ___U3CU3E2__current;
@@ -4854,7 +4854,7 @@ struct U3CInitAndMaybeStartNavU3Ed__122_tB22E0CEDF1A640FA034BD92BCD14F99C59CB27F
 	float ___U3CwaitTimeoutU3E5__2;
 	float ___U3CtU3E5__3;
 };
-struct U3CSmoothAlignRoutineU3Ed__187_tD35D3C314267EA5387D1DC4ADE41D70C522D427B  : public RuntimeObject
+struct U3CSmoothAlignRoutineU3Ed__177_tCF7C44BA7BE7BEA78F93A48D48A8263B297F1E96  : public RuntimeObject
 {
 	int32_t ___U3CU3E1__state;
 	RuntimeObject* ___U3CU3E2__current;
@@ -4865,7 +4865,7 @@ struct U3CSmoothAlignRoutineU3Ed__187_tD35D3C314267EA5387D1DC4ADE41D70C522D427B 
 	float ___U3CdurationU3E5__4;
 	float ___U3CendYU3E5__5;
 };
-struct U3CSpawnAllARObjects_SequentialByDistanceU3Ed__142_t7075C19AF499BA63AA0B17664CC0FB2DAEFD1517  : public RuntimeObject
+struct U3CSpawnAllARObjects_SequentialByDistanceU3Ed__129_t0F9174341A81396EFDC796464941FFE22962E602  : public RuntimeObject
 {
 	int32_t ___U3CU3E1__state;
 	RuntimeObject* ___U3CU3E2__current;
@@ -4874,7 +4874,7 @@ struct U3CSpawnAllARObjects_SequentialByDistanceU3Ed__142_t7075C19AF499BA63AA0B1
 	Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* ___U3CcamU3E5__3;
 	int32_t ___U3CiU3E5__4;
 };
-struct U3CSpawnAllARObjects_WhenLocationReadyU3Ed__133_t84A8FB719D0DCAC05C7E8B7CFCD062FB652A4F66  : public RuntimeObject
+struct U3CSpawnAllARObjects_WhenLocationReadyU3Ed__120_t28B67E994C0A051B0A0E69C148A475BCE9A05829  : public RuntimeObject
 {
 	int32_t ___U3CU3E1__state;
 	RuntimeObject* ___U3CU3E2__current;
@@ -31683,7 +31683,7 @@ struct SpawnTriggerType_t9E55092F5E0F229E226D534D273C384A74D10AD7
 {
 	int32_t ___value__;
 };
-struct U3CFetchDirectionsU3Ed__126_tFE07F51E00512FC7E01C789B3C9FB5D1351CEEF0  : public RuntimeObject
+struct U3CFetchDirectionsU3Ed__113_t92D4F22E629704662BA657E8485C33AFE6BE1D61  : public RuntimeObject
 {
 	int32_t ___U3CU3E1__state;
 	RuntimeObject* ___U3CU3E2__current;
@@ -48029,6 +48029,7 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	ARRaycastManager_tD9459374F0F5BD9E2E4A8A1C665E7F33F9C2EE44* ___raycastManager;
 	ARPlaneManager_t9DA6C512BDCFFBEE8B3DAA7170EB3BFFDE26A928* ___planeManager;
 	bool ___lockToPlaneIfAvailable;
+	float ___smoothedAlong;
 	bool ___alignWorldToPathAtStart;
 	bool ___didAlignWorldToPath;
 	Dictionary_2_tC83A373447C326621C487EB30561D5F40D5D7C78* ____vis;
@@ -48055,7 +48056,6 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	float ___majorTurnAngle;
 	int32_t ___previewSegmentLimit;
 	bool ___debugLogs;
-	float ___wrongWaySeconds;
 	String_t* ___googleApiKey;
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___guidanceArrowPrefab;
 	float ___guidanceArrowDistance;
@@ -48070,27 +48070,18 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	float ___maxVerticalDeltaFromCamera;
 	bool ___guidanceParentToCamera;
 	float ___guidanceSmoothingTime;
-	float ___maxProgressSpeedMps;
-	float ___maxBackwardsSpeedMps;
-	float ___alongSmoothing;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* ___alignmentStatusText;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* ___unityCompassText;
-	float ___wrongWayTriggerAngle;
-	float ___wrongWayHoldSeconds;
-	float ___wrongWayRecoverRate;
 	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* ___contentRoot;
 	bool ___originSet;
 	double ___originLat;
 	double ___originLon;
 	float ___originAlt;
-	float ___wrongWayAccum;
 	double ___currentLat;
 	double ___currentLon;
 	float ___currentAlt;
 	float ___gpsCourseDeg;
 	bool ___hasCourse;
-	float ___stableAlong;
-	float ___lastStableAlong;
 	float ___uiCurrentZ;
 	float ___lastAlignedHeading;
 	float ___headingLerpSpeed;
@@ -48114,7 +48105,6 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	int32_t ___currentStepIndex;
 	Queue_1_tBB15A96A0BD226BCEDC19339C7F969E4B3A42153* ___alongWindow;
 	int32_t ___alongWindowSize;
-	float ___smoothedAlong;
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___guidanceArrowInstance;
 	String_t* ___guidanceLabel;
 	float ___guidanceCurrentYaw;
@@ -48133,9 +48123,6 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	bool ___smoothGpsUpdates;
 	float ___reprojectIfMeters;
 	float ___followLerp;
-	float ___prevAlong;
-	float ___wrongWayFor;
-	bool ___goingWrongWay;
 };
 struct ARPlaneMeshVisualizer_t21838C8E2676AC524939E67CB965925E924E018F  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
@@ -54059,8 +54046,9 @@ struct U3CU3Ec_t74B760AA0D9DDF9014F06045E8CC81D2C82597A8_StaticFields
 struct U3CU3Ec_tC81DC3F23BA70A7E71B35E0609E6B7A8FCBBFBD1_StaticFields
 {
 	U3CU3Ec_tC81DC3F23BA70A7E71B35E0609E6B7A8FCBBFBD1* ___U3CU3E9;
-	Predicate_1_t0BC4F819AC774A44995C04A14326FD629E72871A* ___U3CU3E9__142_0;
-	Comparison_1_t01E119AEE1E85D531EC7D6B66A5FCA1E8C6277DA* ___U3CU3E9__185_0;
+	Predicate_1_t0BC4F819AC774A44995C04A14326FD629E72871A* ___U3CU3E9__129_0;
+	Comparison_1_t01E119AEE1E85D531EC7D6B66A5FCA1E8C6277DA* ___U3CU3E9__139_0;
+	Comparison_1_t01E119AEE1E85D531EC7D6B66A5FCA1E8C6277DA* ___U3CU3E9__175_0;
 };
 struct U3CU3Ec_tF827337AB87AB1F22F0FD24BFFFB95D8DEEDC1D0_StaticFields
 {
@@ -64836,15 +64824,15 @@ const Il2CppTypeDefinitionSizes g_typeDefinitionSize8964 = { sizeof(TripletEvent
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8965;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize8965 = { sizeof(U3CU3Ec_tC81DC3F23BA70A7E71B35E0609E6B7A8FCBBFBD1), -1, sizeof(U3CU3Ec_tC81DC3F23BA70A7E71B35E0609E6B7A8FCBBFBD1_StaticFields), 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8966;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize8966 = { sizeof(U3CFetchDirectionsU3Ed__126_tFE07F51E00512FC7E01C789B3C9FB5D1351CEEF0), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize8966 = { sizeof(U3CFetchDirectionsU3Ed__113_t92D4F22E629704662BA657E8485C33AFE6BE1D61), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8967;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize8967 = { sizeof(U3CInitAndMaybeStartNavU3Ed__122_tB22E0CEDF1A640FA034BD92BCD14F99C59CB27FD), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize8967 = { sizeof(U3CInitAndMaybeStartNavU3Ed__109_t79749172E71426DF79BCE355070B5C415EADBEA9), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8968;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize8968 = { sizeof(U3CSmoothAlignRoutineU3Ed__187_tD35D3C314267EA5387D1DC4ADE41D70C522D427B), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize8968 = { sizeof(U3CSmoothAlignRoutineU3Ed__177_tCF7C44BA7BE7BEA78F93A48D48A8263B297F1E96), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8969;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize8969 = { sizeof(U3CSpawnAllARObjects_SequentialByDistanceU3Ed__142_t7075C19AF499BA63AA0B17664CC0FB2DAEFD1517), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize8969 = { sizeof(U3CSpawnAllARObjects_SequentialByDistanceU3Ed__129_t0F9174341A81396EFDC796464941FFE22962E602), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8970;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize8970 = { sizeof(U3CSpawnAllARObjects_WhenLocationReadyU3Ed__133_t84A8FB719D0DCAC05C7E8B7CFCD062FB652A4F66), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize8970 = { sizeof(U3CSpawnAllARObjects_WhenLocationReadyU3Ed__120_t28B67E994C0A051B0A0E69C148A475BCE9A05829), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8971;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize8971 = { sizeof(ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize8972;

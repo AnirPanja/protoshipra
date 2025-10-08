@@ -24,6 +24,9 @@ public class ARNavigation : MonoBehaviour
     [SerializeField] private ARRaycastManager raycastManager;   // assign in Inspector
     [SerializeField] private ARPlaneManager planeManager;       // optional
     [SerializeField] private bool lockToPlaneIfAvailable = true;
+    // private Queue<float> alongWindow = new Queue<float>();
+    // [SerializeField] private int alongWindowSize = 4; // tweak 3–6 if you like
+    private float smoothedAlong = 0f;
 
     [SerializeField] private bool alignWorldToPathAtStart = true;
     private bool didAlignWorldToPath = false;
@@ -63,7 +66,6 @@ public class ARNavigation : MonoBehaviour
     [SerializeField] private int previewSegmentLimit = 6;
     [SerializeField] private bool debugLogs = false;
     // fields (top of class)
-[SerializeField] private float wrongWaySeconds = 1.0f; // how long moving backwards before we warn
 
 
     
@@ -94,9 +96,6 @@ public class ARNavigation : MonoBehaviour
     [SerializeField] private bool guidanceParentToCamera = true;
     [SerializeField] private float guidanceSmoothingTime = 0.15f;
 
-    [SerializeField] private float maxProgressSpeedMps = 3.0f;   // cap how fast along can move
-    [SerializeField] private float maxBackwardsSpeedMps = 2.0f;  // cap backwards rate
-    [SerializeField] private float alongSmoothing = 0.15f;
 
     [Header("AR Origin & GPS Settings")]
     // (no northAlignRoot / compass now)
@@ -104,24 +103,36 @@ public class ARNavigation : MonoBehaviour
     [Header("Debug UI (optional)")]
     [SerializeField] private TMP_Text alignmentStatusText;  // now reports GPS origin status
     [SerializeField] private TMP_Text unityCompassText;     // repurposed to show GPS course (not magnetometer)
-
-    [SerializeField] private float wrongWayTriggerAngle = 100f; // path vs course
-    [SerializeField] private float wrongWayHoldSeconds = 1.0f;  // time to sustain mismatch
-    [SerializeField] private float wrongWayRecoverRate = 1.5f;  // how quickly timer decays
+[Header("Banner Billboard Defaults")]
+[SerializeField] private bool bannerBillboardYawOnly = true;   // keep rotation only on Y
+[SerializeField] private bool bannerFlipForward = false;       // set TRUE if your banner looks backward
+[SerializeField] private float bannerExtraYawDegrees = 0f; 
 
     [Header("Scene Roots")]
 [SerializeField] private Transform contentRoot; 
 
-    
+    [Header("Destination Marker")]
+    [SerializeField] private float destinationShowMeters = 30f;
+[SerializeField] private GameObject destinationPrefab;     // <-- set this in Inspector
+[SerializeField] private float destinationHeightOffset = 0f;
+[SerializeField] private Sprite destinationIcon;
+[SerializeField] private Material destinationMaterial;
+[SerializeField] private float destinationPreviewMeters = 40f;  // show preview when <= 40m
+[SerializeField] private float destinationPreviewHideMeters = 55f; // hysteresis to hide if you walk away
 
+[SerializeField] private GameObject destinationPreviewPrefab; // optional: lighter UI-only prefab
+[SerializeField] private float destinationPreviewHeightOffset = 0.0f;
+
+private GameObject destinationPreviewGO = null;
+private bool destinationWorldSpawned = false; // separate from preview
+
+private bool destinationSpawned = false;
 
     // --- Runtime state ---
     private bool originSet = false;
     private double originLat = 0.0;
     private double originLon = 0.0;
     private float originAlt = 0f;
-
-    private float wrongWayAccum = 0f;
 
     private double currentLat;
     private double currentLon;
@@ -131,8 +142,8 @@ public class ARNavigation : MonoBehaviour
     private float gpsCourseDeg = 0f;
     private bool hasCourse = false;
 
-    private float stableAlong = 0f;   // filtered along we trust
-    private float lastStableAlong = 0f;
+    // private float stableAlong = 0f;   // filtered along we trust
+    // private float lastStableAlong = 0f;
 
     // smooth UI yaw
     private float uiCurrentZ = 0f;
@@ -178,10 +189,10 @@ public class ARNavigation : MonoBehaviour
     private bool directionsFetched = false;
     private Vector2 destination = Vector2.zero;
     private int currentStepIndex = 0;
-
+private string destDisplayName = "Destination";
     private Queue<float> alongWindow = new Queue<float>();
     private int alongWindowSize = 4;
-    private float smoothedAlong = 0f;
+    // private float smoothedAlong = 0f;
 
     // guidance arrow
     private GameObject guidanceArrowInstance = null;
@@ -208,8 +219,7 @@ public class ARNavigation : MonoBehaviour
     [SerializeField] private bool faceSpawnedObjectsEveryFrame = true;
     [SerializeField] private bool updateSpawnedPositionsWithGPS = true;
 
-    [Header("Cube Spawn Override")]
-    [SerializeField] private GameObject cubePrefabOverride;
+
 
     // spawned storage
     private List<GameObject> spawnedARObjects = new List<GameObject>();
@@ -227,9 +237,6 @@ public class ARNavigation : MonoBehaviour
     [SerializeField] private float reprojectIfMeters = 8f;       // only move if > 8 m off
     [SerializeField] private float followLerp = 2f;              // calm follow speed
 
-    private float prevAlong = 0f;
-    private float wrongWayFor = 0f;
-    private bool goingWrongWay = false;
     // ====== LIFECYCLE ======
     void Awake()
     {
@@ -320,22 +327,28 @@ public class ARNavigation : MonoBehaviour
             Debug.LogWarning("Init: location service not running after timeout.");
         }
 
-        if (NavigationData.HasData)
-        {
-            destination = new Vector2((float)NavigationData.Destination.latitude, (float)NavigationData.Destination.longitude);
-            Vector2 source = new Vector2((float)NavigationData.Source.latitude, (float)NavigationData.Source.longitude);
+      if (NavigationData.HasData)
+{
+    destination = new Vector2((float)NavigationData.Destination.latitude, (float)NavigationData.Destination.longitude);
+    Vector2 source = new Vector2((float)NavigationData.Source.latitude, (float)NavigationData.Source.longitude);
 
-            Debug.Log($"Received nav data: Source ({NavigationData.Source.latitude:F8},{NavigationData.Source.longitude:F8}), " +
-                      $"Dest ({NavigationData.Destination.latitude:F8},{NavigationData.Destination.longitude:F8})");
+    // Capture the display name locally so CheckArrival() and the debug UI can always read it
+    destDisplayName = string.IsNullOrEmpty(NavigationData.DestinationName) ? "Destination" : NavigationData.DestinationName;
 
-            OnStartButtonPressed(source, destination);
-            NavigationData.HasData = false;
-        }
-        else
-        {
-            if (debugText != null)
-                debugText.text = "NO NAVIGATION DATA RECEIVED!\nPlease set Source/Destination.";
-        }
+    Debug.Log($"Received nav data: Source ({NavigationData.Source.latitude:F8},{NavigationData.Source.longitude:F8}), " +
+              $"Dest ({NavigationData.Destination.latitude:F8},{NavigationData.Destination.longitude:F8}) Name:'{destDisplayName}'");
+
+    OnStartButtonPressed(source, destination);
+
+    // clear the static data flag (we keep the name in destDisplayName)
+    NavigationData.HasData = false;
+}
+else
+{
+    if (debugText != null)
+        debugText.text = "NO NAVIGATION DATA RECEIVED!\nPlease set Source/Destination.";
+}
+
     }
 
     private void AlignWorldToPathNow()
@@ -363,6 +376,7 @@ public class ARNavigation : MonoBehaviour
 
     public void StartNavigation(Vector2 source, Vector2 dest)
     {
+          destinationSpawned = false;
         Debug.Log($"Hiiiiiiiiii");
         StartCoroutine(FetchDirections(source, dest));
         Debug.Log($"Byeee");
@@ -405,8 +419,8 @@ public class ARNavigation : MonoBehaviour
                 if (directionsFetched)
                 {
                     SpawnPathArrows();
-                    UpdateStepsPreview();
-                    UpdateBigInstruction();
+                    UpdateStepsPreview_StepBased();   // was UpdateStepsPreview();
+                    UpdateBigInstruction_StepBased(); // was UpdateBigInstruction();
                     if (guidanceArrowInstance != null) guidanceArrowInstance.SetActive(true);
                     if (debugLogs) Debug.Log($"Ready: path pts {path.Count}, steps {steps.Count}");
 
@@ -422,18 +436,17 @@ public class ARNavigation : MonoBehaviour
     }
 
     // ====== UPDATE LOOP ======
-   void Update()
+ void Update()
 {
     if (Input.location.status != LocationServiceStatus.Running) return;
 
-    // --- Update current GPS fix ---
+    // --- GPS fix + course (keep your buffer/course logic) ---
     var li   = Input.location.lastData;
     double newLat = li.latitude;
     double newLon = li.longitude;
     float  newAlt = li.altitude;
     double newT   = li.timestamp;
 
-    // --- Push into course buffer & compute GPS course ---
     PushCourseSample(newLat, newLon, newT);
     ComputeGpsCourse();
 
@@ -441,11 +454,12 @@ public class ARNavigation : MonoBehaviour
     currentLon = newLon;
     currentAlt = newAlt;
 
-    // --- Adaptive world alignment (optional) ---
+    // Heading source for UI: prefer GPS course; fallback to camera yaw
     float heading = hasCourse
         ? gpsCourseDeg
         : (Camera.main != null ? YawFromForward(Camera.main.transform.forward) : 0f);
 
+    // --- Optional adaptive world alignment (unchanged) ---
     if (enableWorldAutoAlign)
     {
         float delta = Mathf.Abs(Mathf.DeltaAngle(lastAlignedHeading, heading));
@@ -453,64 +467,45 @@ public class ARNavigation : MonoBehaviour
             AlignWorldToGpsCourseOrCamera(heading);
     }
 
-    // --- Early out if no path yet ---
+    // --- No path yet? Update course UI only ---
     if (!directionsFetched || path.Count < 2)
     {
         UpdateCourseUIOnly();
         return;
     }
 
-    // --- Stabilized progress along the route ---
+    // --- Step-based progress (keep your stabilized along smoothing) ---
     float rawAlong = GetAlongDistanceOfClosestPoint();
     float dt       = Mathf.Max(Time.deltaTime, 0.0001f);
+    SmoothAlong(rawAlong);  
 
-    // Use stabilized along instead of raw (prevents snapping ahead when off-path)
-    stableAlong     = StabilizeAlong(rawAlong, dt);
-    smoothedAlong   = stableAlong;         // keep the rest of code using smoothedAlong
-    float dAlong    = stableAlong - prevAlong;
-    prevAlong       = stableAlong;
-
-    // --- Wrong-way detection: heading vs path tangent near current along ---
-    float pathHeading = GetPathHeadingAtAlong(stableAlong);
-    float userHeading = hasCourse ? gpsCourseDeg :
-                        (Camera.main != null ? YawFromForward(Camera.main.transform.forward) : 0f);
-
-    bool movingEnough = Mathf.Abs(dAlong) > 0.05f || hasCourse;
-    float ang = Mathf.Abs(Mathf.DeltaAngle(pathHeading, userHeading));
-
-    if (movingEnough && ang > wrongWayTriggerAngle)
-        wrongWayAccum += Time.deltaTime;
-    else
-        wrongWayAccum = Mathf.Max(0f, wrongWayAccum - Time.deltaTime * wrongWayRecoverRate);
-
-    goingWrongWay = wrongWayAccum >= wrongWayHoldSeconds;
-
-    // --- Keep step index in sync ---
+    // Keep step index in sync with along (step-based)
     AlignCurrentStepToAlong();
 
-    // --- UI / guidance ---
-    UpdateUIArrow();            // already forces 180° when goingWrongWay (from previous patch)
-    CheckStepProgress();
-    CheckArrival();
-    UpdateBigInstruction();     // early-returns "Make a U-turn" if goingWrongWay
-    UpdateStepsPreview();
-    // UpdateThresholdTurnUI();
-
+    // --- One-time start alignment to path tangent + center ahead (unchanged) ---
     if (alignWorldToPathAtStart && !didAlignWorldToPath)
     {
         smoothedAlong = GetAlongDistanceOfClosestPoint();
-        AlignWorldToPathNow();                 // rotate world to path tangent
-        SnapPathToCameraLookahead(2f, -1f);     // translate so path is centered ahead
+        AlignWorldToPathNow();
+        SnapPathToCameraLookahead(2f, -1f);
     }
 
+    // --- Step-based UI & guidance (ported from your working version) ---
+    UpdateUIArrow_StepBased(heading);
+    CheckStepProgress_StepBased();
+    CheckArrival();
 
+    UpdateBigInstruction_StepBased();
+    UpdateStepsPreview_StepBased();
+    UpdateThresholdTurnUI_StepBased();
 
     guidanceLabel = ExtractGuidanceLabelFromText(bigInstructionText != null ? bigInstructionText.text : "");
-    UpdateGuidanceArrow();
+    UpdateGuidanceArrow_StepBased();
+
     UpdateSpawnedLabels();
     UpdateCourseUIOnly();
 
-    // --- Update spawned AR objects (mild smoothing against GPS jitter) ---
+    // --- Spawned AR objects follow-up (unchanged, minor cleanups) ---
     if (spawnedARObjects.Count > 0 && Camera.main != null)
     {
         for (int i = spawnedARObjects.Count - 1; i >= 0; i--)
@@ -530,7 +525,7 @@ public class ARNavigation : MonoBehaviour
             {
                 var d = spawnedARData[i];
 
-                // ENU in local meters (double precision)
+                // ENU meters from geo origin -> world
                 Vector3 enu = LatLonToUnity_Precise(d.lat, d.lon);
                 Vector3 newPos = (originTransform != null)
                     ? originTransform.TransformPoint(enu)
@@ -558,7 +553,6 @@ public class ARNavigation : MonoBehaviour
                     float err = Vector3.Distance(go.transform.position, newPos);
                     if (err > reprojectIfMeters)
                         go.transform.position = Vector3.Lerp(go.transform.position, newPos, Time.deltaTime * followLerp);
-                    // else: keep anchor’s current pose (filters tiny GPS noise)
                 }
                 else
                 {
@@ -569,10 +563,8 @@ public class ARNavigation : MonoBehaviour
     }
 
     UpdateARObjectsVisibility();
-
-    // Debug (optional):
-    // Debug.Log($"along={stableAlong:0.0} dAlong={dAlong:0.00} pathHead={pathHeading:0} userHead={userHeading:0} ang={ang:0} wrong={goingWrongWay}");
 }
+
 
     // ====== COURSE (Maps-like heading) ======
     void PushCourseSample(double lat, double lon, double t)
@@ -649,6 +641,28 @@ public class ARNavigation : MonoBehaviour
             }
         }
     }
+private GameObject SpawnDestinationPreviewInFrontOfCamera(
+    GameObject prefab,
+    string label
+){
+    if (prefab == null || Camera.main == null) return null;
+
+    // Put it some meters in front of the camera, parent to camera so it sticks to view
+    Vector3 worldGuess = Camera.main.transform.position +
+                         Camera.main.transform.forward * Mathf.Max(8f, forcedDisplayDistance) +
+                         Vector3.up * (forcedHeightAboveCamera + destinationPreviewHeightOffset);
+
+    // reuse your low-level spawner but force parentToCamera = true
+    return SpawnAnchoredOrCameraPrefab(
+        prefab,
+        worldGuess,
+        label,
+        destinationIcon,
+        0f,
+        destinationMaterial,
+        parentToCamera: true
+    );
+}
 
     // ====== SPAWN (same as before, no compass) ======
     public IEnumerator SpawnAllARObjects_WhenLocationReady(float timeoutSeconds = 8f)
@@ -769,10 +783,13 @@ public class ARNavigation : MonoBehaviour
 
             GameObject obj = Instantiate(prefab, cam.transform);
             obj.transform.localPosition = local;
-            obj.transform.localRotation = Quaternion.identity;
+          // Face the camera: 180° so the banner's front looks toward the camera
+float baseYaw = 180f + bannerExtraYawDegrees + (bannerFlipForward ? 180f : 0f);
+obj.transform.localRotation = Quaternion.Euler(0f, baseYaw, 0f);
             ConfigureWorldSpaceCanvas(obj, cam);
             ApplySpawnMaterial(obj, mat);
             ForceOpaqueMaterials(obj);
+              FaceObjectToCamera(obj, cam, true); 
 
             var markerComp = obj.GetComponentInChildren<ARMarker>();
             if (markerComp != null) { markerComp.SetData(label, icon); markerComp.HideLabel(true); }
@@ -861,7 +878,7 @@ public class ARNavigation : MonoBehaviour
         ConfigureWorldSpaceCanvas(objInst, cam);
         ApplySpawnMaterial(objInst, mat);
         ForceOpaqueMaterials(objInst);
-
+FaceObjectToCamera(objInst, cam, true);  
         var marker = objInst.GetComponentInChildren<ARMarker>();
         if (marker != null) { marker.SetData(label, icon); marker.HideLabel(true); }
 
@@ -933,91 +950,101 @@ public class ARNavigation : MonoBehaviour
     }
 
     public void SpawnAllARObjects()
-    {
-        ClearSpawnedARObjects();
+{
+    ClearSpawnedARObjects();
 
-        if (arSpawnPoints == null || arSpawnPoints.Count == 0)
+    if (arSpawnPoints == null || arSpawnPoints.Count == 0)
+    {
+        Debug.Log("SpawnAllARObjects: no AR spawn points configured.");
+        return;
+    }
+
+    RefreshCurrentLocationFromService();
+    Debug.Log($"SpawnAllARObjects: currentLat={currentLat:F8}, currentLon={currentLon:F8} originSet={originSet}");
+
+    Camera cam = Camera.main;
+
+    for (int i = 0; i < arSpawnPoints.Count; i++)
+    {
+        var entry = arSpawnPoints[i];
+        if (entry == null || !entry.enabled) continue;
+
+        // ONLY use the prefab referenced on the list item
+        GameObject prefabToUse = entry.prefab;
+        if (prefabToUse == null)
         {
-            Debug.Log("SpawnAllARObjects: no AR spawn points configured.");
-            return;
+            Debug.LogWarning($"AR spawn entry '{entry.name}' has no prefab. Skipping.");
+            continue;
         }
 
-        RefreshCurrentLocationFromService();
-        Debug.Log($"SpawnAllARObjects: currentLat={currentLat:F8}, currentLon={currentLon:F8} originSet={originSet}");
+        GameObject obj = SpawnARObjectAtLatLon(prefabToUse, entry.lat, entry.lon, entry.name, entry.heightOffset, entry.icon, entry.material);
+        if (obj == null) { Debug.LogWarning($"SpawnAllARObjects: failed to spawn '{entry.name}'"); continue; }
 
-        Camera cam = Camera.main;
+        obj.name = $"AR_{(string.IsNullOrEmpty(entry.name) ? i.ToString() : entry.name)}";
 
-        for (int i = 0; i < arSpawnPoints.Count; i++)
+        var markerComp = obj.GetComponentInChildren<ARMarker>();
+        if (markerComp != null) markerComp.SetData(entry.name, entry.icon);
+
+        if (cam != null && !forceScreenPlacement) FaceObjectToCamera(obj, cam);
+    }
+
+    Debug.Log($"SpawnAllARObjects: spawned {spawnedARObjects.Count} objects.");
+}
+
+
+  private IEnumerator SpawnAllARObjects_SequentialByDistance()
+{
+    ClearSpawnedARObjects();
+
+    if (arSpawnPoints == null || arSpawnPoints.Count == 0)
+    {
+        Debug.Log("SpawnAllARObjects_SequentialByDistance: no AR spawn points configured.");
+        yield break;
+    }
+
+    RefreshCurrentLocationFromService();
+    Debug.Log($"Sequential spawn: user {currentLat:F8},{currentLon:F8}");
+
+    List<ARSpawnPoint> list = new List<ARSpawnPoint>(arSpawnPoints);
+    // Keep only entries that have a prefab
+    list.RemoveAll(e => e == null || !e.enabled || e.prefab == null);
+
+    // sort by distance
+    list.Sort((a, b) =>
+    {
+        float da = HaversineDistance(currentLat, currentLon, a.lat, a.lon);
+        float db = HaversineDistance(currentLat, currentLon, b.lat, b.lon);
+        return da.CompareTo(db);
+    });
+
+    Camera cam = Camera.main;
+
+    for (int i = 0; i < list.Count; i++)
+    {
+        var entry = list[i];
+        if (entry == null) continue;
+
+        // ONLY the entry's prefab
+        GameObject obj = SpawnARObjectAtLatLon(entry.prefab, entry.lat, entry.lon, entry.name, entry.heightOffset, entry.icon, entry.material);
+
+        if (obj != null)
         {
-            var entry = arSpawnPoints[i];
-            if (!entry.enabled) continue;
-
-            GameObject prefabToUse = cubePrefabOverride != null ? cubePrefabOverride : entry.prefab;
-            if (prefabToUse == null)
-            {
-                Debug.LogWarning($"AR spawn entry '{entry.name}' has no prefab (and no override). Skipping.");
-                continue;
-            }
-
-            GameObject obj = SpawnARObjectAtLatLon(prefabToUse, entry.lat, entry.lon, entry.name, entry.heightOffset, entry.icon, entry.material);
-            if (obj == null) { Debug.LogWarning($"SpawnAllARObjects: failed to spawn '{entry.name}'"); continue; }
-
             obj.name = $"AR_{(string.IsNullOrEmpty(entry.name) ? i.ToString() : entry.name)}";
+
             var markerComp = obj.GetComponentInChildren<ARMarker>();
             if (markerComp != null) markerComp.SetData(entry.name, entry.icon);
+
             if (cam != null && !forceScreenPlacement) FaceObjectToCamera(obj, cam);
+            if (debugLogs) Debug.Log($"Sequential spawn created '{entry.name}' at ({entry.lat:F8},{entry.lon:F8})");
         }
 
-        Debug.Log($"SpawnAllARObjects: spawned {spawnedARObjects.Count} objects.");
+        if (spawnStaggerSeconds > 0f) yield return new WaitForSeconds(spawnStaggerSeconds);
+        else yield return null;
     }
 
-    private IEnumerator SpawnAllARObjects_SequentialByDistance()
-    {
-        ClearSpawnedARObjects();
+    Debug.Log($"SpawnAllARObjects_SequentialByDistance: spawned {spawnedARObjects.Count} objects.");
+}
 
-        if (arSpawnPoints == null || arSpawnPoints.Count == 0)
-        {
-            Debug.Log("SpawnAllARObjects_SequentialByDistance: no AR spawn points configured.");
-            yield break;
-        }
-
-        RefreshCurrentLocationFromService();
-        Debug.Log($"Sequential spawn: user {currentLat:F8},{currentLon:F8}");
-
-        List<ARSpawnPoint> list = new List<ARSpawnPoint>(arSpawnPoints);
-        list.RemoveAll(e => e == null || !e.enabled || e.prefab == null);
-
-        list.Sort((a, b) =>
-        {
-            float da = HaversineDistance(currentLat, currentLon, a.lat, a.lon);
-            float db = HaversineDistance(currentLat, currentLon, b.lat, b.lon);
-            return da.CompareTo(db);
-        });
-
-        Camera cam = Camera.main;
-
-        for (int i = 0; i < list.Count; i++)
-        {
-            var entry = list[i];
-            if (entry == null) continue;
-
-            GameObject obj = SpawnARObjectAtLatLon(entry.prefab, entry.lat, entry.lon, entry.name, entry.heightOffset, entry.icon, entry.material);
-
-            if (obj != null)
-            {
-                obj.name = $"AR_{(string.IsNullOrEmpty(entry.name) ? i.ToString() : entry.name)}";
-                var markerComp = obj.GetComponentInChildren<ARMarker>();
-                if (markerComp != null) markerComp.SetData(entry.name, entry.icon);
-                if (cam != null && !forceScreenPlacement) FaceObjectToCamera(obj, cam);
-                if (debugLogs) Debug.Log($"Sequential spawn created '{entry.name}' at ({entry.lat:F8},{entry.lon:F8})");
-            }
-
-            if (spawnStaggerSeconds > 0f) yield return new WaitForSeconds(spawnStaggerSeconds);
-            else yield return null;
-        }
-
-        Debug.Log($"SpawnAllARObjects_SequentialByDistance: spawned {spawnedARObjects.Count} objects.");
-    }
 
     public void ClearSpawnedARObjects()
     {
@@ -1108,130 +1135,54 @@ public class ARNavigation : MonoBehaviour
     }
 
     // ====== PATH / UI ======
-void UpdateUIArrow()
+// void UpdateUIArrow()
+// {
+//     int segment = FindClosestSegmentIndexOnPath();
+//     Vector2 lookLatLon = GetLookaheadPointMeters(segment, lookaheadMeters);
+//     float bearingToLook = CalculateBearing(currentLat, currentLon, lookLatLon.x, lookLatLon.y);
+
+//     float heading = hasCourse ? gpsCourseDeg :
+//                     (Camera.main != null ? YawFromForward(Camera.main.transform.forward) : 0f);
+
+//     float desiredZ = -NormalizeAngle(bearingToLook - heading);
+
+//     // keep this override
+//     if (goingWrongWay)
+//     {
+//         desiredZ = 180f;              // point back
+//         guidanceLabel = "u-turn";     // helps 3D arrow too
+//     }
+
+//     uiCurrentZ = Mathf.LerpAngle(uiCurrentZ, desiredZ, Time.deltaTime * arrowSmoothing);
+//     if (uiArrow != null) uiArrow.rectTransform.localEulerAngles = new Vector3(0, 0, uiCurrentZ);
+// }
+
+
+void UpdateUIArrow_StepBased(float headingDeg)
 {
     int segment = FindClosestSegmentIndexOnPath();
     Vector2 lookLatLon = GetLookaheadPointMeters(segment, lookaheadMeters);
     float bearingToLook = CalculateBearing(currentLat, currentLon, lookLatLon.x, lookLatLon.y);
 
-    float heading = hasCourse ? gpsCourseDeg :
-                    (Camera.main != null ? YawFromForward(Camera.main.transform.forward) : 0f);
+    // desiredZ so that arrow points up when aligned with bearingToLook
+    float desiredZ = -NormalizeAngle(bearingToLook - headingDeg);
 
-    float desiredZ = -NormalizeAngle(bearingToLook - heading);
-
-    // keep this override
-    if (goingWrongWay)
-    {
-        desiredZ = 180f;              // point back
-        guidanceLabel = "u-turn";     // helps 3D arrow too
-    }
-
-    uiCurrentZ = Mathf.LerpAngle(uiCurrentZ, desiredZ, Time.deltaTime * arrowSmoothing);
+    uiCurrentZ = Mathf.LerpAngle(uiCurrentZ, desiredZ, Time.deltaTime * Mathf.Max(1f, arrowSmoothing));
     if (uiArrow != null) uiArrow.rectTransform.localEulerAngles = new Vector3(0, 0, uiCurrentZ);
 }
 
-
-// ====== AR GUIDANCE ARROW (patched for wrong-way) ======
-private void UpdateGuidanceArrow()
-{
-    if (guidanceArrowInstance == null || !guidanceArrowInstance.activeSelf) return;
-
-    Camera cam = Camera.main;
-    if (cam == null) return;
-
-    // --- Desired yaw purely from guidanceLabel / wrong-way ---
-    float desiredYaw = 0f; // 0 = forward
-    string lab = (guidanceLabel ?? "").ToLowerInvariant();
-
-    if (goingWrongWay)
-    {
-        desiredYaw = 180f; // force U-turn cue
-    }
-    else
-    {
-        if (lab.Contains("u-turn") || lab.Contains("uturn") || lab.Contains("u turn"))
-            desiredYaw = 180f;
-        else if (lab.Contains("slight left"))
-            desiredYaw = -35f;
-        else if (lab.Contains("slight right"))
-            desiredYaw = 35f;
-        else if (lab.Contains("turn left"))
-            desiredYaw = -90f;
-        else if (lab.Contains("turn right"))
-            desiredYaw = 90f;
-        else
-            desiredYaw = 0f; // "go straight" or no label
-    }
-
-    // --- Anticipatory smoothing (approaching next mapped turn only) ---
-    float distToNextTurn = 999f;
-    if (stepStartAlong != null && stepStartAlong.Count > currentStepIndex)
-    {
-        float currentA = smoothedAlong;
-        float nextA = stepStartAlong[currentStepIndex];
-        distToNextTurn = Mathf.Max(0f, nextA - currentA);
-    }
-
-    if (!goingWrongWay && distToNextTurn < 50f)
-    {
-        // ease into the turn as you approach (0..1)
-        float anticipation = Mathf.InverseLerp(50f, 0f, distToNextTurn);
-        desiredYaw = Mathf.LerpAngle(0f, desiredYaw, anticipation);
-    }
-
-    // --- Smoothly apply ---
-    guidanceCurrentYaw = Mathf.SmoothDampAngle(
-        guidanceCurrentYaw,
-        desiredYaw,
-        ref guidanceYawVelocity,
-        Mathf.Max(0.05f, guidanceSmoothingTime)
-    );
-
-    if (guidanceParentToCamera && guidanceArrowInstance.transform.parent == cam.transform)
-    {
-        guidanceArrowInstance.transform.localPosition =
-            Vector3.forward * guidanceArrowDistance + Vector3.up * guidanceArrowHeightOffset;
-        guidanceArrowInstance.transform.localEulerAngles =
-            new Vector3(0f, guidanceCurrentYaw, 0f);
-    }
-    else
-    {
-        Vector3 targetPos = cam.transform.position + cam.transform.forward * guidanceArrowDistance;
-        targetPos.y += guidanceArrowHeightOffset;
-        guidanceArrowInstance.transform.position =
-            Vector3.Lerp(guidanceArrowInstance.transform.position, targetPos, Time.deltaTime * 8f);
-
-        Quaternion baseRot = Quaternion.LookRotation(cam.transform.forward, Vector3.up);
-        Quaternion desiredRot = baseRot * Quaternion.Euler(0f, guidanceCurrentYaw, 0f);
-        guidanceArrowInstance.transform.rotation =
-            Quaternion.Slerp(guidanceArrowInstance.transform.rotation, desiredRot, Time.deltaTime * guidanceArrowRotateSpeed);
-    }
-}
-
-
-
-
-// ====== BIG INSTRUCTION (patched for wrong-way + geodesic fallback) ======
-void UpdateBigInstruction()
+void UpdateBigInstruction_StepBased()
 {
     if (bigInstructionText == null) return;
-
-    // Wrong-way override
-    if (goingWrongWay)
-    {
-        bigInstructionText.text = "Going the wrong way — Make a U-turn";
-        return;
-    }
 
     float currentAlong = smoothedAlong;
     float routeEnd = RouteEndAlong();
     float tol = 0.5f;
 
-    int nextTurnStep = FindNextTurnAfterAlong(currentAlong + tol, tol);
+    int nextTurnStep = FindNextTurnAfterAlong_StepBased(currentAlong + tol, tol);
 
     if (nextTurnStep == -1)
     {
-        // No more mapped turns → straight to destination
         float distToDest = Mathf.Max(0f, routeEnd - currentAlong);
         bigInstructionText.text = $"Go straight — {Mathf.RoundToInt(distToDest)} m";
         return;
@@ -1239,88 +1190,514 @@ void UpdateBigInstruction()
 
     float turnAlong = (nextTurnStep < stepStartAlong.Count) ? stepStartAlong[nextTurnStep] : routeEnd;
     float distToTurn = Mathf.Max(0f, turnAlong - currentAlong);
-    string turnLabel = GetManeuverLabelForStep(nextTurnStep); // uses Google maneuver/html
+    string label = GetManeuverLabelForStep(nextTurnStep);
 
-    float nearNow = 12f;
-    float announce = Mathf.Min(50f, turnAnnouncementThreshold);
-
-    if (distToTurn > turnAnnouncementThreshold + 0.001f)
-    {
+    if (distToTurn > turnAnnouncementThreshold)
         bigInstructionText.text = $"Go straight — {Mathf.RoundToInt(distToTurn)} m";
-        return;
-    }
-
-    if (distToTurn <= nearNow)
-        bigInstructionText.text = $"{turnLabel} now";
-    else if (distToTurn <= announce)
-        bigInstructionText.text = $"{turnLabel} in {Mathf.RoundToInt(distToTurn)} m";
     else
-        bigInstructionText.text = $"{turnLabel} in {Mathf.RoundToInt(distToTurn)} m";
+        bigInstructionText.text = $"{label} in {Mathf.RoundToInt(distToTurn)} m";
 }
 
-
-
-void UpdateStepsPreview()
+void UpdateStepsPreview_StepBased()
 {
     if (stepsPreviewText == null) return;
 
     float currentAlong = smoothedAlong;
-    var segments = BuildRicherPreviewSegments(currentAlong);
-    if (segments == null || segments.Count == 0)
+    var segments = BuildRicherPreviewSegments_StepBased(currentAlong);
+    var parts = new List<string>();
+
+    foreach (var kv in segments)
+    {
+        int meters = Mathf.RoundToInt(kv.Value);
+        parts.Add($"{kv.Key} ({meters}m)");
+    }
+
+    if (segments.Count > 1 && segments[1].Value > turnAnnouncementThreshold)
+    {
+        parts.Clear();
+        parts.Add($"Go straight ({Mathf.RoundToInt(segments[0].Value)}m)");
+    }
+
+    if (parts.Count == 0)
     {
         stepsPreviewText.text = "";
         stepsPreviewText.gameObject.SetActive(false);
         return;
     }
 
-    // Keep it concise: Now … → Then …
-    var parts = new List<string>();
-    parts.Add($"{segments[0].Key} ({Mathf.RoundToInt(segments[0].Value)}m)");
-    if (segments.Count > 1)
-        parts.Add($"{segments[1].Key} ({Mathf.RoundToInt(segments[1].Value)}m)");
-
     stepsPreviewText.text = string.Join(" → ", parts);
     stepsPreviewText.gameObject.SetActive(true);
 }
 
+void CheckStepProgress_StepBased()
+{
+    if (currentStepIndex >= steps.Count) return;
 
-    void CheckStepProgress()
+    float current = smoothedAlong;
+    AlignCurrentStepToAlong();
+
+    float stepEnd = (currentStepIndex < stepEndAlong.Count)
+        ? stepEndAlong[Mathf.Clamp(currentStepIndex, 0, stepEndAlong.Count - 1)]
+        : current;
+
+    float distToStep = Mathf.Max(0f, stepEnd - current);
+
+    if (current >= stepEnd - 1.0f || distToStep <= stepAdvanceMeters)
     {
-        if (currentStepIndex >= steps.Count) return;
-        float current = smoothedAlong;
-        AlignCurrentStepToAlong();
-
-        float stepEnd = (currentStepIndex < stepEndAlong.Count) ? stepEndAlong[Mathf.Clamp(currentStepIndex, 0, stepEndAlong.Count - 1)] : current;
-        float distToStep = Mathf.Max(0f, stepEnd - current);
-
-        if (current >= stepEnd - 1.0f || distToStep <= stepAdvanceMeters)
+        currentStepIndex++;
+        if (currentStepIndex < steps.Count)
         {
-            currentStepIndex++;
-            if (currentStepIndex < steps.Count)
-            {
-                UpdateBigInstruction();
-                UpdateStepsPreview();
-            }
-            else
-            {
-                if (bigInstructionText != null) bigInstructionText.text = "Proceed to destination";
-                UpdateStepsPreview();
-            }
-            return;
+            UpdateBigInstruction_StepBased();
+            UpdateStepsPreview_StepBased();
         }
-        UpdateBigInstruction();
+        else
+        {
+            if (bigInstructionText != null) bigInstructionText.text = "Proceed to destination";
+            UpdateStepsPreview_StepBased();
+        }
+        return;
     }
 
-    void CheckArrival()
+    UpdateBigInstruction_StepBased();
+}
+
+
+int FindNextTurnAfterAlong_StepBased(float afterAlong, float tol = 0.5f)
+{
+    if (stepStartAlong == null || stepStartAlong.Count == 0) return -1;
+    for (int s = 0; s < steps.Count; s++)
     {
-        float dToDest = HaversineDistance(currentLat, currentLon, destination.x, destination.y);
+        if (s >= stepStartAlong.Count) continue;
+        float startA = stepStartAlong[s];
+        if (startA <= afterAlong + tol) continue;
+        string label = GetManeuverLabelForStep(s);
+        if (IsTurnLabel(label)) return s;
+    }
+    return -1;
+}
+
+void UpdateThresholdTurnUI_StepBased()
+{
+    if (thresholdTurnText == null) return;
+
+    float current = smoothedAlong;
+    int nextTurn = FindNextTurnAfterAlong_StepBased(current + 0.5f, 0.5f);
+    if (nextTurn == -1)
+    {
+        thresholdTurnText.text = "";
+        return;
+    }
+
+    float routeEnd = RouteEndAlong();
+    float turnAlong = (nextTurn < stepStartAlong.Count) ? stepStartAlong[nextTurn] : routeEnd;
+    float distToTurn = Mathf.Max(0f, turnAlong - current);
+    if (distToTurn > turnAnnouncementThreshold)
+    {
+        thresholdTurnText.text = "";
+    }
+    else
+    {
+        string label = GetManeuverLabelForStep(nextTurn);
+        thresholdTurnText.text = $"{label} in {Mathf.RoundToInt(distToTurn)} m";
+    }
+}
+
+
+private void UpdateGuidanceArrow_StepBased()
+{
+    if (guidanceArrowInstance == null || !guidanceArrowInstance.activeSelf) return;
+
+    Camera cam = Camera.main;
+    if (cam == null) return;
+
+    // keep position stable if parented
+    if (guidanceParentToCamera && guidanceArrowInstance.transform.parent == cam.transform)
+    {
+        guidanceArrowInstance.transform.localPosition =
+            Vector3.forward * guidanceArrowDistance + Vector3.up * guidanceArrowHeightOffset;
+
+        if (string.IsNullOrEmpty(guidanceLabel) && bigInstructionText != null)
+            guidanceLabel = ExtractGuidanceLabelFromText(bigInstructionText.text);
+
+        string lab = (guidanceLabel ?? "").ToLowerInvariant();
+        float desiredYaw = 0f; // forward
+
+        if (lab.Contains("left"))
+            desiredYaw = lab.Contains("slight") ? -35f : -90f;
+        else if (lab.Contains("right"))
+            desiredYaw = lab.Contains("slight") ? 35f : 90f;
+        else
+            desiredYaw = 0f;   // straight (no U-turn mapping)
+
+        guidanceCurrentYaw = Mathf.SmoothDampAngle(
+            guidanceCurrentYaw,
+            desiredYaw,
+            ref guidanceYawVelocity,
+            Mathf.Max(0.001f, guidanceSmoothingTime)
+        );
+
+        guidanceArrowInstance.transform.localEulerAngles = new Vector3(0f, guidanceCurrentYaw, 0f);
+        return;
+    }
+
+    // world-space fallback (kept from your file)
+    Vector3 targetPos = cam.transform.position + cam.transform.forward * guidanceArrowDistance;
+    targetPos.y += guidanceArrowHeightOffset;
+    guidanceArrowInstance.transform.position =
+        Vector3.Lerp(guidanceArrowInstance.transform.position, targetPos, Time.deltaTime * 8f);
+
+    Quaternion baseRot = Quaternion.LookRotation(cam.transform.forward, Vector3.up);
+    if (string.IsNullOrEmpty(guidanceLabel) && bigInstructionText != null)
+        guidanceLabel = ExtractGuidanceLabelFromText(bigInstructionText.text);
+
+    string label = (guidanceLabel ?? "").ToLowerInvariant();
+    Quaternion desiredRot = baseRot;
+
+    if (label.Contains("left"))
+        desiredRot = baseRot * Quaternion.Euler(0f, label.Contains("slight") ? -35f : -90f, 0f);
+    else if (label.Contains("right"))
+        desiredRot = baseRot * Quaternion.Euler(0f, label.Contains("slight") ? 35f : 90f, 0f);
+    else
+        desiredRot = baseRot;
+
+    guidanceArrowInstance.transform.rotation =
+        Quaternion.Slerp(guidanceArrowInstance.transform.rotation, desiredRot, Time.deltaTime * guidanceArrowRotateSpeed);
+}
+
+// private class TripletEvent { public int stepIndex; public string label; public float along; }
+
+List<KeyValuePair<string, float>> BuildRicherPreviewSegments_StepBased(float currentAlong)
+{
+    var result = new List<KeyValuePair<string, float>>();
+    float cursor = currentAlong;
+    float routeEnd = RouteEndAlong();
+    int limit = Mathf.Max(1, previewSegmentLimit);
+    var events = new List<TripletEvent>();
+    float eps = 0.01f;
+
+    for (int s = 0; s < steps.Count; s++)
+    {
+        if (s >= stepStartAlong.Count) continue;
+        float startA = stepStartAlong[s];
+        if (startA < currentAlong + eps) continue;
+        string label = GetManeuverLabelForStep(s);
+        if (IsTurnLabel(label))
+            events.Add(new TripletEvent { stepIndex = s, label = label, along = startA });
+    }
+
+    events.Sort((a, b) => a.along.CompareTo(b.along));
+
+    int ei = 0;
+    while (result.Count < limit)
+    {
+        bool hasEvent = ei < events.Count;
+        float nextEventAlong = hasEvent ? events[ei].along : routeEnd;
+        string nextEventLabel = hasEvent ? events[ei].label : null;
+
+        float preTurnEnd = Mathf.Max(cursor, nextEventAlong - turnAnnouncementThreshold);
+        float preLen = Mathf.Max(0f, preTurnEnd - cursor);
+        if (preLen > 0f)
+        {
+            result.Add(new KeyValuePair<string, float>("Go straight", preLen));
+            cursor += preLen;
+            if (result.Count >= limit) break;
+        }
+
+        if (hasEvent && nextEventAlong - cursor <= turnAnnouncementThreshold)
+        {
+            float toEvent = Mathf.Max(0f, nextEventAlong - cursor);
+            float turnLen = Mathf.Min(turnAnnouncementThreshold, toEvent);
+            if (turnLen > 0f)
+            {
+                result.Add(new KeyValuePair<string, float>(nextEventLabel, turnLen));
+                cursor += turnLen;
+                if (result.Count >= limit) break;
+            }
+
+            if (Mathf.Abs(cursor - nextEventAlong) <= 0.01f || toEvent <= 0.01f)
+            {
+                cursor = nextEventAlong;
+                ei++;
+                continue;
+            }
+        }
+        else
+        {
+            float tail = Mathf.Max(0f, routeEnd - cursor);
+            if (tail > 0f)
+            {
+                result.Add(new KeyValuePair<string, float>("Go straight", tail));
+                cursor += tail;
+            }
+            break;
+        }
+    }
+
+    return result;
+}
+
+
+
+
+
+
+// ====== AR GUIDANCE ARROW (patched for wrong-way) ======
+// private void UpdateGuidanceArrow()
+// {
+//     if (guidanceArrowInstance == null || !guidanceArrowInstance.activeSelf) return;
+
+//     Camera cam = Camera.main;
+//     if (cam == null) return;
+
+//     // --- Desired yaw purely from guidanceLabel / wrong-way ---
+//     float desiredYaw = 0f; // 0 = forward
+//     string lab = (guidanceLabel ?? "").ToLowerInvariant();
+
+//     if (goingWrongWay)
+//     {
+//         desiredYaw = 180f; // force U-turn cue
+//     }
+//     else
+//     {
+//         if (lab.Contains("u-turn") || lab.Contains("uturn") || lab.Contains("u turn"))
+//             desiredYaw = 180f;
+//         else if (lab.Contains("slight left"))
+//             desiredYaw = -35f;
+//         else if (lab.Contains("slight right"))
+//             desiredYaw = 35f;
+//         else if (lab.Contains("turn left"))
+//             desiredYaw = -90f;
+//         else if (lab.Contains("turn right"))
+//             desiredYaw = 90f;
+//         else
+//             desiredYaw = 0f; // "go straight" or no label
+//     }
+
+//     // --- Anticipatory smoothing (approaching next mapped turn only) ---
+//     float distToNextTurn = 999f;
+//     if (stepStartAlong != null && stepStartAlong.Count > currentStepIndex)
+//     {
+//         float currentA = smoothedAlong;
+//         float nextA = stepStartAlong[currentStepIndex];
+//         distToNextTurn = Mathf.Max(0f, nextA - currentA);
+//     }
+
+//     if (!goingWrongWay && distToNextTurn < 50f)
+//     {
+//         // ease into the turn as you approach (0..1)
+//         float anticipation = Mathf.InverseLerp(50f, 0f, distToNextTurn);
+//         desiredYaw = Mathf.LerpAngle(0f, desiredYaw, anticipation);
+//     }
+
+//     // --- Smoothly apply ---
+//     guidanceCurrentYaw = Mathf.SmoothDampAngle(
+//         guidanceCurrentYaw,
+//         desiredYaw,
+//         ref guidanceYawVelocity,
+//         Mathf.Max(0.05f, guidanceSmoothingTime)
+//     );
+
+//     if (guidanceParentToCamera && guidanceArrowInstance.transform.parent == cam.transform)
+//     {
+//         guidanceArrowInstance.transform.localPosition =
+//             Vector3.forward * guidanceArrowDistance + Vector3.up * guidanceArrowHeightOffset;
+//         guidanceArrowInstance.transform.localEulerAngles =
+//             new Vector3(0f, guidanceCurrentYaw, 0f);
+//     }
+//     else
+//     {
+//         Vector3 targetPos = cam.transform.position + cam.transform.forward * guidanceArrowDistance;
+//         targetPos.y += guidanceArrowHeightOffset;
+//         guidanceArrowInstance.transform.position =
+//             Vector3.Lerp(guidanceArrowInstance.transform.position, targetPos, Time.deltaTime * 8f);
+
+//         Quaternion baseRot = Quaternion.LookRotation(cam.transform.forward, Vector3.up);
+//         Quaternion desiredRot = baseRot * Quaternion.Euler(0f, guidanceCurrentYaw, 0f);
+//         guidanceArrowInstance.transform.rotation =
+//             Quaternion.Slerp(guidanceArrowInstance.transform.rotation, desiredRot, Time.deltaTime * guidanceArrowRotateSpeed);
+//     }
+// }
+
+
+
+
+// ====== BIG INSTRUCTION (patched for wrong-way + geodesic fallback) ======
+// void UpdateBigInstruction()
+// {
+//     if (bigInstructionText == null) return;
+
+//     // Wrong-way override
+//     if (goingWrongWay)
+//     {
+//         bigInstructionText.text = "Going the wrong way — Make a U-turn";
+//         return;
+//     }
+
+//     float currentAlong = smoothedAlong;
+//     float routeEnd = RouteEndAlong();
+//     float tol = 0.5f;
+
+//     int nextTurnStep = FindNextTurnAfterAlong(currentAlong + tol, tol);
+
+//     if (nextTurnStep == -1)
+//     {
+//         // No more mapped turns → straight to destination
+//         float distToDest = Mathf.Max(0f, routeEnd - currentAlong);
+//         bigInstructionText.text = $"Go straight — {Mathf.RoundToInt(distToDest)} m";
+//         return;
+//     }
+
+//     float turnAlong = (nextTurnStep < stepStartAlong.Count) ? stepStartAlong[nextTurnStep] : routeEnd;
+//     float distToTurn = Mathf.Max(0f, turnAlong - currentAlong);
+//     string turnLabel = GetManeuverLabelForStep(nextTurnStep); // uses Google maneuver/html
+
+//     float nearNow = 12f;
+//     float announce = Mathf.Min(50f, turnAnnouncementThreshold);
+
+//     if (distToTurn > turnAnnouncementThreshold + 0.001f)
+//     {
+//         bigInstructionText.text = $"Go straight — {Mathf.RoundToInt(distToTurn)} m";
+//         return;
+//     }
+
+//     if (distToTurn <= nearNow)
+//         bigInstructionText.text = $"{turnLabel} now";
+//     else if (distToTurn <= announce)
+//         bigInstructionText.text = $"{turnLabel} in {Mathf.RoundToInt(distToTurn)} m";
+//     else
+//         bigInstructionText.text = $"{turnLabel} in {Mathf.RoundToInt(distToTurn)} m";
+// }
+
+
+
+// void UpdateStepsPreview()
+// {
+//     if (stepsPreviewText == null) return;
+
+//     float currentAlong = smoothedAlong;
+//     var segments = BuildRicherPreviewSegments(currentAlong);
+//     if (segments == null || segments.Count == 0)
+//     {
+//         stepsPreviewText.text = "";
+//         stepsPreviewText.gameObject.SetActive(false);
+//         return;
+//     }
+
+//     // Keep it concise: Now … → Then …
+//     var parts = new List<string>();
+//     parts.Add($"{segments[0].Key} ({Mathf.RoundToInt(segments[0].Value)}m)");
+//     if (segments.Count > 1)
+//         parts.Add($"{segments[1].Key} ({Mathf.RoundToInt(segments[1].Value)}m)");
+
+//     stepsPreviewText.text = string.Join(" → ", parts);
+//     stepsPreviewText.gameObject.SetActive(true);
+// }
+
+
+    // void CheckStepProgress()
+    // {
+    //     if (currentStepIndex >= steps.Count) return;
+    //     float current = smoothedAlong;
+    //     AlignCurrentStepToAlong();
+
+    //     float stepEnd = (currentStepIndex < stepEndAlong.Count) ? stepEndAlong[Mathf.Clamp(currentStepIndex, 0, stepEndAlong.Count - 1)] : current;
+    //     float distToStep = Mathf.Max(0f, stepEnd - current);
+
+    //     if (current >= stepEnd - 1.0f || distToStep <= stepAdvanceMeters)
+    //     {
+    //         currentStepIndex++;
+    //         if (currentStepIndex < steps.Count)
+    //         {
+    //             UpdateBigInstruction();
+    //             UpdateStepsPreview();
+    //         }
+    //         else
+    //         {
+    //             if (bigInstructionText != null) bigInstructionText.text = "Proceed to destination";
+    //             UpdateStepsPreview();
+    //         }
+    //         return;
+    //     }
+    //     UpdateBigInstruction();
+    // }
+
+void CheckArrival()
+{
+    float dToDest = HaversineDistance(currentLat, currentLon, destination.x, destination.y);
+
+    // Use locally-cached destination name (set in InitAndMaybeStartNav)
+    string destName = string.IsNullOrEmpty(destDisplayName) ? "Destination" : destDisplayName;
+
+    // Format distance (m / km)
+    string distStr = dToDest >= 1000f ? $"{(dToDest / 1000f):F1} km" : $"{Mathf.RoundToInt(dToDest)} m";
+
+    // Update debug UI every frame with name + remaining distance (or arrived)
+    if (debugText != null)
+    {
         if (dToDest <= arrivalDistanceMeters)
+            debugText.text = $" {destName} — Arrived!";
+        else
+            debugText.text = $" {destName} — {distStr} away";
+    }
+
+    // ---------- 1) PREVIEW: show a camera-parented marker when inside preview range ----------
+    if (dToDest <= destinationPreviewMeters)
+    {
+        if (destinationPreviewGO == null)
         {
-            if (bigInstructionText != null) bigInstructionText.text = "You have reached your destination 🎉";
-            if (stepsPreviewText != null) stepsPreviewText.text = "";
-            if (guidanceArrowInstance != null) guidanceArrowInstance.SetActive(false);
+            var prefab = destinationPreviewPrefab != null ? destinationPreviewPrefab : destinationPrefab;
+            destinationPreviewGO = SpawnDestinationPreviewInFrontOfCamera(prefab, destName);
+            if (destinationPreviewGO != null)
+                Debug.Log($"[DestinationPreview] Shown at ~{Mathf.RoundToInt(dToDest)} m.");
         }
     }
+    else if (destinationPreviewGO != null && dToDest > destinationPreviewHideMeters)
+    {
+        // hysteresis: don't flicker on/off at the edge
+        Destroy(destinationPreviewGO);
+        destinationPreviewGO = null;
+        Debug.Log("[DestinationPreview] Hidden (out of range).");
+    }
+
+    // ---------- 2) ARRIVAL: world-anchored marker at the true destination ----------
+    if (!destinationWorldSpawned && destinationPrefab != null && dToDest <= destinationPreviewMeters)
+    {
+        GameObject dst = SpawnARObjectAtLatLon(
+            destinationPrefab,
+            destination.x,          // latitude
+            destination.y,          // longitude
+            destName,
+            destinationHeightOffset,
+            destinationIcon,
+            destinationMaterial
+        );
+
+        if (dst == null)
+            Debug.LogWarning("[Destination] Failed to spawn world destination marker.");
+        else
+            Debug.Log($"[Destination] World marker spawned at ~{Mathf.RoundToInt(dToDest)} m.");
+
+        destinationWorldSpawned = true;
+    }
+
+    // ---------- 3) Final “arrived” UI at your tighter threshold (e.g., arrivalDistanceMeters) ----------
+    if (dToDest <= arrivalDistanceMeters)
+    {
+        if (bigInstructionText != null)
+            bigInstructionText.text = "You have reached your destination 🎉";
+
+        if (stepsPreviewText != null)
+            stepsPreviewText.text = "";
+
+        if (guidanceArrowInstance != null)
+            guidanceArrowInstance.SetActive(false);
+
+        // debugText already set above
+    }
+}
+
+
+
 
     // ====== PATH GEOMETRY ======
     void BuildPathFromStepPolylinesAndResample()
@@ -1397,14 +1774,15 @@ void UpdateStepsPreview()
         if (cumulative.Count == 0 && path.Count == 1) cumulative.Add(0f);
     }
 
-    void SmoothAlong(float value)
-    {
-        alongWindow.Enqueue(value);
-        if (alongWindow.Count > alongWindowSize) alongWindow.Dequeue();
-        float sum = 0f;
-        foreach (var v in alongWindow) sum += v;
-        smoothedAlong = sum / Mathf.Max(1, alongWindow.Count);
-    }
+void SmoothAlong(float value)
+{
+    alongWindow.Enqueue(value);
+    if (alongWindow.Count > alongWindowSize) alongWindow.Dequeue();
+    float sum = 0f;
+    foreach (var v in alongWindow) sum += v;
+    smoothedAlong = sum / Mathf.Max(1, alongWindow.Count);
+}
+
 
     void DeduplicateCloseSteps(float thresholdMeters)
     {
@@ -1624,24 +2002,48 @@ void UpdateStepsPreview()
         else if (debugLogs) Debug.LogWarning("Location service not running.");
     }
 
-    void FaceObjectToCamera(GameObject obj, Camera cam, bool applyFlipIfConfigured = true)
+  void FaceObjectToCamera(GameObject obj, Camera cam, bool applyFlipIfConfigured = true)
+{
+    if (obj == null || cam == null) return;
+
+    var tag = obj.GetComponent<CameraParentedTag>();
+    bool isParented = (tag != null && tag.isCameraParented);
+
+    if (isParented)
     {
-        if (obj == null || cam == null) return;
+        // Always face the camera in local space
+        float y = 180f + (applyFlipIfConfigured && bannerFlipForward ? 180f : 0f) + bannerExtraYawDegrees;
+        obj.transform.localRotation = Quaternion.Euler(0f, y, 0f);
+        return;
+    }
 
-        var tag = obj.GetComponent<CameraParentedTag>();
-        if (tag != null && tag.isCameraParented)
-        {
-            // Keep billboarded on screen; leave local rot as-is or 180 based on prefab front
-            obj.transform.localRotation = Quaternion.identity;
-            return;
-        }
+    // World-anchored objects
+    Vector3 toCam = cam.transform.position - obj.transform.position;
 
-        Vector3 dir = cam.transform.position - obj.transform.position;
-        dir.y = 0f;
-        if (dir.sqrMagnitude <= 0.0001f) return;
-        Quaternion rot = Quaternion.LookRotation(dir, Vector3.up);
+    if (bannerBillboardYawOnly)
+    {
+        toCam.y = 0f;
+        if (toCam.sqrMagnitude <= 1e-6f) return;
+
+        Quaternion rot = Quaternion.LookRotation(toCam.normalized, Vector3.up);
+        if (applyFlipIfConfigured && bannerFlipForward) rot *= Quaternion.Euler(0f, 180f, 0f);
+        if (Mathf.Abs(bannerExtraYawDegrees) > 0.001f) rot *= Quaternion.Euler(0f, bannerExtraYawDegrees, 0f);
+
         obj.transform.rotation = rot;
     }
+    else
+    {
+        if (toCam.sqrMagnitude <= 1e-6f) return;
+
+        Quaternion rot = Quaternion.LookRotation(toCam.normalized, Vector3.up);
+        if (applyFlipIfConfigured && bannerFlipForward) rot *= Quaternion.Euler(0f, 180f, 0f);
+        if (Mathf.Abs(bannerExtraYawDegrees) > 0.001f) rot *= Quaternion.Euler(0f, bannerExtraYawDegrees, 0f);
+
+        obj.transform.rotation = rot;
+    }
+}
+
+
 
     private void SpawnPathArrows()
     {
@@ -1672,20 +2074,22 @@ void UpdateStepsPreview()
         pathArrows.Clear();
     }
 
-    private string ExtractGuidanceLabelFromText(string text)
-    {
-        if (string.IsNullOrEmpty(text)) return "Go straight";
-        string t = text.ToLowerInvariant();
-        if (t.Contains("u-turn") || t.Contains("u turn") || t.Contains("uturn")) return "u-turn";
-        if (t.Contains("turn left")) return "turn left";
-        if (t.Contains("turn right")) return "turn right";
-        if (t.Contains("slight left")) return "slight left";
-        if (t.Contains("slight right")) return "slight right";
-        if (t.Contains("left")) return "turn left";
-        if (t.Contains("right")) return "turn right";
-        if (t.Contains("straight") || t.Contains("proceed") || t.Contains("head") || t.Contains("continue")) return "go straight";
+private string ExtractGuidanceLabelFromText(string text)
+{
+    if (string.IsNullOrEmpty(text)) return "go straight";
+    string t = text.ToLowerInvariant();
+
+    // NO u-turn branch
+    if (t.Contains("slight left"))  return "slight left";
+    if (t.Contains("slight right")) return "slight right";
+    if (t.Contains("turn left") || t.Contains(" left"))  return "turn left";
+    if (t.Contains("turn right") || t.Contains(" right")) return "turn right";
+    if (t.Contains("straight") || t.Contains("proceed") || t.Contains("head") || t.Contains("continue"))
         return "go straight";
-    }
+
+    return "go straight";
+}
+
 
     private Vector3 ProjectToCameraFrustum(Camera cam, Vector3 worldPos, float minDistance = 8f)
     {
@@ -1910,35 +2314,39 @@ private string GetManeuverLabelForStep(int stepIndex)
     if (stepIndex < 0 || stepIndex >= steps.Count) return "Go straight";
     var st = steps[stepIndex];
 
-    // Prefer Google's maneuver if present
-    if (!string.IsNullOrEmpty(st.maneuver)) return ManeuverToText(st.maneuver);
+    if (!string.IsNullOrEmpty(st.maneuver))
+        return ManeuverToText(st.maneuver);
 
-    // Fallback: inspect html_instructions a bit
     string plain = StripHtmlTags(st.html_instructions).ToLowerInvariant();
     if (!string.IsNullOrEmpty(plain))
     {
-        if (plain.Contains("u-turn") || plain.Contains("uturn")) return "Make a U-turn";
-        if (plain.Contains("slight left")) return "Slight left";
+        // NO u-turn mapping
+        if (plain.Contains("slight left"))  return "Slight left";
         if (plain.Contains("slight right")) return "Slight right";
-        if (plain.Contains("turn left") || plain.Contains("left")) return "Turn left";
-        if (plain.Contains("turn right") || plain.Contains("right")) return "Turn right";
+        if (plain.Contains("turn left") || plain.Contains(" left"))   return "Turn left";
+        if (plain.Contains("turn right") || plain.Contains(" right")) return "Turn right";
         if (plain.Contains("roundabout")) return "Roundabout";
-        if (plain.StartsWith("head") || plain.StartsWith("continue") || plain.Contains("straight")) return "Go straight";
+        if (plain.StartsWith("head") || plain.StartsWith("continue") || plain.Contains("straight"))
+            return "Go straight";
     }
     return "Go straight";
 }
 
+
 private string ManeuverToText(string maneuver)
 {
+    if (string.IsNullOrEmpty(maneuver)) return "Go straight";
     string m = maneuver.ToLowerInvariant();
-    if (m.Contains("uturn")) return "Make a U-turn";
-    if (m.Contains("slight left")) return "Slight left";
+
+    // NO u-turn mapping
+    if (m.Contains("slight left"))  return "Slight left";
     if (m.Contains("slight right")) return "Slight right";
-    if (m.Contains("left")) return "Turn left";
-    if (m.Contains("right")) return "Turn right";
-    if (m.Contains("roundabout")) return "Roundabout";
+    if (m.Contains("left"))         return "Turn left";
+    if (m.Contains("right"))        return "Turn right";
+    if (m.Contains("roundabout"))   return "Roundabout";
     return "Go straight";
 }
+
 
 private string StripHtmlTags(string html)
 {
@@ -2055,25 +2463,7 @@ private IEnumerator SmoothAlignRoutine(float targetHeading)
 
 }
 
-private float StabilizeAlong(float rawAlong, float dt)
-{
-    // Cap delta per frame to something physically plausible
-    float maxFwd = maxProgressSpeedMps * dt;
-    float maxBack = maxBackwardsSpeedMps * dt;
 
-    float delta = rawAlong - lastStableAlong;
-    if (delta > maxFwd) delta = maxFwd;
-    if (delta < -maxBack) delta = -maxBack;
-
-    float capped = lastStableAlong + delta;
-
-    // Light smoothing to avoid jitter
-    float t = Mathf.Clamp01(alongSmoothing);
-    float smoothed = Mathf.Lerp(lastStableAlong, capped, t);
-
-    lastStableAlong = smoothed;
-    return smoothed;
-}
 
 private float GetPathHeadingAtAlong(float alongMeters)
 {

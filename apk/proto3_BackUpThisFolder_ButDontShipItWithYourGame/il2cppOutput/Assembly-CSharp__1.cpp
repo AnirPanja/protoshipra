@@ -3076,6 +3076,7 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	ARRaycastManager_tD9459374F0F5BD9E2E4A8A1C665E7F33F9C2EE44* ___raycastManager;
 	ARPlaneManager_t9DA6C512BDCFFBEE8B3DAA7170EB3BFFDE26A928* ___planeManager;
 	bool ___lockToPlaneIfAvailable;
+	float ___smoothedAlong;
 	bool ___alignWorldToPathAtStart;
 	bool ___didAlignWorldToPath;
 	Dictionary_2_tC83A373447C326621C487EB30561D5F40D5D7C78* ____vis;
@@ -3102,7 +3103,6 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	float ___majorTurnAngle;
 	int32_t ___previewSegmentLimit;
 	bool ___debugLogs;
-	float ___wrongWaySeconds;
 	String_t* ___googleApiKey;
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___guidanceArrowPrefab;
 	float ___guidanceArrowDistance;
@@ -3117,27 +3117,18 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	float ___maxVerticalDeltaFromCamera;
 	bool ___guidanceParentToCamera;
 	float ___guidanceSmoothingTime;
-	float ___maxProgressSpeedMps;
-	float ___maxBackwardsSpeedMps;
-	float ___alongSmoothing;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* ___alignmentStatusText;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* ___unityCompassText;
-	float ___wrongWayTriggerAngle;
-	float ___wrongWayHoldSeconds;
-	float ___wrongWayRecoverRate;
 	Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* ___contentRoot;
 	bool ___originSet;
 	double ___originLat;
 	double ___originLon;
 	float ___originAlt;
-	float ___wrongWayAccum;
 	double ___currentLat;
 	double ___currentLon;
 	float ___currentAlt;
 	float ___gpsCourseDeg;
 	bool ___hasCourse;
-	float ___stableAlong;
-	float ___lastStableAlong;
 	float ___uiCurrentZ;
 	float ___lastAlignedHeading;
 	float ___headingLerpSpeed;
@@ -3161,7 +3152,6 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	int32_t ___currentStepIndex;
 	Queue_1_tBB15A96A0BD226BCEDC19339C7F969E4B3A42153* ___alongWindow;
 	int32_t ___alongWindowSize;
-	float ___smoothedAlong;
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___guidanceArrowInstance;
 	String_t* ___guidanceLabel;
 	float ___guidanceCurrentYaw;
@@ -3180,9 +3170,6 @@ struct ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A  : public MonoBeha
 	bool ___smoothGpsUpdates;
 	float ___reprojectIfMeters;
 	float ___followLerp;
-	float ___prevAlong;
-	float ___wrongWayFor;
-	bool ___goingWrongWay;
 };
 struct ARProximitySpawner_t400EB06B0A2C2734557AD00602B07EF89AF694C6  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
@@ -5062,7 +5049,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Vector2_t1FD6F485C871E832B347AB2D
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78645
+// Method Definition Index: 78648
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateList__ctor_m7F41DD85AA418F87EB192313B5879AEDDB48EA9A (LiveUpdateList_t0E7D164E8617299DB348314F46AD97E56F306DD3* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5078,7 +5065,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateList__ctor_m7F41DD85AA418F87EB
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78646
+// Method Definition Index: 78649
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SuccessLogsWrapper__ctor_m4772C02EC72F2BDFE8C20B52D29E06F26A92CF5E (SuccessLogsWrapper_t6C512F6A883E95309183824B443FA1D62995C224* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5094,7 +5081,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SuccessLogsWrapper__ctor_m4772C02EC72F2B
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78647
+// Method Definition Index: 78650
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateItem__ctor_m7A955811D9E3E1B03B81ECC1286E306CAAA87F8F (LiveUpdateItem_t5425B80C9710E34C887F76E4F0AC7BE7D3400E2B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5110,7 +5097,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateItem__ctor_m7A955811D9E3E1B03B
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78648
+// Method Definition Index: 78651
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchLiveUpdatesU3Ed__4__ctor_m3E5025E226AA29741942FFE988C2173923925453 (U3CFetchLiveUpdatesU3Ed__4_tC9722389FC32858EF2A6BDEE93FBF6C26225A6CF* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -5120,7 +5107,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchLiveUpdatesU3Ed__4__ctor_m3E5025
 		return;
 	}
 }
-// Method Definition Index: 78649
+// Method Definition Index: 78652
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchLiveUpdatesU3Ed__4_System_IDisposable_Dispose_mE94C5AC448300E3BD8B8648F7091F2B60C2AC4A5 (U3CFetchLiveUpdatesU3Ed__4_tC9722389FC32858EF2A6BDEE93FBF6C26225A6CF* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -5169,7 +5156,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78650
+// Method Definition Index: 78653
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CFetchLiveUpdatesU3Ed__4_MoveNext_m071180E23A9F4F102D833C92C8622886C7F94039 (U3CFetchLiveUpdatesU3Ed__4_tC9722389FC32858EF2A6BDEE93FBF6C26225A6CF* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5226,11 +5213,11 @@ FAULT_0110:
 IL_001c_1:
 			{
 				__this->___U3CU3E1__state = (-1);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:24>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:24>
 				WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_4 = (WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045*)il2cpp_codegen_object_new(WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045_il2cpp_TypeInfo_var);
 				WWWForm__ctor_mB1AA4D4BE7011A371B590332CC65794270F269F6(L_4, NULL);
 				V_3 = L_4;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:27>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:27>
 				LiveUpdateFetcher_t7F11A3BBCACE2E70D103C30975D011C291FE0D25* L_5 = V_2;
 				NullCheck(L_5);
 				String_t* L_6 = L_5->___apiUrl;
@@ -5240,7 +5227,7 @@ IL_001c_1:
 				__this->___U3CwwwU3E5__2 = L_8;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)L_8);
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:29>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:29>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_9 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_9);
 				UnityWebRequestAsyncOperation_t14BE94558FF3A2CFC2EFBE2511A3A88252042B8C* L_10;
@@ -5255,7 +5242,7 @@ IL_001c_1:
 IL_0062_1:
 			{
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:31>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:31>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_11 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_11);
 				int32_t L_12;
@@ -5266,7 +5253,7 @@ IL_0062_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:33>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:33>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_13 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_13);
 				String_t* L_14;
@@ -5275,14 +5262,14 @@ IL_0062_1:
 				L_15 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral2DDA1D4A8ED5255897E38544710CD5DE2CBD7B47, L_14, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(L_15, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:34>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:34>
 				V_0 = (bool)0;
 				goto IL_00fd_1;
 			}
 
 IL_0096_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:37>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:37>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_16 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_16);
 				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_17;
@@ -5291,20 +5278,20 @@ IL_0096_1:
 				String_t* L_18;
 				L_18 = DownloadHandler_get_text_mA6DE5CB2647A21E577B963708DC3D0DA4DBFE7D8(L_17, NULL);
 				V_4 = L_18;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:38>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:38>
 				String_t* L_19 = V_4;
 				String_t* L_20;
 				L_20 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral77D0C97B593B3AB748A2A716FD94702F5BF66B8D, L_19, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_20, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:41>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:41>
 				LiveUpdateFetcher_t7F11A3BBCACE2E70D103C30975D011C291FE0D25* L_21 = V_2;
 				String_t* L_22 = V_4;
 				NullCheck(L_21);
 				LiveUpdateList_t0E7D164E8617299DB348314F46AD97E56F306DD3* L_23;
 				L_23 = LiveUpdateFetcher_TryParseResponse_m29B6D5194EBA700B5AEC0F2FE1256C912EC15DD6(L_21, L_22, NULL);
 				V_5 = L_23;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:43>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:43>
 				LiveUpdateList_t0E7D164E8617299DB348314F46AD97E56F306DD3* L_24 = V_5;
 				if (!L_24)
 				{
@@ -5333,24 +5320,24 @@ IL_0096_1:
 
 IL_00da_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:45>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:45>
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteralD62BDDF6A901A64C293728672D27BAAB2C9862BE, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:46>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:46>
 				V_0 = (bool)0;
 				goto IL_00fd_1;
 			}
 
 IL_00e8_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:49>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:49>
 				LiveUpdateFetcher_t7F11A3BBCACE2E70D103C30975D011C291FE0D25* L_29 = V_2;
 				LiveUpdateList_t0E7D164E8617299DB348314F46AD97E56F306DD3* L_30 = V_5;
 				NullCheck(L_30);
 				LiveUpdateItemU5BU5D_t2BA7B751D1ACC8B2CFF67E97B753A2FB60E278DC* L_31 = L_30->___data;
 				NullCheck(L_29);
 				LiveUpdateFetcher_PopulateCards_mCA73B5C499082216BD8AC432171C7D9235415063(L_29, L_31, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:50>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:50>
 				U3CFetchLiveUpdatesU3Ed__4_U3CU3Em__Finally1_m03EDB391EE0DA78793F84CD7B5ECD55F57130820(__this, NULL);
 				goto IL_0105_1;
 			}
@@ -5365,7 +5352,7 @@ IL_0105_1:
 			{
 				__this->___U3CwwwU3E5__2 = (UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:51>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/Scripts/UpdateApi.cs:51>
 				V_0 = (bool)0;
 				goto IL_0117;
 			}
@@ -5382,7 +5369,7 @@ IL_0117:
 		return L_32;
 	}
 }
-// Method Definition Index: 78651
+// Method Definition Index: 78654
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchLiveUpdatesU3Ed__4_U3CU3Em__Finally1_m03EDB391EE0DA78793F84CD7B5ECD55F57130820 (U3CFetchLiveUpdatesU3Ed__4_tC9722389FC32858EF2A6BDEE93FBF6C26225A6CF* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5410,7 +5397,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78652
+// Method Definition Index: 78655
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchLiveUpdatesU3Ed__4_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m0A348976D992E8E454F5D2AAC1D75ABD207E4EFB (U3CFetchLiveUpdatesU3Ed__4_tC9722389FC32858EF2A6BDEE93FBF6C26225A6CF* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5418,7 +5405,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchLiveUpdatesU3Ed__4_Sys
 		return L_0;
 	}
 }
-// Method Definition Index: 78653
+// Method Definition Index: 78656
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchLiveUpdatesU3Ed__4_System_Collections_IEnumerator_Reset_m9F05E23C89E6E4263B94A7E73428ABEEC3DA83FF (U3CFetchLiveUpdatesU3Ed__4_tC9722389FC32858EF2A6BDEE93FBF6C26225A6CF* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5427,7 +5414,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchLiveUpdatesU3Ed__4_System_Collec
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CFetchLiveUpdatesU3Ed__4_System_Collections_IEnumerator_Reset_m9F05E23C89E6E4263B94A7E73428ABEEC3DA83FF_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78654
+// Method Definition Index: 78657
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchLiveUpdatesU3Ed__4_System_Collections_IEnumerator_get_Current_mF65BAB3AD0DF0E7D9062CFEE2AF294E2EF261539 (U3CFetchLiveUpdatesU3Ed__4_tC9722389FC32858EF2A6BDEE93FBF6C26225A6CF* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5443,21 +5430,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchLiveUpdatesU3Ed__4_Sys
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78655
+// Method Definition Index: 78658
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetData_m93B6F3A6FE759D5A798CC46E77B863495166EDAF (ARMarker_t80A1B853133968C9E85D49B3F9CA02009C7E09E3* __this, String_t* ___0_label, Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99* ___1_icon, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:15>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:15>
 		String_t* L_0 = ___0_label;
 		ARMarker_SetLabel_m13ADE6822C576B757949EEAC3AF828C99997F4F2(__this, L_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:16>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:16>
 		Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99* L_1 = ___1_icon;
 		ARMarker_SetIcon_m9A599688F53BDBACD7912807BC773A3B60703DA6(__this, L_1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:17>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:17>
 		return;
 	}
 }
-// Method Definition Index: 78656
+// Method Definition Index: 78659
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetLabel_m13ADE6822C576B757949EEAC3AF828C99997F4F2 (ARMarker_t80A1B853133968C9E85D49B3F9CA02009C7E09E3* __this, String_t* ___0_label, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5472,7 +5459,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetLabel_m13ADE6822C576B757949E
 	String_t* G_B2_0 = NULL;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* G_B2_1 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:22>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_0 = __this->___labelText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -5483,7 +5470,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetLabel_m13ADE6822C576B757949E
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:23>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:23>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_2 = __this->___labelText;
 		String_t* L_3 = ___0_label;
 		String_t* L_4 = L_3;
@@ -5509,11 +5496,11 @@ IL_001e:
 
 IL_0023:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:24>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:24>
 		return;
 	}
 }
-// Method Definition Index: 78657
+// Method Definition Index: 78660
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetIcon_m9A599688F53BDBACD7912807BC773A3B60703DA6 (ARMarker_t80A1B853133968C9E85D49B3F9CA02009C7E09E3* __this, Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99* ___0_icon, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5523,7 +5510,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetIcon_m9A599688F53BDBACD79128
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:29>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:29>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_0 = __this->___iconImage;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -5534,13 +5521,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetIcon_m9A599688F53BDBACD79128
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:29>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:29>
 		return;
 	}
 
 IL_000f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:31>
 		Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99* L_2 = ___0_icon;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -5551,12 +5538,12 @@ IL_000f:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:33>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_4 = __this->___iconImage;
 		Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99* L_5 = ___0_icon;
 		NullCheck(L_4);
 		Image_set_sprite_mC0C248340BA27AAEE56855A3FAFA0D8CA12956DE(L_4, L_5, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:34>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:34>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_6 = __this->___iconImage;
 		NullCheck(L_6);
 		Behaviour_set_enabled_mF1DCFE60EB09E0529FE9476CA804A3AA2D72B16A(L_6, (bool)1, NULL);
@@ -5565,19 +5552,19 @@ IL_000f:
 
 IL_0031:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:40>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:40>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_7 = __this->___iconImage;
 		NullCheck(L_7);
 		Image_set_sprite_mC0C248340BA27AAEE56855A3FAFA0D8CA12956DE(L_7, (Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99*)NULL, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:41>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:41>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_8 = __this->___iconImage;
 		NullCheck(L_8);
 		Behaviour_set_enabled_mF1DCFE60EB09E0529FE9476CA804A3AA2D72B16A(L_8, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:43>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:43>
 		return;
 	}
 }
-// Method Definition Index: 78658
+// Method Definition Index: 78661
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetDistanceText_m8A1C86A148AF8F8203E78837D5E8A9174DF2DF63 (ARMarker_t80A1B853133968C9E85D49B3F9CA02009C7E09E3* __this, String_t* ___0_text, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5592,7 +5579,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetDistanceText_m8A1C86A148AF8F
 	String_t* G_B2_0 = NULL;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* G_B2_1 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:48>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:48>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_0 = __this->___labelText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -5603,7 +5590,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetDistanceText_m8A1C86A148AF8F
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:49>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_2 = __this->___labelText;
 		String_t* L_3 = ___0_text;
 		String_t* L_4 = L_3;
@@ -5629,25 +5616,25 @@ IL_001e:
 
 IL_0023:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:50>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:50>
 		return;
 	}
 }
-// Method Definition Index: 78659
+// Method Definition Index: 78662
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_SetVisible_mEBDA3BE7713B3D6199EEDE17D78CBB66A371A028 (ARMarker_t80A1B853133968C9E85D49B3F9CA02009C7E09E3* __this, bool ___0_visible, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:55>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:55>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0;
 		L_0 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		bool L_1 = ___0_visible;
 		NullCheck(L_0);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_0, L_1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:56>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:56>
 		return;
 	}
 }
-// Method Definition Index: 78660
+// Method Definition Index: 78663
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_HideLabel_m194662FF4CC603A7061EEC2D0400E23BAD319CEC (ARMarker_t80A1B853133968C9E85D49B3F9CA02009C7E09E3* __this, bool ___0_hide, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5657,7 +5644,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_HideLabel_m194662FF4CC603A7061E
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:61>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_0 = __this->___labelText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -5668,7 +5655,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_HideLabel_m194662FF4CC603A7061E
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:62>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:62>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_2 = __this->___labelText;
 		NullCheck(L_2);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3;
@@ -5680,11 +5667,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker_HideLabel_m194662FF4CC603A7061E
 
 IL_0022:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARMarker.cs:63>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARMarker.cs:63>
 		return;
 	}
 }
-// Method Definition Index: 78661
+// Method Definition Index: 78664
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker__ctor_m17E542DEA02FD362A2E8F0770194D17AD5915DEC (ARMarker_t80A1B853133968C9E85D49B3F9CA02009C7E09E3* __this, const RuntimeMethod* method) 
 {
 	{
@@ -5700,7 +5687,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARMarker__ctor_m17E542DEA02FD362A2E8F077
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78662
+// Method Definition Index: 78665
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_Reset_m39B6DC1C961F3CADB361B61943B68FDC7761D37D (ARProximitySpawner_t400EB06B0A2C2734557AD00602B07EF89AF694C6* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5711,17 +5698,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_Reset_m39B6DC1C961F3C
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:30>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:30>
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_0;
 		L_0 = Object_FindObjectOfType_TisARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A_mF98E2E8F70F6E226C3C16016F2DC53217E25D7CD(Object_FindObjectOfType_TisARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A_mF98E2E8F70F6E226C3C16016F2DC53217E25D7CD_RuntimeMethod_var);
 		__this->___nav = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___nav), (void*)L_0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:31>
 		return;
 	}
 }
-// Method Definition Index: 78663
+// Method Definition Index: 78666
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_Update_mBBEAB96DF1D763CF03F106536EBDE045466C7C19 (ARProximitySpawner_t400EB06B0A2C2734557AD00602B07EF89AF694C6* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -5754,7 +5741,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_Update_mBBEAB96DF1D76
 	float V_12 = 0.0f;
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_13 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:35>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:35>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_0 = __this->___nav;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -5777,13 +5764,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_Update_mBBEAB96DF1D76
 
 IL_001c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:35>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:35>
 		return;
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:38>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:38>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_4;
 		L_4 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_4);
@@ -5795,13 +5782,13 @@ IL_001d:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:38>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:38>
 		return;
 	}
 
 IL_002b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:41>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:41>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_6;
 		L_6 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_6);
@@ -5811,7 +5798,7 @@ IL_002b:
 		float L_8;
 		L_8 = LocationInfo_get_latitude_mAF0A46443555AF18EA3C516292CB92B1669CA863((&V_5), NULL);
 		V_0 = ((double)L_8);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:42>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:42>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_9;
 		L_9 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_9);
@@ -5821,7 +5808,7 @@ IL_002b:
 		float L_11;
 		L_11 = LocationInfo_get_longitude_mCB720DD0E139B7C614F78D40595E1BBF1F5433A2((&V_5), NULL);
 		V_1 = ((double)L_11);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:45>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:45>
 		float L_12 = __this->___despawnBeyondMeters;
 		float L_13 = __this->___spawnWithinMeters;
 		if ((!(((float)L_12) <= ((float)L_13))))
@@ -5830,27 +5817,27 @@ IL_002b:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:45>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:45>
 		float L_14 = __this->___spawnWithinMeters;
 		__this->___despawnBeyondMeters = ((float)il2cpp_codegen_add(L_14, (10.0f)));
 	}
 
 IL_0075:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:47>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:47>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_15 = __this->___nav;
 		NullCheck(L_15);
 		int32_t L_16;
 		L_16 = ARNavigation_GetARSpawnPointCount_m25F986D53A35FA7001F5EDEAB40EC50BB02A74D3(L_15, NULL);
 		V_2 = L_16;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:49>
 		V_6 = 0;
 		goto IL_0183;
 	}
 
 IL_0089:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:52>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:52>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_17 = __this->___nav;
 		int32_t L_18 = V_6;
 		NullCheck(L_17);
@@ -5862,7 +5849,7 @@ IL_0089:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:55>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:55>
 		bool L_20 = __this->___onlyForEnabledPoints;
 		if (!L_20)
 		{
@@ -5877,16 +5864,16 @@ IL_0089:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:57>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:57>
 		int32_t L_22 = V_6;
 		ARProximitySpawner_DespawnIndexIfExists_mDF52737D79EFAC2217841A114FFCD46B68B2A03B(__this, L_22, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:58>
 		goto IL_017d;
 	}
 
 IL_00ba:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:62>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:62>
 		double L_23 = V_0;
 		double L_24 = V_1;
 		double L_25 = V_7;
@@ -5894,7 +5881,7 @@ IL_00ba:
 		float L_27;
 		L_27 = ARProximitySpawner_HaversineMeters_m7F3A54D0F6AF2F3C5DC507824B62DCF9A55675A4(L_23, L_24, L_25, L_26, NULL);
 		V_10 = L_27;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:65>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:65>
 		float L_28 = V_10;
 		float L_29 = __this->___spawnWithinMeters;
 		if ((!(((float)L_28) <= ((float)L_29))))
@@ -5903,7 +5890,7 @@ IL_00ba:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:67>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:67>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_30 = __this->____spawned;
 		int32_t L_31 = V_6;
 		NullCheck(L_30);
@@ -5931,15 +5918,15 @@ IL_00ba:
 
 IL_00fb:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:70>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:71>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:72>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:73>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:74>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:75>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:76>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:77>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:78>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:70>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:71>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:72>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:73>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:75>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:76>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:77>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:78>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_37 = __this->___nav;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_38 = __this->___cubePrefab;
 		double L_39 = V_7;
@@ -5954,7 +5941,7 @@ IL_00fb:
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_46;
 		L_46 = ARNavigation_SpawnARObjectAtLatLon_m705625D2DBA4154C74A03D8E1F894F6F1B2DC7F7(L_37, L_38, L_39, L_40, L_44, L_45, (Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99*)NULL, (Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3*)NULL, NULL);
 		V_11 = L_46;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:79>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:79>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_47 = V_11;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_48;
@@ -5965,13 +5952,13 @@ IL_00fb:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:81>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:81>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_49 = __this->____spawned;
 		int32_t L_50 = V_6;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_51 = V_11;
 		NullCheck(L_49);
 		Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA(L_49, L_50, L_51, Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:82>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:82>
 		bool L_52 = __this->___debugLogs;
 		if (!L_52)
 		{
@@ -5979,7 +5966,7 @@ IL_00fb:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:82>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:82>
 		int32_t L_53 = V_6;
 		int32_t L_54 = L_53;
 		RuntimeObject* L_55 = Box(il2cpp_defaults.int32_class, &L_54);
@@ -5995,7 +5982,7 @@ IL_00fb:
 
 IL_016b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:87>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:87>
 		float L_60 = V_10;
 		float L_61 = __this->___despawnBeyondMeters;
 		if ((!(((float)L_60) >= ((float)L_61))))
@@ -6004,21 +5991,21 @@ IL_016b:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:89>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:89>
 		int32_t L_62 = V_6;
 		ARProximitySpawner_DespawnIndexIfExists_mDF52737D79EFAC2217841A114FFCD46B68B2A03B(__this, L_62, NULL);
 	}
 
 IL_017d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:49>
 		int32_t L_63 = V_6;
 		V_6 = ((int32_t)il2cpp_codegen_add(L_63, 1));
 	}
 
 IL_0183:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:49>
 		int32_t L_64 = V_6;
 		int32_t L_65 = V_2;
 		if ((((int32_t)L_64) < ((int32_t)L_65)))
@@ -6027,7 +6014,7 @@ IL_0183:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:94>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:94>
 		bool L_66 = __this->___includeDestinationToo;
 		if (!L_66)
 		{
@@ -6045,7 +6032,7 @@ IL_0183:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:98>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:98>
 		double L_69 = V_0;
 		double L_70 = V_1;
 		double L_71 = V_3;
@@ -6053,7 +6040,7 @@ IL_0183:
 		float L_73;
 		L_73 = ARProximitySpawner_HaversineMeters_m7F3A54D0F6AF2F3C5DC507824B62DCF9A55675A4(L_69, L_70, L_71, L_72, NULL);
 		V_12 = L_73;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:100>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:100>
 		float L_74 = V_12;
 		float L_75 = __this->___spawnWithinMeters;
 		if ((!(((float)L_74) <= ((float)L_75))))
@@ -6062,7 +6049,7 @@ IL_0183:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:102>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:102>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_76 = __this->____spawned;
 		NullCheck(L_76);
 		bool L_77;
@@ -6088,15 +6075,15 @@ IL_0183:
 
 IL_01e2:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:104>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:105>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:106>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:107>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:108>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:109>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:110>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:111>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:112>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:104>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:105>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:106>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:107>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:108>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:110>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:111>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:112>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_81 = __this->___nav;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_82 = __this->___cubePrefab;
 		double L_83 = V_3;
@@ -6106,7 +6093,7 @@ IL_01e2:
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_86;
 		L_86 = ARNavigation_SpawnARObjectAtLatLon_m705625D2DBA4154C74A03D8E1F894F6F1B2DC7F7(L_81, L_82, L_83, L_84, _stringLiteralE26CC308EE3C45F5A5183470BE7BB6B138DE49EB, L_85, (Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99*)NULL, (Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3*)NULL, NULL);
 		V_13 = L_86;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:113>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:113>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_87 = V_13;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_88;
@@ -6117,12 +6104,12 @@ IL_01e2:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:115>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:115>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_89 = __this->____spawned;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_90 = V_13;
 		NullCheck(L_89);
 		Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA(L_89, (-1), L_90, Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:116>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:116>
 		bool L_91 = __this->___debugLogs;
 		if (!L_91)
 		{
@@ -6130,7 +6117,7 @@ IL_01e2:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:116>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:116>
 		float L_92 = V_12;
 		float L_93 = L_92;
 		RuntimeObject* L_94 = Box(il2cpp_defaults.single_class, &L_93);
@@ -6143,7 +6130,7 @@ IL_01e2:
 
 IL_023c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:120>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:120>
 		float L_96 = V_12;
 		float L_97 = __this->___despawnBeyondMeters;
 		if ((!(((float)L_96) >= ((float)L_97))))
@@ -6152,17 +6139,17 @@ IL_023c:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:122>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:122>
 		ARProximitySpawner_DespawnIndexIfExists_mDF52737D79EFAC2217841A114FFCD46B68B2A03B(__this, (-1), NULL);
 	}
 
 IL_024d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:125>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:125>
 		return;
 	}
 }
-// Method Definition Index: 78664
+// Method Definition Index: 78667
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_DespawnIndexIfExists_mDF52737D79EFAC2217841A114FFCD46B68B2A03B (ARProximitySpawner_t400EB06B0A2C2734557AD00602B07EF89AF694C6* __this, int32_t ___0_key, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6177,7 +6164,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_DespawnIndexIfExists_
 	}
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_0 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:129>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:129>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_0 = __this->____spawned;
 		int32_t L_1 = ___0_key;
 		NullCheck(L_0);
@@ -6199,11 +6186,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_DespawnIndexIfExists_
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:131>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:131>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_5 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_5, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:132>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:132>
 		bool L_6 = __this->___debugLogs;
 		if (!L_6)
 		{
@@ -6211,7 +6198,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_DespawnIndexIfExists_
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:132>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:132>
 		int32_t L_7 = ___0_key;
 		int32_t L_8 = L_7;
 		RuntimeObject* L_9 = Box(il2cpp_defaults.int32_class, &L_8);
@@ -6223,17 +6210,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_DespawnIndexIfExists_
 
 IL_003c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:134>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:134>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_11 = __this->____spawned;
 		int32_t L_12 = ___0_key;
 		NullCheck(L_11);
 		bool L_13;
 		L_13 = Dictionary_2_Remove_m7318B893025E418572A8163684F9ED7EF5F740D2(L_11, L_12, Dictionary_2_Remove_m7318B893025E418572A8163684F9ED7EF5F740D2_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:135>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:135>
 		return;
 	}
 }
-// Method Definition Index: 78665
+// Method Definition Index: 78668
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_OnSpawnAllButton_m06EAA9DD964C4375328EEA5B060D90A3F7430036 (ARProximitySpawner_t400EB06B0A2C2734557AD00602B07EF89AF694C6* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6269,7 +6256,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_OnSpawnAllButton_m06E
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_10 = NULL;
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_11 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:143>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:143>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_0 = __this->___nav;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6292,16 +6279,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner_OnSpawnAllButton_m06E
 
 IL_001c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:145>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:145>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral8FC221B04491DFCEAF8A120C1B7A5DC5C70B0F50, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:146>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:146>
 		return;
 	}
 
 IL_0027:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:149>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:149>
 		bool L_4 = __this->___clearExistingBeforeSpawnAll;
 		if (!L_4)
 		{
@@ -6309,11 +6296,11 @@ IL_0027:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:152>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:152>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_5 = __this->___nav;
 		NullCheck(L_5);
 		ARNavigation_ClearSpawnedARObjects_mF4A79E7DE61C42A623F01E797F28F95ED160AA59(L_5, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:153>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:153>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_6 = __this->____spawned;
 		NullCheck(L_6);
 		Enumerator_tB528BCD318DDD3422B24D81EF0BF177F56B2E4FB L_7;
@@ -6338,11 +6325,11 @@ FINALLY_0077:
 
 IL_0049_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:153>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:153>
 				KeyValuePair_2_tE51B4AA1B587AD85A79363114EB7C474634D1AD8 L_8;
 				L_8 = Enumerator_get_Current_m0217E3869711E12C240F3BE879F1699162514F50_inline((&V_4), Enumerator_get_Current_m0217E3869711E12C240F3BE879F1699162514F50_RuntimeMethod_var);
 				V_5 = L_8;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:154>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:154>
 				GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
 				L_9 = KeyValuePair_2_get_Value_mD4081DDFBF79080BB1E9CEDD9893305890320300_inline((&V_5), KeyValuePair_2_get_Value_mD4081DDFBF79080BB1E9CEDD9893305890320300_RuntimeMethod_var);
 				il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -6354,7 +6341,7 @@ IL_0049_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:154>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:154>
 				GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_11;
 				L_11 = KeyValuePair_2_get_Value_mD4081DDFBF79080BB1E9CEDD9893305890320300_inline((&V_5), KeyValuePair_2_get_Value_mD4081DDFBF79080BB1E9CEDD9893305890320300_RuntimeMethod_var);
 				il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -6363,7 +6350,7 @@ IL_0049_1:
 
 IL_006c_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:153>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:153>
 				bool L_12;
 				L_12 = Enumerator_MoveNext_m12F712A18AFF893F08B98E7DEC338D929F2745D8((&V_4), Enumerator_MoveNext_m12F712A18AFF893F08B98E7DEC338D929F2745D8_RuntimeMethod_var);
 				if (L_12)
@@ -6383,7 +6370,7 @@ IL_006c_1:
 
 IL_0085:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:155>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_13 = __this->____spawned;
 		NullCheck(L_13);
 		Dictionary_2_Clear_m92298CA3F2C40724B4D2D9E4D9C4122A70E0C686(L_13, Dictionary_2_Clear_m92298CA3F2C40724B4D2D9E4D9C4122A70E0C686_RuntimeMethod_var);
@@ -6391,22 +6378,22 @@ IL_0085:
 
 IL_0090:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:158>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:158>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_14 = __this->___nav;
 		NullCheck(L_14);
 		int32_t L_15;
 		L_15 = ARNavigation_GetARSpawnPointCount_m25F986D53A35FA7001F5EDEAB40EC50BB02A74D3(L_14, NULL);
 		V_0 = L_15;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:159>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:159>
 		V_1 = 0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:161>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:161>
 		V_6 = 0;
 		goto IL_0117;
 	}
 
 IL_00a3:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:164>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:164>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_16 = __this->___nav;
 		int32_t L_17 = V_6;
 		NullCheck(L_16);
@@ -6418,7 +6405,7 @@ IL_00a3:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:166>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:166>
 		bool L_19 = __this->___onlyForEnabledPoints;
 		if (!L_19)
 		{
@@ -6435,15 +6422,15 @@ IL_00a3:
 
 IL_00c4:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:169>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:170>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:171>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:172>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:173>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:174>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:175>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:176>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:177>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:169>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:170>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:171>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:172>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:173>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:175>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:176>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:177>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_21 = __this->___nav;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_22 = __this->___cubePrefab;
 		double L_23 = V_7;
@@ -6458,7 +6445,7 @@ IL_00c4:
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_30;
 		L_30 = ARNavigation_SpawnARObjectAtLatLon_m705625D2DBA4154C74A03D8E1F894F6F1B2DC7F7(L_21, L_22, L_23, L_24, L_28, L_29, (Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99*)NULL, (Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3*)NULL, NULL);
 		V_10 = L_30;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:178>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:178>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_31 = V_10;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_32;
@@ -6469,27 +6456,27 @@ IL_00c4:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:180>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:180>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_33 = __this->____spawned;
 		int32_t L_34 = V_6;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_35 = V_10;
 		NullCheck(L_33);
 		Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA(L_33, L_34, L_35, Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:181>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:181>
 		int32_t L_36 = V_1;
 		V_1 = ((int32_t)il2cpp_codegen_add(L_36, 1));
 	}
 
 IL_0111:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:161>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:161>
 		int32_t L_37 = V_6;
 		V_6 = ((int32_t)il2cpp_codegen_add(L_37, 1));
 	}
 
 IL_0117:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:161>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:161>
 		int32_t L_38 = V_6;
 		int32_t L_39 = V_0;
 		if ((((int32_t)L_38) < ((int32_t)L_39)))
@@ -6498,7 +6485,7 @@ IL_0117:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:185>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:185>
 		bool L_40 = __this->___includeDestinationToo;
 		if (!L_40)
 		{
@@ -6516,15 +6503,15 @@ IL_0117:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:188>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:189>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:190>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:191>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:192>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:193>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:194>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:195>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:196>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:188>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:189>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:190>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:191>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:192>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:193>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:194>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:195>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:196>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_43 = __this->___nav;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_44 = __this->___cubePrefab;
 		double L_45 = V_2;
@@ -6534,7 +6521,7 @@ IL_0117:
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_48;
 		L_48 = ARNavigation_SpawnARObjectAtLatLon_m705625D2DBA4154C74A03D8E1F894F6F1B2DC7F7(L_43, L_44, L_45, L_46, _stringLiteralE26CC308EE3C45F5A5183470BE7BB6B138DE49EB, L_47, (Sprite_tAFF74BC83CD68037494CB0B4F28CBDF8971CAB99*)NULL, (Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3*)NULL, NULL);
 		V_11 = L_48;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:197>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:197>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_49 = V_11;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_50;
@@ -6545,19 +6532,19 @@ IL_0117:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:199>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:199>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_51 = __this->____spawned;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_52 = V_11;
 		NullCheck(L_51);
 		Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA(L_51, (-1), L_52, Dictionary_2_set_Item_mBF96BE1E5EF00E034063E729F8A641482687AACA_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:200>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:200>
 		int32_t L_53 = V_1;
 		V_1 = ((int32_t)il2cpp_codegen_add(L_53, 1));
 	}
 
 IL_0173:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:204>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:204>
 		int32_t L_54 = V_1;
 		int32_t L_55 = L_54;
 		RuntimeObject* L_56 = Box(il2cpp_defaults.int32_class, &L_55);
@@ -6565,11 +6552,11 @@ IL_0173:
 		L_57 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteral79EDE0BC013E35A21BBF017A2A0401DA45C9FE71, L_56, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_57, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:205>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:205>
 		return;
 	}
 }
-// Method Definition Index: 78666
+// Method Definition Index: 78669
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float ARProximitySpawner_HaversineMeters_m7F3A54D0F6AF2F3C5DC507824B62DCF9A55675A4 (double ___0_lat1, double ___1_lon1, double ___2_lat2, double ___3_lon2, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6583,22 +6570,22 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float ARProximitySpawner_HaversineMeters_m7F3
 	double V_2 = 0.0;
 	double V_3 = 0.0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:211>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:211>
 		double L_0 = ___2_lat2;
 		double L_1 = ___0_lat1;
 		double L_2;
 		L_2 = ARProximitySpawner_Deg2Rad_m761EE9E182B3EC5FED5C795C3045014367D77AB6(((double)il2cpp_codegen_subtract(L_0, L_1)), NULL);
 		V_0 = L_2;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:212>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:212>
 		double L_3 = ___3_lon2;
 		double L_4 = ___1_lon1;
 		double L_5;
 		L_5 = ARProximitySpawner_Deg2Rad_m761EE9E182B3EC5FED5C795C3045014367D77AB6(((double)il2cpp_codegen_subtract(L_3, L_4)), NULL);
 		V_1 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:213>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:214>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:215>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:216>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:213>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:214>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:215>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:216>
 		double L_6 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Math_tEB65DE7CA8B083C412C969C92981C030865486CE_il2cpp_TypeInfo_var);
 		double L_7;
@@ -6623,7 +6610,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float ARProximitySpawner_HaversineMeters_m7F3
 		double L_19;
 		L_19 = sin(((double)(L_18/(2.0))));
 		V_2 = ((double)il2cpp_codegen_add(((double)il2cpp_codegen_multiply(L_7, L_9)), ((double)il2cpp_codegen_multiply(((double)il2cpp_codegen_multiply(((double)il2cpp_codegen_multiply(L_12, L_15)), L_17)), L_19))));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:217>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:217>
 		double L_20 = V_2;
 		double L_21;
 		L_21 = sqrt(L_20);
@@ -6633,21 +6620,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float ARProximitySpawner_HaversineMeters_m7F3
 		double L_24;
 		L_24 = atan2(L_21, L_23);
 		V_3 = ((double)il2cpp_codegen_multiply((2.0), L_24));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:218>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:218>
 		double L_25 = V_3;
 		return ((float)((double)il2cpp_codegen_multiply((6371000.0), L_25)));
 	}
 }
-// Method Definition Index: 78667
+// Method Definition Index: 78670
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR double ARProximitySpawner_Deg2Rad_m761EE9E182B3EC5FED5C795C3045014367D77AB6 (double ___0_deg, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:221>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:221>
 		double L_0 = ___0_deg;
 		return ((double)(((double)il2cpp_codegen_multiply(L_0, (3.1415926535897931)))/(180.0)));
 	}
 }
-// Method Definition Index: 78668
+// Method Definition Index: 78671
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner__ctor_m98ED31181613F9D794499AB16DF0C58DB9770D54 (ARProximitySpawner_t400EB06B0A2C2734557AD00602B07EF89AF694C6* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6658,15 +6645,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner__ctor_m98ED31181613F9
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:13>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:13>
 		__this->___spawnWithinMeters = (60.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:15>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:15>
 		__this->___despawnBeyondMeters = (120.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:21>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:21>
 		__this->___onlyForEnabledPoints = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:23>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:23>
 		__this->___debugLogs = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARProximitySpawner.cs:26>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARProximitySpawner.cs:26>
 		Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662* L_0 = (Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662*)il2cpp_codegen_object_new(Dictionary_2_t3ED995699F3E88D06E5DA7362BEB7584DBD61662_il2cpp_TypeInfo_var);
 		Dictionary_2__ctor_mEC9E9E9AF403DF7262870C6B7233848BE7458858(L_0, Dictionary_2__ctor_mEC9E9E9AF403DF7262870C6B7233848BE7458858_RuntimeMethod_var);
 		__this->____spawned = L_0;
@@ -6683,7 +6670,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARProximitySpawner__ctor_m98ED31181613F9
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78669
+// Method Definition Index: 78672
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* ARSessionManager_get_Instance_m04B99098093B13F23A7FC75B81B06EEFCFC62815 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6693,12 +6680,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ARSessionManager_t70CCF0C34CAD996259354FA61B9
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:6>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:6>
 		ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* L_0 = ((ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_StaticFields*)il2cpp_codegen_static_fields_for(ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_il2cpp_TypeInfo_var))->___U3CInstanceU3Ek__BackingField;
 		return L_0;
 	}
 }
-// Method Definition Index: 78670
+// Method Definition Index: 78673
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_set_Instance_m332F730CBC9427125EE240760B1FB8D6C2FEC35A (ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* ___0_value, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6708,14 +6695,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_set_Instance_m332F730CB
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:6>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:6>
 		ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* L_0 = ___0_value;
 		((ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_StaticFields*)il2cpp_codegen_static_fields_for(ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_il2cpp_TypeInfo_var))->___U3CInstanceU3Ek__BackingField = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&((ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_StaticFields*)il2cpp_codegen_static_fields_for(ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_il2cpp_TypeInfo_var))->___U3CInstanceU3Ek__BackingField), (void*)L_0);
 		return;
 	}
 }
-// Method Definition Index: 78671
+// Method Definition Index: 78674
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_Awake_m60E7B7011B46928ED6B51D8FA7822D41837B74ED (ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6727,7 +6714,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_Awake_m60E7B7011B46928E
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:11>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:11>
 		ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* L_0;
 		L_0 = ARSessionManager_get_Instance_m04B99098093B13F23A7FC75B81B06EEFCFC62815_inline(NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -6750,30 +6737,30 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_Awake_m60E7B7011B46928E
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:13>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:13>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4;
 		L_4 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_4, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:14>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:14>
 		return;
 	}
 
 IL_0026:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:16>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:16>
 		ARSessionManager_set_Instance_m332F730CBC9427125EE240760B1FB8D6C2FEC35A_inline(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:17>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:17>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_5;
 		L_5 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_DontDestroyOnLoad_m4B70C3AEF886C176543D1295507B6455C9DCAEA7(L_5, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:19>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:19>
 		ARSession_t13374A44A01F2C6D90578F93E0F0DA2482BE3014* L_6;
 		L_6 = Component_GetComponent_TisARSession_t13374A44A01F2C6D90578F93E0F0DA2482BE3014_m3253467FC99F68993A2D7C658E909405203E0CB2(__this, Component_GetComponent_TisARSession_t13374A44A01F2C6D90578F93E0F0DA2482BE3014_m3253467FC99F68993A2D7C658E909405203E0CB2_RuntimeMethod_var);
 		__this->___arSession = L_6;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___arSession), (void*)L_6);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:20>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:20>
 		ARSession_t13374A44A01F2C6D90578F93E0F0DA2482BE3014* L_7 = __this->___arSession;
 		bool L_8;
 		L_8 = Object_op_Equality_mB6120F782D83091EF56A198FCEBCF066DB4A9605(L_7, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -6783,7 +6770,7 @@ IL_0026:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:22>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
 		L_9 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		NullCheck(L_9);
@@ -6795,11 +6782,11 @@ IL_0026:
 
 IL_0062:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:24>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:24>
 		return;
 	}
 }
-// Method Definition Index: 78672
+// Method Definition Index: 78675
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_ResetARSession_mFF741011A194F3B34F0BBC622A696E9A48AAF1D6 (ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6809,7 +6796,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_ResetARSession_mFF74101
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:29>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:29>
 		ARSession_t13374A44A01F2C6D90578F93E0F0DA2482BE3014* L_0 = __this->___arSession;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6820,7 +6807,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_ResetARSession_mFF74101
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:31>
 		ARSession_t13374A44A01F2C6D90578F93E0F0DA2482BE3014* L_2 = __this->___arSession;
 		NullCheck(L_2);
 		ARSession_Reset_mE905496B8400CB5BF1EB50A01C675771FCCF9A91(L_2, NULL);
@@ -6828,11 +6815,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager_ResetARSession_mFF74101
 
 IL_0019:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:33>
 		return;
 	}
 }
-// Method Definition Index: 78673
+// Method Definition Index: 78676
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager__ctor_m60B9B36B9FD2F94A6B2B881ECDD94DEB819AE586 (ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* __this, const RuntimeMethod* method) 
 {
 	{
@@ -6848,7 +6835,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ARSessionManager__ctor_m60B9B36B9FD2F94A
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78674
+// Method Definition Index: 78677
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_Start_mD79C958794DD3973746C30401DD2FCB0BB9B34FF (CanvasSwitcher_t9AFDE179EBF619701BD35138D662924440B0D82E* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6861,9 +6848,9 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_Start_mD79C958794DD397374
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:20>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:20>
 		CanvasSwitcher_ShowMainCanvas_mE0194EC743A4ED97AF0B7EACBAEEDEF3CE7FACD6(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:22>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_0 = __this->___openNavigationButton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6874,7 +6861,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_Start_mD79C958794DD397374
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:23>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:23>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_2 = __this->___openNavigationButton;
 		NullCheck(L_2);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_3;
@@ -6887,7 +6874,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_Start_mD79C958794DD397374
 
 IL_0030:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:25>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:25>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_5 = __this->___backButton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_6;
@@ -6898,7 +6885,7 @@ IL_0030:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:26>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:26>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_7 = __this->___backButton;
 		NullCheck(L_7);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_8;
@@ -6911,11 +6898,11 @@ IL_0030:
 
 IL_005a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:27>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:27>
 		return;
 	}
 }
-// Method Definition Index: 78675
+// Method Definition Index: 78678
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowMainCanvas_mE0194EC743A4ED97AF0B7EACBAEEDEF3CE7FACD6 (CanvasSwitcher_t9AFDE179EBF619701BD35138D662924440B0D82E* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6925,7 +6912,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowMainCanvas_mE0194EC74
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:31>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___mainCanvas;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6936,7 +6923,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowMainCanvas_mE0194EC74
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:31>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2 = __this->___mainCanvas;
 		NullCheck(L_2);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_2, (bool)1, NULL);
@@ -6944,7 +6931,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowMainCanvas_mE0194EC74
 
 IL_001a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:32>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:32>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3 = __this->___navigationCanvas;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_4;
@@ -6955,7 +6942,7 @@ IL_001a:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:32>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:32>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_5 = __this->___navigationCanvas;
 		NullCheck(L_5);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_5, (bool)0, NULL);
@@ -6963,11 +6950,11 @@ IL_001a:
 
 IL_0034:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:33>
 		return;
 	}
 }
-// Method Definition Index: 78676
+// Method Definition Index: 78679
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowNavigationCanvas_m52E9E2FC7C0544F6CF53FFC1D6E7E8F73C36499C (CanvasSwitcher_t9AFDE179EBF619701BD35138D662924440B0D82E* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -6983,7 +6970,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowNavigationCanvas_m52E
 	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 V_1;
 	memset((&V_1), 0, sizeof(V_1));
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:37>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:37>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___mainCanvas;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -6994,7 +6981,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowNavigationCanvas_m52E
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:37>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:37>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2 = __this->___mainCanvas;
 		NullCheck(L_2);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_2, (bool)0, NULL);
@@ -7002,7 +6989,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher_ShowNavigationCanvas_m52E
 
 IL_001a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:38>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:38>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3 = __this->___navigationCanvas;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_4;
@@ -7013,7 +7000,7 @@ IL_001a:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:38>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:38>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_5 = __this->___navigationCanvas;
 		NullCheck(L_5);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_5, (bool)1, NULL);
@@ -7021,7 +7008,7 @@ IL_001a:
 
 IL_0034:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:40>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:40>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_6 = __this->___arNavigation;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_7;
@@ -7032,15 +7019,15 @@ IL_0034:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:43>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:43>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_8;
 		L_8 = Vector2_get_zero_m32506C40EC2EE7D5D4410BF40D3EE683A3D5F32C_inline(NULL);
 		V_0 = L_8;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:44>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:44>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_9;
 		L_9 = Vector2_get_zero_m32506C40EC2EE7D5D4410BF40D3EE683A3D5F32C_inline(NULL);
 		V_1 = L_9;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:46>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:46>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_10 = __this->___arNavigation;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_11 = V_0;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_12 = V_1;
@@ -7051,14 +7038,14 @@ IL_0034:
 
 IL_005c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:50>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:50>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteralE8E977CDDB2AAFA4F2344784CBED4C069E09944A, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CanvasSwitcher.cs:52>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CanvasSwitcher.cs:52>
 		return;
 	}
 }
-// Method Definition Index: 78677
+// Method Definition Index: 78680
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher__ctor_mD9BBCC575F66B83F119DE73A3E8AAE4ABC19D53D (CanvasSwitcher_t9AFDE179EBF619701BD35138D662924440B0D82E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -7074,7 +7061,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CanvasSwitcher__ctor_mD9BBCC575F66B83F11
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78678
+// Method Definition Index: 78681
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* CompassARDebugger_Start_m8246D17F09ACBE5A594B93B660BF2B557932C77A (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -7093,7 +7080,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* CompassARDebugger_Start_m8246D
 		return L_1;
 	}
 }
-// Method Definition Index: 78679
+// Method Definition Index: 78682
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger_Update_m67916C78B1EFBDFE83AB972E138E4F359FD8ABA6 (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -7195,7 +7182,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger_Update_m67916C78B1EFBD
 	StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* G_B23_3 = NULL;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* G_B23_4 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:88>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:88>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_0 = __this->___debugText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -7206,13 +7193,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger_Update_m67916C78B1EFBD
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:88>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:88>
 		return;
 	}
 
 IL_000e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:91>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:91>
 		ValueTuple_2_t9700044DDBCB472B3F3F6E8691934C35DCD8E798 L_2;
 		L_2 = CompassARDebugger_GetDeviceHeadings_m46D53CFAB7B1834A5C844EEA3D418385FF3E4F08(__this, NULL);
 		ValueTuple_2_t9700044DDBCB472B3F3F6E8691934C35DCD8E798 L_3 = L_2;
@@ -7220,41 +7207,41 @@ IL_000e:
 		V_0 = L_4;
 		float L_5 = L_3.___Item2;
 		V_1 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:92>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:92>
 		Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* L_6;
 		L_6 = Input_get_compass_m7DA4657286F9B24D55BB120C9CF761A50B13899B(NULL);
 		NullCheck(L_6);
 		float L_7;
 		L_7 = Compass_get_headingAccuracy_mED82316932D27BCF4C30297B3D97169E49A8DBFF(L_6, NULL);
 		V_2 = L_7;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:95>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:95>
 		float L_8;
 		L_8 = CompassARDebugger_GetUnityHeading_m8BD108761F80A4C70DB9C440DCA8CFB8A17C3128(__this, NULL);
 		V_3 = L_8;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:98>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:98>
 		float L_9 = V_3;
 		float L_10 = __this->____unityToDeviceYawOffset;
 		float L_11;
 		L_11 = CompassARDebugger_Wrap360_mBCF002F789B6D5702624F46AEFB08A3596C1B9EC(__this, ((float)il2cpp_codegen_add(L_9, L_10)), NULL);
 		V_4 = L_11;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:101>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:101>
 		float L_12 = V_0;
 		String_t* L_13;
 		L_13 = CompassARDebugger_HeadingToCardinal_m100648E66309D75E5F774CE92F2F5345099DFCBB(__this, L_12, NULL);
 		V_5 = L_13;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:102>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:102>
 		float L_14 = V_1;
 		String_t* L_15;
 		L_15 = CompassARDebugger_HeadingToCardinal_m100648E66309D75E5F774CE92F2F5345099DFCBB(__this, L_14, NULL);
 		V_6 = L_15;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:103>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:103>
 		float L_16 = V_4;
 		String_t* L_17;
 		L_17 = CompassARDebugger_HeadingToCardinal_m100648E66309D75E5F774CE92F2F5345099DFCBB(__this, L_16, NULL);
 		V_7 = L_17;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:106>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:106>
 		V_8 = _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:107>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:107>
 		Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* L_18;
 		L_18 = Input_get_compass_m7DA4657286F9B24D55BB120C9CF761A50B13899B(NULL);
 		NullCheck(L_18);
@@ -7266,14 +7253,14 @@ IL_000e:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:107>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:107>
 		V_8 = _stringLiteral21F9918D06DEC61DCD10551A2C6938278AA93B1B;
 		goto IL_00a0;
 	}
 
 IL_007b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:108>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:108>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_20;
 		L_20 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_20);
@@ -7285,14 +7272,14 @@ IL_007b:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:108>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:108>
 		V_8 = _stringLiteral97B7948BE0A38CB309C19298FB383F3F3F59004F;
 		goto IL_00a0;
 	}
 
 IL_0091:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:109>
 		float L_22 = V_0;
 		if ((!(((float)L_22) < ((float)(0.0f)))))
 		{
@@ -7300,18 +7287,18 @@ IL_0091:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:109>
 		V_8 = _stringLiteralDD690ADBDBB89D317AE4780C4FDE5BAF9C74F840;
 	}
 
 IL_00a0:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:111>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:112>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:113>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:114>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:115>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:116>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:111>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:112>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:113>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:114>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:115>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:116>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_23 = __this->___debugText;
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_24 = (StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248*)(StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248*)SZArrayNew(StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248_il2cpp_TypeInfo_var, (uint32_t)((int32_t)12));
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_25 = L_24;
@@ -7550,26 +7537,26 @@ IL_01a6:
 		L_58 = String_Concat_m647EBF831F54B6DF7D5AFA5FD012CF4EE7571B6A(G_B23_3, NULL);
 		NullCheck(G_B23_4);
 		VirtualActionInvoker1< String_t* >::Invoke(66, G_B23_4, L_58);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:117>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:117>
 		return;
 	}
 }
-// Method Definition Index: 78680
+// Method Definition Index: 78683
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger_AlignNow_m6262230A03486AC7E69A460EDDB73898DDEF5439 (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, const RuntimeMethod* method) 
 {
 	float V_0 = 0.0f;
 	float V_1 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:122>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:122>
 		ValueTuple_2_t9700044DDBCB472B3F3F6E8691934C35DCD8E798 L_0;
 		L_0 = CompassARDebugger_GetDeviceHeadings_m46D53CFAB7B1834A5C844EEA3D418385FF3E4F08(__this, NULL);
 		float L_1 = L_0.___Item1;
 		V_0 = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:123>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:123>
 		float L_2;
 		L_2 = CompassARDebugger_GetUnityHeading_m8BD108761F80A4C70DB9C440DCA8CFB8A17C3128(__this, NULL);
 		V_1 = L_2;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:124>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:124>
 		float L_3 = V_0;
 		if ((!(((float)L_3) >= ((float)(0.0f)))))
 		{
@@ -7577,7 +7564,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger_AlignNow_m6262230A0348
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:125>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:125>
 		float L_4 = V_1;
 		float L_5 = V_0;
 		float L_6;
@@ -7587,11 +7574,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger_AlignNow_m6262230A0348
 
 IL_0029:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:126>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:126>
 		return;
 	}
 }
-// Method Definition Index: 78681
+// Method Definition Index: 78684
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ValueTuple_2_t9700044DDBCB472B3F3F6E8691934C35DCD8E798 CompassARDebugger_GetDeviceHeadings_m46D53CFAB7B1834A5C844EEA3D418385FF3E4F08 (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -7605,7 +7592,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR ValueTuple_2_t9700044DDBCB472B3F3F6E8691934C3
 	float G_B3_0 = 0.0f;
 	float G_B6_0 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:132>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:132>
 		Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* L_0;
 		L_0 = Input_get_compass_m7DA4657286F9B24D55BB120C9CF761A50B13899B(NULL);
 		NullCheck(L_0);
@@ -7634,7 +7621,7 @@ IL_0013:
 IL_001d:
 	{
 		V_0 = G_B3_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:133>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:133>
 		Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* L_4;
 		L_4 = Input_get_compass_m7DA4657286F9B24D55BB120C9CF761A50B13899B(NULL);
 		NullCheck(L_4);
@@ -7663,7 +7650,7 @@ IL_0031:
 IL_003b:
 	{
 		V_1 = G_B6_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:138>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:138>
 		Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* L_8;
 		L_8 = Input_get_compass_m7DA4657286F9B24D55BB120C9CF761A50B13899B(NULL);
 		NullCheck(L_8);
@@ -7675,13 +7662,13 @@ IL_003b:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:138>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:138>
 		V_0 = (-1.0f);
 	}
 
 IL_0053:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:140>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:140>
 		float L_10 = V_0;
 		float L_11;
 		L_11 = CompassARDebugger_SanitizeHeading_m6635F1E074CB6857F9C4A91F49EF6F69A8CC01FB(__this, L_10, NULL);
@@ -7694,7 +7681,7 @@ IL_0053:
 		return L_14;
 	}
 }
-// Method Definition Index: 78682
+// Method Definition Index: 78685
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_GetUnityHeading_m8BD108761F80A4C70DB9C440DCA8CFB8A17C3128 (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -7708,11 +7695,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_GetUnityHeading_m8BD1
 	memset((&V_1), 0, sizeof(V_1));
 	float V_2 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:145>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:145>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0;
 		L_0 = Camera_get_main_m52C992F18E05355ABB9EEB64A4BF2215E12762DF(NULL);
 		V_0 = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:146>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:146>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_1 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
@@ -7723,13 +7710,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_GetUnityHeading_m8BD1
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:146>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:146>
 		return (0.0f);
 	}
 
 IL_0014:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:147>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_3 = V_0;
 		NullCheck(L_3);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_4;
@@ -7738,9 +7725,9 @@ IL_0014:
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_5;
 		L_5 = Transform_get_forward_mFCFACF7165FDAB21E80E384C494DF278386CEE2F(L_4, NULL);
 		V_1 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:147>
 		(&V_1)->___y = (0.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:148>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:148>
 		float L_6;
 		L_6 = Vector3_get_sqrMagnitude_m43C27DEC47C4811FB30AB474FF2131A963B66FC8_inline((&V_1), NULL);
 		if ((!(((float)L_6) < ((float)(9.99999997E-07f)))))
@@ -7749,13 +7736,13 @@ IL_0014:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:148>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:148>
 		return (0.0f);
 	}
 
 IL_0040:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:149>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:149>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_7 = V_1;
 		float L_8 = L_7.___x;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_9 = V_1;
@@ -7763,7 +7750,7 @@ IL_0040:
 		float L_11;
 		L_11 = atan2f(L_8, L_10);
 		V_2 = ((float)il2cpp_codegen_multiply(L_11, (57.2957802f)));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:150>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:150>
 		float L_12 = V_2;
 		if ((!(((float)L_12) < ((float)(0.0f)))))
 		{
@@ -7771,23 +7758,23 @@ IL_0040:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:150>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:150>
 		float L_13 = V_2;
 		V_2 = ((float)il2cpp_codegen_add(L_13, (360.0f)));
 	}
 
 IL_0068:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:151>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:151>
 		float L_14 = V_2;
 		return L_14;
 	}
 }
-// Method Definition Index: 78683
+// Method Definition Index: 78686
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_SanitizeHeading_m6635F1E074CB6857F9C4A91F49EF6F69A8CC01FB (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, float ___0_h, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:154>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:154>
 		float L_0 = ___0_h;
 		if ((((float)L_0) < ((float)(0.0f))))
 		{
@@ -7806,14 +7793,14 @@ IL_0010:
 		return (-1.0f);
 	}
 }
-// Method Definition Index: 78684
+// Method Definition Index: 78687
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_Wrap360_mBCF002F789B6D5702624F46AEFB08A3596C1B9EC (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, float ___0_a, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:155>
 		float L_0 = ___0_a;
 		___0_a = (fmodf(L_0, (360.0f)));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:155>
 		float L_1 = ___0_a;
 		if ((!(((float)L_1) < ((float)(0.0f)))))
 		{
@@ -7821,23 +7808,23 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_Wrap360_mBCF002F789B6
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:155>
 		float L_2 = ___0_a;
 		___0_a = ((float)il2cpp_codegen_add(L_2, (360.0f)));
 	}
 
 IL_001a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:155>
 		float L_3 = ___0_a;
 		return L_3;
 	}
 }
-// Method Definition Index: 78685
+// Method Definition Index: 78688
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_DeltaAngle_m53750058476449EA9E8E23F5FE7E4AC6C2450254 (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, float ___0_from, float ___1_to, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:156>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:156>
 		float L_0 = ___0_from;
 		float L_1 = ___1_to;
 		float L_2;
@@ -7845,7 +7832,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassARDebugger_DeltaAngle_m537500584
 		return L_2;
 	}
 }
-// Method Definition Index: 78686
+// Method Definition Index: 78689
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassARDebugger_HeadingToCardinal_m100648E66309D75E5F774CE92F2F5345099DFCBB (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, float ___0_heading, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -7865,7 +7852,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassARDebugger_HeadingToCardinal
 	}
 	int32_t V_0 = 0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:160>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:160>
 		float L_0 = ___0_heading;
 		if ((!(((float)L_0) < ((float)(0.0f)))))
 		{
@@ -7873,13 +7860,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassARDebugger_HeadingToCardinal
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:160>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:160>
 		return _stringLiteral28A00C6C2538607194DCD2548EF0DFB07D324A14;
 	}
 
 IL_000e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:162>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:162>
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_1 = (StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248*)(StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248*)SZArrayNew(StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248_il2cpp_TypeInfo_var, (uint32_t)8);
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_2 = L_1;
 		NullCheck(L_2);
@@ -7905,12 +7892,12 @@ IL_000e:
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_9 = L_8;
 		NullCheck(L_9);
 		(L_9)->SetAt(static_cast<il2cpp_array_size_t>(7), (String_t*)_stringLiteral5B7ED926C1BAABC2DD75DE55366AA57BD7B93EBB);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:163>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:163>
 		float L_10 = ___0_heading;
 		int32_t L_11;
 		L_11 = Mathf_RoundToInt_m60F8B66CF27F1FA75AA219342BD184B75771EB4B_inline(((float)(L_10/(45.0f))), NULL);
 		V_0 = ((int32_t)(L_11%8));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:164>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:164>
 		int32_t L_12 = V_0;
 		NullCheck(L_9);
 		int32_t L_13 = L_12;
@@ -7918,7 +7905,7 @@ IL_000e:
 		return L_14;
 	}
 }
-// Method Definition Index: 78687
+// Method Definition Index: 78690
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger__ctor_m2FFC38FDDD6061DA87447B19C578B8ABC962D485 (CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* __this, const RuntimeMethod* method) 
 {
 	{
@@ -7934,7 +7921,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassARDebugger__ctor_m2FFC38FDDD6061D
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78688
+// Method Definition Index: 78691
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CStartU3Ed__4__ctor_m70F036C8DB532F96B9BBC1B2B76B94C538F00655 (U3CStartU3Ed__4_tA396E3EA1C24B1B368274EB1E36663D92AA1FA6B* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -7944,14 +7931,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CStartU3Ed__4__ctor_m70F036C8DB532F96B
 		return;
 	}
 }
-// Method Definition Index: 78689
+// Method Definition Index: 78692
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CStartU3Ed__4_System_IDisposable_Dispose_m05C2B8667A1CF32C9F5D90D25837C7C3482DD355 (U3CStartU3Ed__4_tA396E3EA1C24B1B368274EB1E36663D92AA1FA6B* __this, const RuntimeMethod* method) 
 {
 	{
 		return;
 	}
 }
-// Method Definition Index: 78690
+// Method Definition Index: 78693
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CStartU3Ed__4_MoveNext_m5BE8AAF9432D456FB3BCAB476EAF76089690DACB (U3CStartU3Ed__4_tA396E3EA1C24B1B368274EB1E36663D92AA1FA6B* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -8006,7 +7993,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CStartU3Ed__4_MoveNext_m5BE8AAF9432D45
 IL_0022:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:22>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_3 = V_1;
 		NullCheck(L_3);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_4 = L_3->___debugText;
@@ -8019,13 +8006,13 @@ IL_0022:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:22>
 		return (bool)0;
 	}
 
 IL_0038:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:26>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:26>
 		bool L_6;
 		L_6 = Permission_HasUserAuthorizedPermission_mF4C90E13124E28F6F672200E489CC25A9B645B8B(_stringLiteral2A4AF2371E5D32D286057BF0185547BF96F20333, NULL);
 		if (L_6)
@@ -8034,50 +8021,50 @@ IL_0038:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:28>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:28>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_7 = V_1;
 		NullCheck(L_7);
 		L_7->____askedAndroidPerm = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:29>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:29>
 		Permission_RequestUserPermission_mF9CF3A21AAF34B311137C4D00B3AD6A6C2694242(_stringLiteral2A4AF2371E5D32D286057BF0185547BF96F20333, NULL);
 	}
 
 IL_0055:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:34>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:34>
 		Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* L_8;
 		L_8 = Input_get_compass_m7DA4657286F9B24D55BB120C9CF761A50B13899B(NULL);
 		NullCheck(L_8);
 		Compass_set_enabled_m26DFB64F789DA4B875359E8CE1C3E9E2270CFCA9(L_8, (bool)1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:35>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:35>
 		Gyroscope_tA4CEC0F47FFB4CEB90410CC6B860D052BB35BE9E* L_9;
 		L_9 = Input_get_gyro_m895498B803FE9A3124FBFE3C05966431F8840548(NULL);
 		NullCheck(L_9);
 		Gyroscope_set_enabled_m2B22BC93369BA61034A80350405FE1B493822DAB(L_9, (bool)1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:36>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:36>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_10;
 		L_10 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_10);
 		LocationService_Start_m5076FE201E96C086B0F9C2D8677DA69C98099F3D(L_10, (5.0f), (1.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:39>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:39>
 		__this->___U3CtU3E5__2 = (0.0f);
 		goto IL_00c5;
 	}
 
 IL_008c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:42>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:42>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_11 = V_1;
 		NullCheck(L_11);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_12 = L_11->___debugText;
 		NullCheck(L_12);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_12, _stringLiteral1005BF97EED60F729D461191D8FAD4474F9C145B);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:43>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:43>
 		float L_13 = __this->___U3CtU3E5__2;
 		float L_14;
 		L_14 = Time_get_unscaledDeltaTime_mF057EECA857E5C0F90A3F910D26D3EE59F27C4B5(NULL);
 		__this->___U3CtU3E5__2 = ((float)il2cpp_codegen_add(L_13, L_14));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:44>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:44>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 1;
@@ -8091,7 +8078,7 @@ IL_00be:
 
 IL_00c5:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:40>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:40>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_15;
 		L_15 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_15);
@@ -8112,7 +8099,7 @@ IL_00c5:
 
 IL_00df:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:48>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:48>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_18;
 		L_18 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_18);
@@ -8124,9 +8111,9 @@ IL_00df:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:50>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:50>
 		V_2 = _stringLiteral5D54E959817188DBAD9E65FA3DB55F06B70F5E3C;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:52>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:52>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_20 = V_1;
 		NullCheck(L_20);
 		bool L_21 = L_20->____askedAndroidPerm;
@@ -8144,22 +8131,22 @@ IL_00df:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:53>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:53>
 		V_2 = _stringLiteral44478ADCA21DB0DA23607C3DEF04847BE9552313;
 		goto IL_0114;
 	}
 
 IL_010e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:55>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:55>
 		V_2 = _stringLiteralAB21EC215D478F345053DBB7DA116118A493E93A;
 	}
 
 IL_0114:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:61>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:62>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:63>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:62>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:63>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_23 = V_1;
 		NullCheck(L_23);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_24 = L_23->___debugText;
@@ -8193,31 +8180,31 @@ IL_0114:
 		L_37 = String_Concat_m647EBF831F54B6DF7D5AFA5FD012CF4EE7571B6A(L_36, NULL);
 		NullCheck(L_24);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_24, L_37);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:64>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:64>
 		return (bool)0;
 	}
 
 IL_0164:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:68>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:68>
 		__this->___U3CwarmU3E5__3 = (0.0f);
 		goto IL_01aa;
 	}
 
 IL_0171:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:71>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:71>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_38 = V_1;
 		NullCheck(L_38);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_39 = L_38->___debugText;
 		NullCheck(L_39);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_39, _stringLiteral641CE096CECDE8D95FED40B841B9748AA2ED032C);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:72>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:72>
 		float L_40 = __this->___U3CwarmU3E5__3;
 		float L_41;
 		L_41 = Time_get_unscaledDeltaTime_mF057EECA857E5C0F90A3F910D26D3EE59F27C4B5(NULL);
 		__this->___U3CwarmU3E5__3 = ((float)il2cpp_codegen_add(L_40, L_41));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:73>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:73>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 2;
@@ -8231,7 +8218,7 @@ IL_01a3:
 
 IL_01aa:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:69>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:69>
 		Compass_t161CD14062E71ED7324FE12ED003EE0877EE546F* L_42;
 		L_42 = Input_get_compass_m7DA4657286F9B24D55BB120C9CF761A50B13899B(NULL);
 		NullCheck(L_42);
@@ -8252,7 +8239,7 @@ IL_01aa:
 
 IL_01c8:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:76>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:76>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_45 = V_1;
 		NullCheck(L_45);
 		bool L_46 = L_45->___autoAlignOnReady;
@@ -8262,20 +8249,20 @@ IL_01c8:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:79>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:79>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_47 = V_1;
 		NullCheck(L_47);
 		ValueTuple_2_t9700044DDBCB472B3F3F6E8691934C35DCD8E798 L_48;
 		L_48 = CompassARDebugger_GetDeviceHeadings_m46D53CFAB7B1834A5C844EEA3D418385FF3E4F08(L_47, NULL);
 		float L_49 = L_48.___Item1;
 		V_3 = L_49;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:80>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:80>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_50 = V_1;
 		NullCheck(L_50);
 		float L_51;
 		L_51 = CompassARDebugger_GetUnityHeading_m8BD108761F80A4C70DB9C440DCA8CFB8A17C3128(L_50, NULL);
 		V_4 = L_51;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:81>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:81>
 		float L_52 = V_3;
 		if ((!(((float)L_52) >= ((float)(0.0f)))))
 		{
@@ -8283,7 +8270,7 @@ IL_01c8:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:82>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:82>
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_53 = V_1;
 		CompassARDebugger_tA693016EBDACA6651C75A1EDBB9B6ACA9B713781* L_54 = V_1;
 		float L_55 = V_4;
@@ -8297,11 +8284,11 @@ IL_01c8:
 
 IL_01fb:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassARDebugger.cs:84>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassARDebugger.cs:84>
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78691
+// Method Definition Index: 78694
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CStartU3Ed__4_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m33E169F6A73568772B8E14A1186BB3EB4410F6B6 (U3CStartU3Ed__4_tA396E3EA1C24B1B368274EB1E36663D92AA1FA6B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8309,7 +8296,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CStartU3Ed__4_System_Collect
 		return L_0;
 	}
 }
-// Method Definition Index: 78692
+// Method Definition Index: 78695
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CStartU3Ed__4_System_Collections_IEnumerator_Reset_mC8D63CA1B921EA3CF9DC45A560E379DE2A257983 (U3CStartU3Ed__4_tA396E3EA1C24B1B368274EB1E36663D92AA1FA6B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8318,7 +8305,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CStartU3Ed__4_System_Collections_IEnum
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CStartU3Ed__4_System_Collections_IEnumerator_Reset_mC8D63CA1B921EA3CF9DC45A560E379DE2A257983_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78693
+// Method Definition Index: 78696
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CStartU3Ed__4_System_Collections_IEnumerator_get_Current_m4FCC891A300BBF9C1583F35B369A8ACC5EE9B45B (U3CStartU3Ed__4_tA396E3EA1C24B1B368274EB1E36663D92AA1FA6B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -8334,7 +8321,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CStartU3Ed__4_System_Collect
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78694
+// Method Definition Index: 78697
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_SetText_mD468E822CFF1E0840DE9F3162AB377328AAF9ED5 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, String_t* ___0_s, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -8344,7 +8331,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_SetText_mD468E822C
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:49>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_0 = __this->___debugText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -8355,7 +8342,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_SetText_mD468E822C
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:49>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_2 = __this->___debugText;
 		String_t* L_3 = ___0_s;
 		NullCheck(L_2);
@@ -8364,15 +8351,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_SetText_mD468E822C
 
 IL_001a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:49>
 		return;
 	}
 }
-// Method Definition Index: 78695
+// Method Definition Index: 78698
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_get_IsAligned_m6DF4B8A63358316B89F2A34729CA275A4F5A15B0 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:50>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:50>
 		bool L_0 = __this->____didAutoAlign;
 		if (!L_0)
 		{
@@ -8389,7 +8376,7 @@ IL_000f:
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78696
+// Method Definition Index: 78699
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_OnEnable_m750E81407302C156CAE91E878A97DEF220E55538 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -8399,22 +8386,22 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_OnEnable_m750E8140
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:53>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:53>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_0;
 		L_0 = MagneticFieldSensor_get_current_m622B87A2A52D885490C1224E171B32460AD21B13_inline(NULL);
 		__this->____mag = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->____mag), (void*)L_0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:54>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:54>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_1;
 		L_1 = GravitySensor_get_current_mA2A80554CC2581A4F87A010E26B761CD39843428_inline(NULL);
 		__this->____grav = L_1;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->____grav), (void*)L_1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:55>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:55>
 		Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E* L_2;
 		L_2 = Accelerometer_get_current_m326C1D163047BDA92305B4EF64EFE81759BD1BD5_inline(NULL);
 		__this->____accel = L_2;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->____accel), (void*)L_2);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:57>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:57>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_3 = __this->____mag;
 		if (!L_3)
 		{
@@ -8422,7 +8409,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_OnEnable_m750E8140
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:57>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:57>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_4 = __this->____mag;
 		il2cpp_codegen_runtime_class_init_inline(InputSystem_t4120CA4FE7DCFD56AF9391933FC3F1F485350164_il2cpp_TypeInfo_var);
 		InputSystem_EnableDevice_mED1442951B67B1B8742C29CE7F3ED2828B3B44F7(L_4, NULL);
@@ -8430,7 +8417,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_OnEnable_m750E8140
 
 IL_0034:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:58>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_5 = __this->____grav;
 		if (!L_5)
 		{
@@ -8438,7 +8425,7 @@ IL_0034:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:58>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_6 = __this->____grav;
 		il2cpp_codegen_runtime_class_init_inline(InputSystem_t4120CA4FE7DCFD56AF9391933FC3F1F485350164_il2cpp_TypeInfo_var);
 		InputSystem_EnableDevice_mED1442951B67B1B8742C29CE7F3ED2828B3B44F7(L_6, NULL);
@@ -8447,7 +8434,7 @@ IL_0034:
 
 IL_0049:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:59>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:59>
 		Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E* L_7 = __this->____accel;
 		if (!L_7)
 		{
@@ -8455,7 +8442,7 @@ IL_0049:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:59>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:59>
 		Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E* L_8 = __this->____accel;
 		il2cpp_codegen_runtime_class_init_inline(InputSystem_t4120CA4FE7DCFD56AF9391933FC3F1F485350164_il2cpp_TypeInfo_var);
 		InputSystem_EnableDevice_mED1442951B67B1B8742C29CE7F3ED2828B3B44F7(L_8, NULL);
@@ -8463,16 +8450,16 @@ IL_0049:
 
 IL_005c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:61>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_9 = __this->____mag;
 		CompassNewInputSystem_SetSampling_m4E6D827548BCC2CF8B245B7032D1EE36D3A63F44(__this, L_9, (30.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:62>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:62>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_10 = __this->____grav;
 		CompassNewInputSystem_SetSampling_m4E6D827548BCC2CF8B245B7032D1EE36D3A63F44(__this, L_10, (30.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:63>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:63>
 		Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E* L_11 = __this->____accel;
 		CompassNewInputSystem_SetSampling_m4E6D827548BCC2CF8B245B7032D1EE36D3A63F44(__this, L_11, (30.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:65>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:65>
 		bool L_12 = __this->___applyTrueNorth;
 		if (!L_12)
 		{
@@ -8491,7 +8478,7 @@ IL_005c:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:66>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:66>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_15;
 		L_15 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_15);
@@ -8500,21 +8487,21 @@ IL_005c:
 
 IL_00b7:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:68>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:68>
 		RuntimeObject* L_16;
 		L_16 = CompassNewInputSystem_WaitForFirstReading_mFB8CE6B33C92E32E39F09A6A10A95FA1992D56CD(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_17;
 		L_17 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_16, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:69>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:69>
 		return;
 	}
 }
-// Method Definition Index: 78697
+// Method Definition Index: 78700
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_SetSampling_m4E6D827548BCC2CF8B245B7032D1EE36D3A63F44 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, Sensor_t8EF743F06C5B025B572E11A5B2CD0B23833D3FD4* ___0_sensor, float ___1_hz, const RuntimeMethod* method) 
 {
 	il2cpp::utils::ExceptionSupportStack<RuntimeObject*, 1> __active_exceptions;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:73>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:73>
 		Sensor_t8EF743F06C5B025B572E11A5B2CD0B23833D3FD4* L_0 = ___0_sensor;
 		if (L_0)
 		{
@@ -8522,7 +8509,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_SetSampling_m4E6D8
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:73>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:73>
 		return;
 	}
 
@@ -8531,12 +8518,12 @@ IL_0004:
 	}
 	try
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:74>
 		Sensor_t8EF743F06C5B025B572E11A5B2CD0B23833D3FD4* L_1 = ___0_sensor;
 		float L_2 = ___1_hz;
 		NullCheck(L_1);
 		Sensor_set_samplingFrequency_m5DD3032C87ABF9E8E4B36B50E8377D856DAA218E(L_1, L_2, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:74>
 		goto IL_0011;
 	}
 	catch(Il2CppExceptionWrapper& e)
@@ -8552,19 +8539,19 @@ IL_0004:
 CATCH_000e:
 	{
 		RuntimeObject* L_3 = ((RuntimeObject*)IL2CPP_GET_ACTIVE_EXCEPTION(RuntimeObject*));;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:74>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:74>
 		IL2CPP_POP_ACTIVE_EXCEPTION(Exception_t*);
 		goto IL_0011;
 	}
 
 IL_0011:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:75>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:75>
 		return;
 	}
 }
-// Method Definition Index: 78698
+// Method Definition Index: 78701
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* CompassNewInputSystem_WaitForFirstReading_mFB8CE6B33C92E32E39F09A6A10A95FA1992D56CD (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -8583,7 +8570,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* CompassNewInputSystem_WaitForF
 		return L_1;
 	}
 }
-// Method Definition Index: 78699
+// Method Definition Index: 78702
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_Update_m3A3A41D483E7A0EFAA0DB7ADF575176B9574CBE3 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -8632,11 +8619,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_Update_m3A3A41D483
 	float G_B15_1 = 0.0f;
 	CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* G_B15_2 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:92>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:92>
 		String_t* L_0;
 		L_0 = CompassNewInputSystem_DiagnoseReason_m508EE82E8744FD418EFA5EDD40976F2C61BEEDE4(__this, NULL);
 		V_0 = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:93>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:93>
 		String_t* L_1 = V_0;
 		String_t* L_2 = __this->____lastReason;
 		bool L_3;
@@ -8647,13 +8634,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_Update_m3A3A41D483
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:95>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:95>
 		String_t* L_4 = V_0;
 		String_t* L_5;
 		L_5 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralC73D59272717DF56DFF46360E8461848BEB8A877, L_4, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_5, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:96>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:96>
 		String_t* L_6 = V_0;
 		__this->____lastReason = L_6;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->____lastReason), (void*)L_6);
@@ -8661,18 +8648,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_Update_m3A3A41D483
 
 IL_002c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:99>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:99>
 		bool L_7;
 		L_7 = CompassNewInputSystem_TryGetHeading_m2D0FF09E0A5BF70B6853345FEE81DE2913763334(__this, (&V_1), (&V_2), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:101>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:101>
 		float L_8;
 		L_8 = CompassNewInputSystem_GetUnityCameraHeading_m9983B2A13C0C339F8DD658CCB419AD65CF8F712B(__this, NULL);
 		V_3 = L_8;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:102>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:103>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:104>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:105>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:106>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:102>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:103>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:104>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:105>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:106>
 		if (L_7)
 		{
 			goto IL_0046;
@@ -8728,11 +8715,11 @@ IL_0069:
 IL_0085:
 	{
 		V_4 = G_B8_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:108>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:109>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:110>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:111>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:112>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:108>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:110>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:111>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:112>
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_22 = (StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248*)(StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248*)SZArrayNew(StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248_il2cpp_TypeInfo_var, (uint32_t)8);
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_23 = L_22;
 		NullCheck(L_23);
@@ -8802,13 +8789,13 @@ IL_00c3:
 		String_t* L_40;
 		L_40 = String_Concat_m647EBF831F54B6DF7D5AFA5FD012CF4EE7571B6A(L_38, NULL);
 		V_5 = L_40;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:113>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:113>
 		String_t* L_41 = V_5;
 		CompassNewInputSystem_SetText_mD468E822CFF1E0840DE9F3162AB377328AAF9ED5(__this, L_41, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:116>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:117>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:118>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:119>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:116>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:117>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:118>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:119>
 		float L_42 = V_3;
 		bool L_43 = __this->___applyTrueNorth;
 		if (!L_43)
@@ -8855,12 +8842,12 @@ IL_010d:
 	{
 		NullCheck(G_B15_2);
 		CompassNewInputSystem_AlignNorthIfPossible_m2F0EC72BF829F5AD4344FD70EA7DA60A9B80A645(G_B15_2, G_B15_1, G_B15_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:121>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:121>
 		float L_47 = __this->____recheckTimer;
 		float L_48;
 		L_48 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->____recheckTimer = ((float)il2cpp_codegen_add(L_47, L_48));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:122>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:122>
 		float L_49 = __this->____recheckTimer;
 		float L_50 = __this->___periodicRecheckSec;
 		if ((!(((float)L_49) >= ((float)L_50))))
@@ -8869,9 +8856,9 @@ IL_010d:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:124>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:124>
 		__this->____recheckTimer = (0.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:127>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:127>
 		bool L_51 = __this->___applyTrueNorth;
 		if (!L_51)
 		{
@@ -8898,7 +8885,7 @@ IL_010d:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:128>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:128>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_55;
 		L_55 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_55);
@@ -8907,15 +8894,15 @@ IL_010d:
 
 IL_016d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:131>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:131>
 		return;
 	}
 }
-// Method Definition Index: 78700
+// Method Definition Index: 78703
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_HasMagAndGravity_m6DE651B82B090A770C9904758C4CB88934D85F55 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:133>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:133>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_0 = __this->____mag;
 		if (!L_0)
 		{
@@ -8944,7 +8931,7 @@ IL_001c:
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78701
+// Method Definition Index: 78704
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_TryGetHeading_m2D0FF09E0A5BF70B6853345FEE81DE2913763334 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, float* ___0_magneticDeg, Nullable_1_t3D746CBB6123D4569FF4DEA60BC4240F32C6FE75* ___1_trueDeg, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -8974,13 +8961,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_TryGetHeading_m2D0
 	float V_9 = 0.0f;
 	float V_10 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:138>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:138>
 		float* L_0 = ___0_magneticDeg;
 		*((float*)L_0) = (float)(std::numeric_limits<float>::quiet_NaN());
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:139>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:139>
 		Nullable_1_t3D746CBB6123D4569FF4DEA60BC4240F32C6FE75* L_1 = ___1_trueDeg;
 		il2cpp_codegen_initobj(L_1, sizeof(Nullable_1_t3D746CBB6123D4569FF4DEA60BC4240F32C6FE75));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:141>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:141>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_2 = __this->____mag;
 		if (L_2)
 		{
@@ -8988,13 +8975,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_TryGetHeading_m2D0
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:141>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:141>
 		return (bool)0;
 	}
 
 IL_0018:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:143>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:143>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_3 = __this->____mag;
 		NullCheck(L_3);
 		Vector3Control_t32D7E4836F56C2FDC61BF0D96ED455DEFA6C949A* L_4;
@@ -9003,7 +8990,7 @@ IL_0018:
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_5;
 		L_5 = InputControl_1_ReadValue_m11CFE84A67588F56C06C437949DF6C5CD88FE792(L_4, InputControl_1_ReadValue_m11CFE84A67588F56C06C437949DF6C5CD88FE792_RuntimeMethod_var);
 		V_0 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:146>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:146>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_6 = __this->____grav;
 		if (!L_6)
 		{
@@ -9011,7 +8998,7 @@ IL_0018:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:146>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:146>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_7 = __this->____grav;
 		NullCheck(L_7);
 		Vector3Control_t32D7E4836F56C2FDC61BF0D96ED455DEFA6C949A* L_8;
@@ -9025,7 +9012,7 @@ IL_0018:
 
 IL_0044:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:147>
 		Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E* L_10 = __this->____accel;
 		if (!L_10)
 		{
@@ -9033,7 +9020,7 @@ IL_0044:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:147>
 		Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E* L_11 = __this->____accel;
 		NullCheck(L_11);
 		Vector3Control_t32D7E4836F56C2FDC61BF0D96ED455DEFA6C949A* L_12;
@@ -9049,13 +9036,13 @@ IL_0044:
 
 IL_0065:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:148>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:148>
 		return (bool)0;
 	}
 
 IL_0067:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:150>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:150>
 		float L_15;
 		L_15 = Vector3_get_sqrMagnitude_m43C27DEC47C4811FB30AB474FF2131A963B66FC8_inline((&V_1), NULL);
 		if ((((float)L_15) < ((float)(9.99999997E-07f))))
@@ -9074,20 +9061,20 @@ IL_0067:
 
 IL_0083:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:150>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:150>
 		return (bool)0;
 	}
 
 IL_0085:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:152>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:152>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_17;
 		L_17 = Vector3_get_normalized_m736BBF65D5CDA7A18414370D15B4DFCC1E466F07_inline((&V_1), NULL);
 		V_2 = L_17;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:153>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:153>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_18;
 		L_18 = Vector3_get_normalized_m736BBF65D5CDA7A18414370D15B4DFCC1E466F07_inline((&V_0), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:155>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_19 = V_2;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_20;
 		L_20 = Vector3_Cross_mF93A280558BCE756D13B6CC5DCD7DE8A43148987_inline(L_18, L_19, NULL);
@@ -9095,7 +9082,7 @@ IL_0085:
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_21;
 		L_21 = Vector3_get_normalized_m736BBF65D5CDA7A18414370D15B4DFCC1E466F07_inline((&V_7), NULL);
 		V_3 = L_21;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:156>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:156>
 		float L_22;
 		L_22 = Vector3_get_sqrMagnitude_m43C27DEC47C4811FB30AB474FF2131A963B66FC8_inline((&V_3), NULL);
 		if ((!(((float)L_22) < ((float)(9.99999997E-07f)))))
@@ -9104,13 +9091,13 @@ IL_0085:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:156>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:156>
 		return (bool)0;
 	}
 
 IL_00b4:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:158>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:158>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_23 = V_2;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_24 = V_3;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_25;
@@ -9119,7 +9106,7 @@ IL_00b4:
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_26;
 		L_26 = Vector3_get_normalized_m736BBF65D5CDA7A18414370D15B4DFCC1E466F07_inline((&V_7), NULL);
 		V_4 = L_26;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:160>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:160>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_27 = V_4;
 		float L_28 = L_27.___x;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_29 = V_4;
@@ -9131,7 +9118,7 @@ IL_00b4:
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_32;
 		L_32 = Vector2_get_normalized_mF6722883AEFB5027690A778DF8ACC20F0FA65297_inline((&V_8), NULL);
 		V_5 = L_32;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:161>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:161>
 		float L_33;
 		L_33 = Vector2_get_sqrMagnitude_mA16336720C14EEF8BA9B55AE33B98C9EE2082BDC_inline((&V_5), NULL);
 		if ((!(((float)L_33) < ((float)(9.99999997E-07f)))))
@@ -9140,13 +9127,13 @@ IL_00b4:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:161>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:161>
 		return (bool)0;
 	}
 
 IL_00f4:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:163>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:163>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_34 = V_5;
 		float L_35 = L_34.___x;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_36 = V_5;
@@ -9154,7 +9141,7 @@ IL_00f4:
 		float L_38;
 		L_38 = atan2f(L_35, L_37);
 		V_6 = ((float)il2cpp_codegen_multiply(L_38, (57.2957802f)));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:164>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:164>
 		float L_39 = V_6;
 		if ((!(((float)L_39) < ((float)(0.0f)))))
 		{
@@ -9162,18 +9149,18 @@ IL_00f4:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:164>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:164>
 		float L_40 = V_6;
 		V_6 = ((float)il2cpp_codegen_add(L_40, (360.0f)));
 	}
 
 IL_0122:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:165>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:165>
 		float* L_41 = ___0_magneticDeg;
 		float L_42 = V_6;
 		*((float*)L_41) = (float)L_42;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:168>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:168>
 		bool L_43 = __this->___applyTrueNorth;
 		if (!L_43)
 		{
@@ -9192,7 +9179,7 @@ IL_0122:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:170>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:170>
 		bool L_46;
 		L_46 = CompassNewInputSystem_TryGetDeclinationDegrees_mD0DCB6BA77DC4BAC8EA5BC514A41B0758BDC23E6(__this, (&V_9), NULL);
 		if (!L_46)
@@ -9201,15 +9188,15 @@ IL_0122:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:172>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:172>
 		float* L_47 = ___0_magneticDeg;
 		float L_48 = *((float*)L_47);
 		float L_49 = V_9;
 		V_10 = ((float)il2cpp_codegen_add(L_48, L_49));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:173>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:173>
 		float L_50 = V_10;
 		V_10 = (fmodf(L_50, (360.0f)));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:173>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:173>
 		float L_51 = V_10;
 		if ((!(((float)L_51) < ((float)(0.0f)))))
 		{
@@ -9217,14 +9204,14 @@ IL_0122:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:173>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:173>
 		float L_52 = V_10;
 		V_10 = ((float)il2cpp_codegen_add(L_52, (360.0f)));
 	}
 
 IL_0169:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:174>
 		Nullable_1_t3D746CBB6123D4569FF4DEA60BC4240F32C6FE75* L_53 = ___1_trueDeg;
 		float L_54 = V_10;
 		Nullable_1_t3D746CBB6123D4569FF4DEA60BC4240F32C6FE75 L_55;
@@ -9235,30 +9222,30 @@ IL_0169:
 
 IL_0176:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:178>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:178>
 		return (bool)1;
 	}
 }
-// Method Definition Index: 78702
+// Method Definition Index: 78705
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 CompassNewInputSystem_LowPassAccel_m4F33F8B1F8194E5ADAC5F734BFB16AAB9C12657C (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_a, const RuntimeMethod* method) 
 {
 	float V_0 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:184>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:184>
 		V_0 = (0.100000001f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:185>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:185>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_0 = __this->____accelLP;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_1 = ___0_a;
 		float L_2 = V_0;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_3;
 		L_3 = Vector3_Lerp_m3A906D0530A94FAABB94F0F905E84D99BE85C3F8_inline(L_0, L_1, L_2, NULL);
 		__this->____accelLP = L_3;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:186>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:186>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_4 = __this->____accelLP;
 		return L_4;
 	}
 }
-// Method Definition Index: 78703
+// Method Definition Index: 78706
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_AlignNorthIfPossible_m2F0EC72BF829F5AD4344FD70EA7DA60A9B80A645 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, float ___0_unityHeading, float ___1_deviceHeadingDeg, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -9272,7 +9259,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_AlignNorthIfPossib
 	float V_0 = 0.0f;
 	float V_1 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:192>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:192>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_0 = __this->___northAlignRoot;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -9283,13 +9270,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem_AlignNorthIfPossib
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:192>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:192>
 		return;
 	}
 
 IL_000f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:193>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:193>
 		float L_2 = ___0_unityHeading;
 		bool L_3;
 		L_3 = Single_IsNaN_mFE637F6ECA9F7697CE8EFF56427858F4C5EDF75D_inline(L_2, NULL);
@@ -9310,26 +9297,26 @@ IL_000f:
 
 IL_001f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:193>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:193>
 		return;
 	}
 
 IL_0020:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:195>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:195>
 		float L_6 = ___0_unityHeading;
 		float L_7 = ___1_deviceHeadingDeg;
 		float L_8;
 		L_8 = Mathf_DeltaAngle_mCBA858CE5C1BEEBE375812325A50E434FF66D6D4_inline(L_6, L_7, NULL);
 		V_0 = L_8;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:196>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:196>
 		float L_9 = __this->___lastAppliedHeading;
 		float L_10 = ___1_deviceHeadingDeg;
 		float L_11;
 		L_11 = Mathf_DeltaAngle_mCBA858CE5C1BEEBE375812325A50E434FF66D6D4_inline(L_9, L_10, NULL);
 		float L_12;
 		L_12 = fabsf(L_11);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:198>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:198>
 		float L_13 = __this->___headingChangeThreshold;
 		if ((!(((float)L_12) < ((float)L_13))))
 		{
@@ -9337,12 +9324,12 @@ IL_0020:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:200>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:200>
 		float L_14 = __this->___headingStableTimer;
 		float L_15;
 		L_15 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->___headingStableTimer = ((float)il2cpp_codegen_add(L_14, L_15));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:201>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:201>
 		float L_16 = __this->___headingStableTimer;
 		float L_17 = __this->___stabilizationTime;
 		if ((!(((float)L_16) >= ((float)L_17))))
@@ -9351,25 +9338,25 @@ IL_0020:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:202>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:202>
 		__this->___isHeadingStable = (bool)1;
 		goto IL_0083;
 	}
 
 IL_006a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:206>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:206>
 		__this->___headingStableTimer = (0.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:207>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:207>
 		__this->___isHeadingStable = (bool)0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:208>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:208>
 		float L_18 = ___1_deviceHeadingDeg;
 		__this->___lastAppliedHeading = L_18;
 	}
 
 IL_0083:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:212>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:212>
 		bool L_19 = __this->___autoAlignOnce;
 		if (!L_19)
 		{
@@ -9391,19 +9378,19 @@ IL_0083:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:214>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:214>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_22 = __this->___northAlignRoot;
 		float L_23 = V_0;
 		NullCheck(L_22);
 		Transform_Rotate_mE12DB27208410BB7090FA117D53DBEBBC0A36B30(L_22, (0.0f), L_23, (0.0f), 0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:215>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:215>
 		__this->____didAutoAlign = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:216>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:216>
 		__this->___northAligned = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:217>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:217>
 		float L_24 = ___1_deviceHeadingDeg;
 		__this->___lastAppliedHeading = L_24;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:218>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:218>
 		float L_25 = V_0;
 		float L_26 = L_25;
 		RuntimeObject* L_27 = Box(il2cpp_defaults.single_class, &L_26);
@@ -9416,7 +9403,7 @@ IL_0083:
 
 IL_00dd:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:222>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:222>
 		bool L_29 = __this->___continuousTrim;
 		if (!L_29)
 		{
@@ -9441,29 +9428,29 @@ IL_00dd:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:224>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:224>
 		float L_34 = V_0;
 		float L_35 = __this->___trimLerp;
 		float L_36;
 		L_36 = Mathf_Clamp01_mA7E048DBDA832D399A581BE4D6DED9FA44CE0F14_inline(L_35, NULL);
 		V_1 = ((float)il2cpp_codegen_multiply(L_34, L_36));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:225>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:225>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_37 = __this->___northAlignRoot;
 		float L_38 = V_1;
 		NullCheck(L_37);
 		Transform_Rotate_mE12DB27208410BB7090FA117D53DBEBBC0A36B30(L_37, (0.0f), L_38, (0.0f), 0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:226>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:226>
 		float L_39 = ___1_deviceHeadingDeg;
 		__this->___lastAppliedHeading = L_39;
 	}
 
 IL_0127:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:228>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:228>
 		return;
 	}
 }
-// Method Definition Index: 78704
+// Method Definition Index: 78707
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassNewInputSystem_GetUnityCameraHeading_m9983B2A13C0C339F8DD658CCB419AD65CF8F712B (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -9477,11 +9464,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassNewInputSystem_GetUnityCameraHea
 	memset((&V_1), 0, sizeof(V_1));
 	float V_2 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:232>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:232>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_0;
 		L_0 = Camera_get_main_m52C992F18E05355ABB9EEB64A4BF2215E12762DF(NULL);
 		V_0 = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:233>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:233>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_1 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
@@ -9492,13 +9479,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float CompassNewInputSystem_GetUnityCameraHea
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:233>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:233>
 		return (std::numeric_limits<float>::quiet_NaN());
 	}
 
 IL_0015:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:234>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:234>
 		Camera_tA92CC927D7439999BC82DBEDC0AA45B470F9E184* L_3 = V_0;
 		NullCheck(L_3);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_4;
@@ -9507,9 +9494,9 @@ IL_0015:
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_5;
 		L_5 = Transform_get_forward_mFCFACF7165FDAB21E80E384C494DF278386CEE2F(L_4, NULL);
 		V_1 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:235>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:235>
 		(&V_1)->___y = (0.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:236>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:236>
 		float L_6;
 		L_6 = Vector3_get_sqrMagnitude_m43C27DEC47C4811FB30AB474FF2131A963B66FC8_inline((&V_1), NULL);
 		if ((!(((float)L_6) < ((float)(9.99999997E-07f)))))
@@ -9518,13 +9505,13 @@ IL_0015:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:236>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:236>
 		return (std::numeric_limits<float>::quiet_NaN());
 	}
 
 IL_0041:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:237>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:237>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_7 = V_1;
 		float L_8 = L_7.___x;
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_9 = V_1;
@@ -9532,7 +9519,7 @@ IL_0041:
 		float L_11;
 		L_11 = atan2f(L_8, L_10);
 		V_2 = ((float)il2cpp_codegen_multiply(L_11, (57.2957802f)));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:238>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:238>
 		float L_12 = V_2;
 		if ((!(((float)L_12) < ((float)(0.0f)))))
 		{
@@ -9540,19 +9527,19 @@ IL_0041:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:238>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:238>
 		float L_13 = V_2;
 		V_2 = ((float)il2cpp_codegen_add(L_13, (360.0f)));
 	}
 
 IL_0069:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:239>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:239>
 		float L_14 = V_2;
 		return L_14;
 	}
 }
-// Method Definition Index: 78705
+// Method Definition Index: 78708
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassNewInputSystem_DiagnoseReason_m508EE82E8744FD418EFA5EDD40976F2C61BEEDE4 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -9566,7 +9553,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassNewInputSystem_DiagnoseReaso
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:244>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:244>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_0 = __this->____mag;
 		if (L_0)
 		{
@@ -9574,13 +9561,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassNewInputSystem_DiagnoseReaso
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:245>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:245>
 		return _stringLiteralC37C574E8EF7C6B2129EED44FA3DDA567DA8BA54;
 	}
 
 IL_000e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:246>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:246>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_1 = __this->____grav;
 		if (L_1)
 		{
@@ -9595,13 +9582,13 @@ IL_000e:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:247>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:247>
 		return _stringLiteral0011C649C0A39C2A195B3A99F13B331ACDE6F05D;
 	}
 
 IL_0024:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:248>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:248>
 		bool L_3;
 		L_3 = CompassNewInputSystem_HasMagAndGravity_m6DE651B82B090A770C9904758C4CB88934D85F55(__this, NULL);
 		if (L_3)
@@ -9610,13 +9597,13 @@ IL_0024:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:249>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:249>
 		return _stringLiteral0BC535A00ACBFE0F836E87AA0DC8109B1BEE9E09;
 	}
 
 IL_0032:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:251>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:251>
 		bool L_4;
 		L_4 = CompassNewInputSystem_IsAndroidLocationEnabled_m2D8DE35AD84E93D81CD0D2D17BE102A95B51E129(__this, NULL);
 		if (L_4)
@@ -9632,17 +9619,17 @@ IL_0032:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:252>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:252>
 		return _stringLiteralCF4521DB002DDC94A8287A09914F3B495F356EAE;
 	}
 
 IL_0048:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:254>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:254>
 		return _stringLiteral1AE348EAFA097AB898941EAFE912D711A407DA10;
 	}
 }
-// Method Definition Index: 78706
+// Method Definition Index: 78709
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassNewInputSystem_BackendSummary_m786328034DC1D87D4A1FB4278095F62303C02332 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -9659,21 +9646,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassNewInputSystem_BackendSummar
 	bool V_2 = false;
 	String_t* V_3 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:259>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:259>
 		MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34* L_0;
 		L_0 = MagneticFieldSensor_get_current_m622B87A2A52D885490C1224E171B32460AD21B13_inline(NULL);
 		V_0 = (bool)((!(((RuntimeObject*)(MagneticFieldSensor_tCC668B97017215736B7B7BDDB0AB4E690EF16C34*)L_0) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:260>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:260>
 		GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5* L_1;
 		L_1 = GravitySensor_get_current_mA2A80554CC2581A4F87A010E26B761CD39843428_inline(NULL);
 		V_1 = (bool)((!(((RuntimeObject*)(GravitySensor_t46D8EBFF773EDB6F2E508444B02B972300EC43D5*)L_1) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:261>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:261>
 		Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E* L_2;
 		L_2 = Accelerometer_get_current_m326C1D163047BDA92305B4EF64EFE81759BD1BD5_inline(NULL);
 		V_2 = (bool)((!(((RuntimeObject*)(Accelerometer_t9F891328DDA1A9CD745AC981AE5FA6BE9139B76E*)L_2) <= ((RuntimeObject*)(RuntimeObject*)NULL)))? 1 : 0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:264>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:264>
 		V_3 = _stringLiteral8AFFA030847BC6A853096D8D0B3E4C7B9F17D94F;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:268>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:268>
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_3 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)5);
 		ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_4 = L_3;
 		String_t* L_5 = V_3;
@@ -9717,7 +9704,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* CompassNewInputSystem_BackendSummar
 		return L_23;
 	}
 }
-// Method Definition Index: 78707
+// Method Definition Index: 78710
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_TryGetDeclinationDegrees_mD0DCB6BA77DC4BAC8EA5BC514A41B0758BDC23E6 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, float* ___0_declinationDeg, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -9738,14 +9725,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_TryGetDeclinationD
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* V_2 = NULL;
 	il2cpp::utils::ExceptionSupportStack<RuntimeObject*, 1> __active_exceptions;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:274>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:274>
 		float* L_0 = ___0_declinationDeg;
 		*((float*)L_0) = (float)(0.0f);
 	}
 	try
 	{
 		{
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:277>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:277>
 			LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_1;
 			L_1 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 			NullCheck(L_1);
@@ -9757,26 +9744,26 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_TryGetDeclinationD
 			}
 		}
 		{
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:277>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:277>
 			V_1 = (bool)0;
 			goto IL_0097;
 		}
 
 IL_0018_1:
 		{
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:278>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:278>
 			LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_3;
 			L_3 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 			NullCheck(L_3);
 			LocationInfo_tBFD49220A54B71CDF564F61822F7B8D524465441 L_4;
 			L_4 = LocationService_get_lastData_m50C68F3DFB23894CF519F00BBA9D72146EE9345F(L_3, NULL);
 			V_0 = L_4;
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:280>
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:281>
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:282>
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:283>
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:284>
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:285>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:280>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:281>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:282>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:283>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:284>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:285>
 			ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_5 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)4);
 			ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_6 = L_5;
 			float L_7;
@@ -9841,7 +9828,7 @@ IL_0091_1:
 			});
 			try
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:287>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:287>
 				float* L_25 = ___0_declinationDeg;
 				AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_26 = V_2;
 				ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_27;
@@ -9850,7 +9837,7 @@ IL_0091_1:
 				float L_28;
 				L_28 = AndroidJavaObject_Call_TisSingle_t4530F2FF86FCB0DC29F35385CA1BD21BE294761C_mC6CF02CBA2C4A23EF8CD0BF612F5759B8C26DFF1(L_26, _stringLiteralFC65776EA950A5603C4BD77F82B1BAAB3544A3C3, L_27, AndroidJavaObject_Call_TisSingle_t4530F2FF86FCB0DC29F35385CA1BD21BE294761C_mC6CF02CBA2C4A23EF8CD0BF612F5759B8C26DFF1_RuntimeMethod_var);
 				*((float*)L_25) = (float)L_28;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:288>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:288>
 				V_1 = (bool)1;
 				goto IL_0097;
 			}
@@ -9873,8 +9860,8 @@ IL_0091_1:
 CATCH_0092:
 	{
 		RuntimeObject* L_29 = ((RuntimeObject*)IL2CPP_GET_ACTIVE_EXCEPTION(RuntimeObject*));;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:291>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:291>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:291>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:291>
 		V_1 = (bool)0;
 		IL2CPP_POP_ACTIVE_EXCEPTION(Exception_t*);
 		goto IL_0097;
@@ -9882,12 +9869,12 @@ CATCH_0092:
 
 IL_0097:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:292>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:292>
 		bool L_30 = V_1;
 		return L_30;
 	}
 }
-// Method Definition Index: 78708
+// Method Definition Index: 78711
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int64_t CompassNewInputSystem_JavaTimeNowMillis_m2628C176B08E99A085DE7CF6B7B141DE1480B967 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -9899,18 +9886,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int64_t CompassNewInputSystem_JavaTimeNowMill
 	DateTimeOffset_t4EE701FE2F386D6F932FAC9B11E4B74A5B30F0A4 V_0;
 	memset((&V_0), 0, sizeof(V_0));
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:296>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:296>
 		il2cpp_codegen_runtime_class_init_inline(DateTimeOffset_t4EE701FE2F386D6F932FAC9B11E4B74A5B30F0A4_il2cpp_TypeInfo_var);
 		DateTimeOffset_t4EE701FE2F386D6F932FAC9B11E4B74A5B30F0A4 L_0;
 		L_0 = DateTimeOffset_get_UtcNow_mD315065704E3FE153970E6BD06362AEDD3D9765F(NULL);
 		V_0 = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:297>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:297>
 		int64_t L_1;
 		L_1 = DateTimeOffset_ToUnixTimeMilliseconds_mDC0FF57434DBFAFC47B63F1119CAABE402F8CDEC((&V_0), NULL);
 		return L_1;
 	}
 }
-// Method Definition Index: 78709
+// Method Definition Index: 78712
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_IsAndroidLocationEnabled_m2D8DE35AD84E93D81CD0D2D17BE102A95B51E129 (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -9940,7 +9927,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool CompassNewInputSystem_IsAndroidLocationE
 	try
 	{
 		{
-			//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:304>
+			//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:304>
 			AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 			AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_0, _stringLiteral4D613657609485AE586A3379BA0E3FC13C1E1078, NULL);
 			V_0 = L_0;
@@ -9973,7 +9960,7 @@ IL_0087_1:
 			try
 			{
 				{
-					//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:305>
+					//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:305>
 					AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_3 = V_0;
 					NullCheck(L_3);
 					AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_4;
@@ -10008,7 +9995,7 @@ IL_007d_2:
 					try
 					{
 						{
-							//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:306>
+							//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:306>
 							AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_7 = V_1;
 							ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_8;
 							L_8 = Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_inline(Array_Empty_TisRuntimeObject_mFB8A63D602BB6974D31E20300D9EB89C6FE7C278_RuntimeMethod_var);
@@ -10045,7 +10032,7 @@ IL_0073_3:
 							try
 							{
 								{
-									//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:307>
+									//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:307>
 									AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_12 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 									AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_12, _stringLiteralDA69F4416CD9C8477CC9E85F76C51C49CC1F64BE, NULL);
 									V_3 = L_12;
@@ -10077,7 +10064,7 @@ IL_0069_4:
 									});
 									try
 									{
-										//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:309>
+										//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:309>
 										AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_15 = V_3;
 										ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_16 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)3);
 										ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_17 = L_16;
@@ -10098,7 +10085,7 @@ IL_0069_4:
 										NullCheck(L_15);
 										int32_t L_23;
 										L_23 = AndroidJavaObject_CallStatic_TisInt32_t680FF22E76F6EFAD4375103CBBFFA0421349384C_m6619B03C8DA4F5A66785845A2E5B39DAEF36642A(L_15, _stringLiteralFFF2E3CA72364727F71AA5E2A535E3DD8A40037F, L_20, AndroidJavaObject_CallStatic_TisInt32_t680FF22E76F6EFAD4375103CBBFFA0421349384C_m6619B03C8DA4F5A66785845A2E5B39DAEF36642A_RuntimeMethod_var);
-										//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:310>
+										//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:310>
 										V_4 = (bool)((!(((uint32_t)L_23) <= ((uint32_t)0)))? 1 : 0);
 										goto IL_008e;
 									}
@@ -10139,8 +10126,8 @@ IL_0069_4:
 CATCH_0088:
 	{
 		RuntimeObject* L_24 = ((RuntimeObject*)IL2CPP_GET_ACTIVE_EXCEPTION(RuntimeObject*));;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:313>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:313>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:313>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:313>
 		V_4 = (bool)1;
 		IL2CPP_POP_ACTIVE_EXCEPTION(Exception_t*);
 		goto IL_008e;
@@ -10148,12 +10135,12 @@ CATCH_0088:
 
 IL_008e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:314>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:314>
 		bool L_25 = V_4;
 		return L_25;
 	}
 }
-// Method Definition Index: 78710
+// Method Definition Index: 78713
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem__ctor_m8F07D7235D36EA4C60D47601BBAF408F320F897E (CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10163,19 +10150,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem__ctor_m8F07D7235D3
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:17>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:17>
 		__this->___firstReadingTimeoutSec = (10.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:18>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:18>
 		__this->___periodicRecheckSec = (2.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:22>
 		__this->___autoAlignOnce = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:25>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:25>
 		__this->___trimLerp = (0.0799999982f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:28>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:28>
 		__this->___headingChangeThreshold = (5.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:29>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:29>
 		__this->___stabilizationTime = (3.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:41>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:41>
 		__this->____lastReason = _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->____lastReason), (void*)_stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709);
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
@@ -10190,7 +10177,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CompassNewInputSystem__ctor_m8F07D7235D3
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78711
+// Method Definition Index: 78714
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForFirstReadingU3Ed__25__ctor_m27D974343CEB218198BDB961ED74664A7F0C677B (U3CWaitForFirstReadingU3Ed__25_t2C5DD2A57862181EA14F439E906B763C6938FE6A* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -10200,14 +10187,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForFirstReadingU3Ed__25__ctor_m27
 		return;
 	}
 }
-// Method Definition Index: 78712
+// Method Definition Index: 78715
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForFirstReadingU3Ed__25_System_IDisposable_Dispose_m5189CF7F0490316798EF9D7D0D1CB8FD3B90DB33 (U3CWaitForFirstReadingU3Ed__25_t2C5DD2A57862181EA14F439E906B763C6938FE6A* __this, const RuntimeMethod* method) 
 {
 	{
 		return;
 	}
 }
-// Method Definition Index: 78713
+// Method Definition Index: 78716
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CWaitForFirstReadingU3Ed__25_MoveNext_mFBC778277DF73F4718A90D4F42DEB600FFB025DE (U3CWaitForFirstReadingU3Ed__25_t2C5DD2A57862181EA14F439E906B763C6938FE6A* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10245,19 +10232,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CWaitForFirstReadingU3Ed__25_MoveNext_
 IL_0017:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:79>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:79>
 		__this->___U3CtU3E5__2 = (0.0f);
 		goto IL_0075;
 	}
 
 IL_002b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:82>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:82>
 		float L_4 = __this->___U3CtU3E5__2;
 		float L_5;
 		L_5 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->___U3CtU3E5__2 = ((float)il2cpp_codegen_add(L_4, L_5));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:83>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:83>
 		CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* L_6 = V_1;
 		float L_7 = __this->___U3CtU3E5__2;
 		float L_8 = L_7;
@@ -10270,7 +10257,7 @@ IL_002b:
 		L_12 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteral6BEA84D8835555886A89BC965BD38E898ECB0022, L_9, L_11, NULL);
 		NullCheck(L_6);
 		CompassNewInputSystem_SetText_mD468E822CFF1E0840DE9F3162AB377328AAF9ED5(L_6, L_12, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:84>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:84>
 		__this->___U3CU3E2__current = NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CU3E2__current), (void*)NULL);
 		__this->___U3CU3E1__state = 1;
@@ -10284,7 +10271,7 @@ IL_006e:
 
 IL_0075:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:80>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:80>
 		float L_13 = __this->___U3CtU3E5__2;
 		CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* L_14 = V_1;
 		NullCheck(L_14);
@@ -10307,7 +10294,7 @@ IL_0075:
 
 IL_008b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:86>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:86>
 		CompassNewInputSystem_tE6C19952E4E18A06A7A9E60A08CE37731C9A315A* L_18 = V_1;
 		NullCheck(L_18);
 		bool L_19;
@@ -10318,18 +10305,18 @@ IL_008b:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:87>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:87>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteral98AF72CC0A2CFF3266D8D71E1BC76621596363F7, NULL);
 	}
 
 IL_009d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/CompassNewInputSystem.cs:88>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/CompassNewInputSystem.cs:88>
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78714
+// Method Definition Index: 78717
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForFirstReadingU3Ed__25_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m9E371FF571CB053ED97FFADCEA6C616BFF2CCA5A (U3CWaitForFirstReadingU3Ed__25_t2C5DD2A57862181EA14F439E906B763C6938FE6A* __this, const RuntimeMethod* method) 
 {
 	{
@@ -10337,7 +10324,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForFirstReadingU3Ed__25
 		return L_0;
 	}
 }
-// Method Definition Index: 78715
+// Method Definition Index: 78718
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForFirstReadingU3Ed__25_System_Collections_IEnumerator_Reset_m5055AC5C77EE5C87F9ABD11067F71040D344432A (U3CWaitForFirstReadingU3Ed__25_t2C5DD2A57862181EA14F439E906B763C6938FE6A* __this, const RuntimeMethod* method) 
 {
 	{
@@ -10346,7 +10333,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForFirstReadingU3Ed__25_System_Co
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CWaitForFirstReadingU3Ed__25_System_Collections_IEnumerator_Reset_m5055AC5C77EE5C87F9ABD11067F71040D344432A_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78716
+// Method Definition Index: 78719
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForFirstReadingU3Ed__25_System_Collections_IEnumerator_get_Current_mDB620148D12008DC1C057FCAFA7676EDB3F328BF (U3CWaitForFirstReadingU3Ed__25_t2C5DD2A57862181EA14F439E906B763C6938FE6A* __this, const RuntimeMethod* method) 
 {
 	{
@@ -10362,7 +10349,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForFirstReadingU3Ed__25
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78718
+// Method Definition Index: 78721
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* JsonHelper_FixJson_m7F0998CE00B016571B7D7CF43115FA2475DA7625 (String_t* ___0_value, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10374,7 +10361,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* JsonHelper_FixJson_m7F0998CE00B0165
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Helpers/JsonHelper.cs:13>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Helpers/JsonHelper.cs:13>
 		String_t* L_0 = ___0_value;
 		NullCheck(L_0);
 		bool L_1;
@@ -10385,7 +10372,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* JsonHelper_FixJson_m7F0998CE00B0165
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Helpers/JsonHelper.cs:14>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Helpers/JsonHelper.cs:14>
 		String_t* L_2 = ___0_value;
 		String_t* L_3;
 		L_3 = String_Concat_m8855A6DE10F84DA7F4EC113CADDB59873A25573B(_stringLiteral3B05BA3AF9971B71E952BCD1DB84CF25D895395C, L_2, _stringLiteral4D8D9C94AC5DA5FCED2EC8A64E10E714A2515C30, NULL);
@@ -10394,7 +10381,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* JsonHelper_FixJson_m7F0998CE00B0165
 
 IL_001f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Helpers/JsonHelper.cs:15>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Helpers/JsonHelper.cs:15>
 		String_t* L_4 = ___0_value;
 		return L_4;
 	}
@@ -10407,7 +10394,7 @@ IL_001f:
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78720
+// Method Definition Index: 78723
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateItem__ctor_m053913C0BC6A413530E0B160B57EA2EE5BE08ED6 (LiveUpdateItem_t7836487156500E77F71411DF8DE5848A7E322D9F* __this, const RuntimeMethod* method) 
 {
 	{
@@ -10423,7 +10410,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateItem__ctor_m053913C0BC6A413530
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78721
+// Method Definition Index: 78724
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateList__ctor_m485507CBA5A0337C974EBFE5FEB2AA582897BA01 (LiveUpdateList_tE841047E2068A0FF11EFCEB1AEEB83CB3E1AEEEC* __this, const RuntimeMethod* method) 
 {
 	{
@@ -10439,24 +10426,24 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateList__ctor_m485507CBA5A0337C97
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78722
+// Method Definition Index: 78725
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_Start_m97D5B90763D041BDB9D0CD847BFE193DC72000BA (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:16>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:16>
 		RuntimeObject* L_0;
 		L_0 = LocationServiceManager_CheckLocationService_m5AA4D448A9D66BFCAA7D0DE8558510C9601ADFAE(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_1;
 		L_1 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:17>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:17>
 		return;
 	}
 }
-// Method Definition Index: 78723
+// Method Definition Index: 78726
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_OnApplicationFocus_m6A666B76488A31348E1ABC182D1E981CBC86AFFF (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, bool ___0_hasFocus, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:22>
 		bool L_0 = ___0_hasFocus;
 		if (!L_0)
 		{
@@ -10471,7 +10458,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_OnApplicationFocu
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:25>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:25>
 		RuntimeObject* L_2;
 		L_2 = LocationServiceManager_CheckLocationService_m5AA4D448A9D66BFCAA7D0DE8558510C9601ADFAE(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_3;
@@ -10480,11 +10467,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_OnApplicationFocu
 
 IL_0018:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:27>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:27>
 		return;
 	}
 }
-// Method Definition Index: 78724
+// Method Definition Index: 78727
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* LocationServiceManager_CheckLocationService_m5AA4D448A9D66BFCAA7D0DE8558510C9601ADFAE (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10503,7 +10490,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* LocationServiceManager_CheckLo
 		return L_1;
 	}
 }
-// Method Definition Index: 78725
+// Method Definition Index: 78728
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* LocationServiceManager_UpdateLocationData_mBE6F3B3F3D59BA4DBF31F773CE814EE0377A455B (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10522,7 +10509,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* LocationServiceManager_UpdateL
 		return L_1;
 	}
 }
-// Method Definition Index: 78726
+// Method Definition Index: 78729
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_UpdateLocationField_m24218E7AD6400EFE05305B279944F3187CD7BC7F (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10543,7 +10530,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_UpdateLocationFie
 	LocationInfo_tBFD49220A54B71CDF564F61822F7B8D524465441 V_5;
 	memset((&V_5), 0, sizeof(V_5));
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:97>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:97>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_0;
 		L_0 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_0);
@@ -10555,7 +10542,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_UpdateLocationFie
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:99>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:99>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_2;
 		L_2 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_2);
@@ -10565,7 +10552,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_UpdateLocationFie
 		float L_4;
 		L_4 = LocationInfo_get_latitude_mAF0A46443555AF18EA3C516292CB92B1669CA863((&V_5), NULL);
 		V_0 = ((double)L_4);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:100>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:100>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_5;
 		L_5 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_5);
@@ -10575,21 +10562,21 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_UpdateLocationFie
 		float L_7;
 		L_7 = LocationInfo_get_longitude_mCB720DD0E139B7C614F78D40595E1BBF1F5433A2((&V_5), NULL);
 		V_1 = ((double)L_7);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:102>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:102>
 		String_t* L_8;
 		L_8 = Double_ToString_m70EC76E1DAD7E8B5B47AF9292189BF3711B24B75((&V_0), _stringLiteralAAF764D0E49CF83587ED98F50A47A2B697560BC3, NULL);
 		V_2 = L_8;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:103>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:103>
 		String_t* L_9;
 		L_9 = Double_ToString_m70EC76E1DAD7E8B5B47AF9292189BF3711B24B75((&V_1), _stringLiteralAAF764D0E49CF83587ED98F50A47A2B697560BC3, NULL);
 		V_3 = L_9;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:106>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:106>
 		String_t* L_10 = V_2;
 		String_t* L_11 = V_3;
 		String_t* L_12;
 		L_12 = String_Concat_m8855A6DE10F84DA7F4EC113CADDB59873A25573B(L_10, _stringLiteral758733BDBED83CBFF4F635AC26CA92AAE477F75D, L_11, NULL);
 		V_4 = L_12;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:108>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:108>
 		TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* L_13 = __this->___debugText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_14;
@@ -10600,7 +10587,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_UpdateLocationFie
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:109>
 		TextMeshProUGUI_t101091AF4B578BB534C92E9D1EEAF0611636D957* L_15 = __this->___debugText;
 		String_t* L_16 = V_2;
 		String_t* L_17 = V_3;
@@ -10612,7 +10599,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_UpdateLocationFie
 
 IL_008c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:111>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:111>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_19 = __this->___locationInputField;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_20;
@@ -10633,7 +10620,7 @@ IL_008c:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:114>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:114>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_23 = __this->___locationInputField;
 		String_t* L_24 = V_4;
 		NullCheck(L_23);
@@ -10642,24 +10629,24 @@ IL_008c:
 
 IL_00b4:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:119>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:119>
 		return;
 	}
 }
-// Method Definition Index: 78727
+// Method Definition Index: 78730
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_OnCheckLocationButton_mD134BF13DB8ABF8075EF35CE71F34A8E80F9E5AF (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:124>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:124>
 		RuntimeObject* L_0;
 		L_0 = LocationServiceManager_CheckLocationService_m5AA4D448A9D66BFCAA7D0DE8558510C9601ADFAE(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_1;
 		L_1 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:125>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:125>
 		return;
 	}
 }
-// Method Definition Index: 78728
+// Method Definition Index: 78731
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_OpenLocationSettings_mCDDE9823C98E825D1FFA443440F854849D2495E5 (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10685,7 +10672,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager_OpenLocationSetti
 	String_t* V_3 = NULL;
 	AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* V_4 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:130>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:130>
 		AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_0 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 		AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_0, _stringLiteral4D613657609485AE586A3379BA0E3FC13C1E1078, NULL);
 		V_0 = L_0;
@@ -10718,13 +10705,13 @@ IL_006f:
 		try
 		{
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:132>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:132>
 				AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_3 = V_0;
 				NullCheck(L_3);
 				AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_4;
 				L_4 = AndroidJavaObject_GetStatic_TisAndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0_mD7D192A35EB2B2DA3775FAB081958B72088251DD(L_3, _stringLiteralFB4AE4F77150C3A8E8E4F8B23E734E0C7277B7D9, AndroidJavaObject_GetStatic_TisAndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0_mD7D192A35EB2B2DA3775FAB081958B72088251DD_RuntimeMethod_var);
 				V_1 = L_4;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:133>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:133>
 				AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_5 = (AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03*)il2cpp_codegen_object_new(AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03_il2cpp_TypeInfo_var);
 				AndroidJavaClass__ctor_mB5466169E1151B8CC44C8FED234D79984B431389(L_5, _stringLiteral297835FB24F33534F419B075C9CEF03D3807D7C0, NULL);
 				V_2 = L_5;
@@ -10756,13 +10743,13 @@ IL_0065_1:
 				});
 				try
 				{
-					//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:135>
+					//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:135>
 					AndroidJavaClass_tE6296B30CC4BF84434A9B765267F3FD0DD8DDB03* L_8 = V_2;
 					NullCheck(L_8);
 					String_t* L_9;
 					L_9 = AndroidJavaObject_GetStatic_TisString_t_mF408A1C0C6E5BF8154F00A450A97A51B2ABFCBDE(L_8, _stringLiteralC6FE86F6A7B0B464521C03327F3B05E19233E4B9, AndroidJavaObject_GetStatic_TisString_t_mF408A1C0C6E5BF8154F00A450A97A51B2ABFCBDE_RuntimeMethod_var);
 					V_3 = L_9;
-					//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:136>
+					//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:136>
 					ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_10 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 					ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_11 = L_10;
 					String_t* L_12 = V_3;
@@ -10772,7 +10759,7 @@ IL_0065_1:
 					AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_13 = (AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0*)il2cpp_codegen_object_new(AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0_il2cpp_TypeInfo_var);
 					AndroidJavaObject__ctor_m5A65B5D325C2CEFAC4097A0D3813F8E158178DD7(L_13, _stringLiteralC5E7F48ACAC428EC5EA35E9BBED10A0E23CBE728, L_11, NULL);
 					V_4 = L_13;
-					//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:137>
+					//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:137>
 					AndroidJavaObject_t8FFB930F335C1178405B82AC2BF512BB1EEF9EB0* L_14 = V_1;
 					ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_15 = (ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918*)SZArrayNew(ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918_il2cpp_TypeInfo_var, (uint32_t)1);
 					ObjectU5BU5D_t8061030B0A12A55D5AD8652A20C922FE99450918* L_16 = L_15;
@@ -10782,7 +10769,7 @@ IL_0065_1:
 					(L_16)->SetAt(static_cast<il2cpp_array_size_t>(0), (RuntimeObject*)L_17);
 					NullCheck(L_14);
 					AndroidJavaObject_Call_mDEF7846E2AB1C5379069BB21049ED55A9D837B1C(L_14, _stringLiteral6CB60CD0F517BE0AB5DBF3CCB647F6428F1FA6D1, L_16, NULL);
-					//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:138>
+					//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:138>
 					goto IL_0070;
 				}
 				catch(Il2CppExceptionWrapper& e)
@@ -10799,11 +10786,11 @@ IL_0065_1:
 
 IL_0070:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:143>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:143>
 		return;
 	}
 }
-// Method Definition Index: 78729
+// Method Definition Index: 78732
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager__ctor_m656532621AB7AA4291DB7F5123FDCCDF66E6C62A (LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* __this, const RuntimeMethod* method) 
 {
 	{
@@ -10819,7 +10806,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationServiceManager__ctor_m656532621A
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78730
+// Method Definition Index: 78733
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CCheckLocationServiceU3Ed__5__ctor_mA8637295DC9C0287063ABF56CB815E8646A0F349 (U3CCheckLocationServiceU3Ed__5_t910B12E1650E749E9900F747CD57F02391899C13* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -10829,14 +10816,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CCheckLocationServiceU3Ed__5__ctor_mA8
 		return;
 	}
 }
-// Method Definition Index: 78731
+// Method Definition Index: 78734
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CCheckLocationServiceU3Ed__5_System_IDisposable_Dispose_m1BB7441DD23468AE12D27D4C98F29C86FBF522F6 (U3CCheckLocationServiceU3Ed__5_t910B12E1650E749E9900F747CD57F02391899C13* __this, const RuntimeMethod* method) 
 {
 	{
 		return;
 	}
 }
-// Method Definition Index: 78732
+// Method Definition Index: 78735
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CCheckLocationServiceU3Ed__5_MoveNext_m47F31C211ED1BEA03D17978BAD5EFBC4FC91B65A (U3CCheckLocationServiceU3Ed__5_t910B12E1650E749E9900F747CD57F02391899C13* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -10878,11 +10865,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CCheckLocationServiceU3Ed__5_MoveNext_
 IL_0022:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:31>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_3 = V_1;
 		NullCheck(L_3);
 		L_3->___isChecking = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:34>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:34>
 		bool L_4;
 		L_4 = Permission_HasUserAuthorizedPermission_mF4C90E13124E28F6F672200E489CC25A9B645B8B(_stringLiteral2A4AF2371E5D32D286057BF0185547BF96F20333, NULL);
 		if (L_4)
@@ -10891,9 +10878,9 @@ IL_0022:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:36>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:36>
 		Permission_RequestUserPermission_mF9CF3A21AAF34B311137C4D00B3AD6A6C2694242(_stringLiteral2A4AF2371E5D32D286057BF0185547BF96F20333, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:37>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:37>
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_5 = (WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3*)il2cpp_codegen_object_new(WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3_il2cpp_TypeInfo_var);
 		WaitForSeconds__ctor_m579F95BADEDBAB4B3A7E302C6EE3995926EF2EFC(L_5, (1.0f), NULL);
 		__this->___U3CU3E2__current = L_5;
@@ -10909,7 +10896,7 @@ IL_005f:
 
 IL_0066:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:42>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:42>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_6;
 		L_6 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_6);
@@ -10921,33 +10908,33 @@ IL_0066:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:45>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:45>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_8 = V_1;
 		NullCheck(L_8);
 		LocationServiceManager_OpenLocationSettings_mCDDE9823C98E825D1FFA443440F854849D2495E5(L_8, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:46>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:46>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_9 = V_1;
 		NullCheck(L_9);
 		L_9->___isChecking = (bool)0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:47>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:47>
 		return (bool)0;
 	}
 
 IL_0081:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:51>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:51>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_10;
 		L_10 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_10);
 		LocationService_Start_mC2A90619923D4BEB5F9B5CCD95F317B98D67AF3A(L_10, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:54>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:54>
 		__this->___U3CmaxWaitU3E5__2 = ((int32_t)20);
 		goto IL_00c5;
 	}
 
 IL_0095:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:57>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:57>
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_11 = (WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3*)il2cpp_codegen_object_new(WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3_il2cpp_TypeInfo_var);
 		WaitForSeconds__ctor_m579F95BADEDBAB4B3A7E302C6EE3995926EF2EFC(L_11, (1.0f), NULL);
 		__this->___U3CU3E2__current = L_11;
@@ -10959,7 +10946,7 @@ IL_0095:
 IL_00ae:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:58>
 		int32_t L_12 = __this->___U3CmaxWaitU3E5__2;
 		V_2 = L_12;
 		int32_t L_13 = V_2;
@@ -10968,7 +10955,7 @@ IL_00ae:
 
 IL_00c5:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:55>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:55>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_14;
 		L_14 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_14);
@@ -10989,7 +10976,7 @@ IL_00c5:
 
 IL_00db:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:61>
 		int32_t L_17 = __this->___U3CmaxWaitU3E5__2;
 		if ((((int32_t)L_17) >= ((int32_t)1)))
 		{
@@ -10997,17 +10984,17 @@ IL_00db:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:64>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:64>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_18 = V_1;
 		NullCheck(L_18);
 		L_18->___isChecking = (bool)0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:65>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:65>
 		return (bool)0;
 	}
 
 IL_00ed:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:68>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:68>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_19;
 		L_19 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_19);
@@ -11019,21 +11006,21 @@ IL_00ed:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:71>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:71>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_21 = V_1;
 		NullCheck(L_21);
 		L_21->___isChecking = (bool)0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:72>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:72>
 		return (bool)0;
 	}
 
 IL_0103:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:77>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:77>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_22 = V_1;
 		NullCheck(L_22);
 		LocationServiceManager_UpdateLocationField_m24218E7AD6400EFE05305B279944F3187CD7BC7F(L_22, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:80>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:80>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_23 = V_1;
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_24 = V_1;
 		NullCheck(L_24);
@@ -11042,15 +11029,15 @@ IL_0103:
 		NullCheck(L_23);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_26;
 		L_26 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(L_23, L_25, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:83>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:83>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_27 = V_1;
 		NullCheck(L_27);
 		L_27->___isChecking = (bool)0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:84>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:84>
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78733
+// Method Definition Index: 78736
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CCheckLocationServiceU3Ed__5_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m72D2FC4F749405BB7BC4117CB353FDF0E9D43CC7 (U3CCheckLocationServiceU3Ed__5_t910B12E1650E749E9900F747CD57F02391899C13* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11058,7 +11045,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CCheckLocationServiceU3Ed__5
 		return L_0;
 	}
 }
-// Method Definition Index: 78734
+// Method Definition Index: 78737
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CCheckLocationServiceU3Ed__5_System_Collections_IEnumerator_Reset_mE33A9006C2D021C1A7DA4E8A049584BD8D207D04 (U3CCheckLocationServiceU3Ed__5_t910B12E1650E749E9900F747CD57F02391899C13* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11067,7 +11054,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CCheckLocationServiceU3Ed__5_System_Co
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CCheckLocationServiceU3Ed__5_System_Collections_IEnumerator_Reset_mE33A9006C2D021C1A7DA4E8A049584BD8D207D04_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78735
+// Method Definition Index: 78738
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CCheckLocationServiceU3Ed__5_System_Collections_IEnumerator_get_Current_m34AA2AE2FDEC1DA69DAA9AD9669F5FBFBF869B46 (U3CCheckLocationServiceU3Ed__5_t910B12E1650E749E9900F747CD57F02391899C13* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11083,7 +11070,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CCheckLocationServiceU3Ed__5
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78736
+// Method Definition Index: 78739
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CUpdateLocationDataU3Ed__6__ctor_mB6EEC517F7D9DFF91FEBE159534B98E9A3508DEA (U3CUpdateLocationDataU3Ed__6_t3A2A98D1D4FA86206B2E268C345C9B852FFCD6B5* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -11093,14 +11080,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CUpdateLocationDataU3Ed__6__ctor_mB6EE
 		return;
 	}
 }
-// Method Definition Index: 78737
+// Method Definition Index: 78740
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CUpdateLocationDataU3Ed__6_System_IDisposable_Dispose_m7E6484FF6C3A50CEC7640454255DD81042EBFB70 (U3CUpdateLocationDataU3Ed__6_t3A2A98D1D4FA86206B2E268C345C9B852FFCD6B5* __this, const RuntimeMethod* method) 
 {
 	{
 		return;
 	}
 }
-// Method Definition Index: 78738
+// Method Definition Index: 78741
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CUpdateLocationDataU3Ed__6_MoveNext_m37EFA47F41DAA89A09CAB5CF79337F2FDDF09930 (U3CUpdateLocationDataU3Ed__6_t3A2A98D1D4FA86206B2E268C345C9B852FFCD6B5* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11140,11 +11127,11 @@ IL_0017:
 
 IL_001e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:90>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:90>
 		LocationServiceManager_t9758BDB83B94A5381D56882D43897C3711C24758* L_4 = V_1;
 		NullCheck(L_4);
 		LocationServiceManager_UpdateLocationField_m24218E7AD6400EFE05305B279944F3187CD7BC7F(L_4, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:91>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:91>
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_5 = (WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3*)il2cpp_codegen_object_new(WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3_il2cpp_TypeInfo_var);
 		WaitForSeconds__ctor_m579F95BADEDBAB4B3A7E302C6EE3995926EF2EFC(L_5, (2.0f), NULL);
 		__this->___U3CU3E2__current = L_5;
@@ -11156,11 +11143,11 @@ IL_001e:
 IL_003d:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/LocationServiceManager.cs:88>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/LocationServiceManager.cs:88>
 		goto IL_001e;
 	}
 }
-// Method Definition Index: 78739
+// Method Definition Index: 78742
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CUpdateLocationDataU3Ed__6_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mC9B871989B952E7A29F8DA79B5CF2A2DE620BC85 (U3CUpdateLocationDataU3Ed__6_t3A2A98D1D4FA86206B2E268C345C9B852FFCD6B5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11168,7 +11155,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CUpdateLocationDataU3Ed__6_S
 		return L_0;
 	}
 }
-// Method Definition Index: 78740
+// Method Definition Index: 78743
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CUpdateLocationDataU3Ed__6_System_Collections_IEnumerator_Reset_mC5C6A0AFA125FAF5B9465B0C74B75332C3ABEF69 (U3CUpdateLocationDataU3Ed__6_t3A2A98D1D4FA86206B2E268C345C9B852FFCD6B5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11177,7 +11164,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CUpdateLocationDataU3Ed__6_System_Coll
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CUpdateLocationDataU3Ed__6_System_Collections_IEnumerator_Reset_mC5C6A0AFA125FAF5B9465B0C74B75332C3ABEF69_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78741
+// Method Definition Index: 78744
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CUpdateLocationDataU3Ed__6_System_Collections_IEnumerator_get_Current_m4985FA017FC85FD38594F3C0413CEC9521BC6591 (U3CUpdateLocationDataU3Ed__6_t3A2A98D1D4FA86206B2E268C345C9B852FFCD6B5* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11193,7 +11180,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CUpdateLocationDataU3Ed__6_S
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78742
+// Method Definition Index: 78745
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void APIManager_Awake_m0A83849E73F941A01DA893847C68D2857050C8BF (APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11204,7 +11191,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void APIManager_Awake_m0A83849E73F941A01DA893
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:13>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:13>
 		APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* L_0 = ((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -11215,10 +11202,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void APIManager_Awake_m0A83849E73F941A01DA893
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:15>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:15>
 		((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance = __this;
 		Il2CppCodeGenWriteBarrier((void**)(&((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance), (void*)__this);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:16>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:16>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2;
 		L_2 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -11228,16 +11215,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void APIManager_Awake_m0A83849E73F941A01DA893
 
 IL_001f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:20>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:20>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3;
 		L_3 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_3, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:22>
 		return;
 	}
 }
-// Method Definition Index: 78743
+// Method Definition Index: 78746
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* APIManager_PostRequest_m682F203F26DC3C5BEC774CB826F27F7176BC373F (APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* __this, String_t* ___0_endpoint, String_t* ___1_jsonData, Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* ___2_callback, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11271,7 +11258,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* APIManager_PostRequest_m682F20
 		return L_6;
 	}
 }
-// Method Definition Index: 78744
+// Method Definition Index: 78747
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* APIManager_PostFormRequest_m946BBD78B7A3CC940AE74BE0FCADE0F029EFBCDA (APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* __this, String_t* ___0_endpoint, WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* ___1_form, Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* ___2_callback, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11301,7 +11288,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* APIManager_PostFormRequest_m94
 		return L_5;
 	}
 }
-// Method Definition Index: 78745
+// Method Definition Index: 78748
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* APIManager_GetRequest_mBDF59CFA7DBCCAA0819BC57CF946CB222E79C893 (APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* __this, String_t* ___0_endpoint, Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* ___1_callback, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11326,7 +11313,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* APIManager_GetRequest_mBDF59CF
 		return L_3;
 	}
 }
-// Method Definition Index: 78746
+// Method Definition Index: 78749
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void APIManager__ctor_m13555799C0B9EDE91705A49FED069FA56BEF4D62 (APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11336,7 +11323,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void APIManager__ctor_m13555799C0B9EDE91705A4
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:9>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:9>
 		__this->___baseUrl = _stringLiteralC12E2A00EE9B60055F39F4D6A9C8253193503052;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___baseUrl), (void*)_stringLiteralC12E2A00EE9B60055F39F4D6A9C8253193503052);
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
@@ -11351,7 +11338,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void APIManager__ctor_m13555799C0B9EDE91705A4
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78747
+// Method Definition Index: 78750
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CGetRequestU3Ed__5__ctor_mCA3B73E40DE093A54CEA71D7F2D858F98612660C (U3CGetRequestU3Ed__5_t3EC04BA7C573DF71B4DB3B7BCF0F227E7C090F1B* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -11361,7 +11348,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CGetRequestU3Ed__5__ctor_mCA3B73E40DE0
 		return;
 	}
 }
-// Method Definition Index: 78748
+// Method Definition Index: 78751
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CGetRequestU3Ed__5_System_IDisposable_Dispose_m77580791608E914FA33C8B39EA1005088C431D05 (U3CGetRequestU3Ed__5_t3EC04BA7C573DF71B4DB3B7BCF0F227E7C090F1B* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -11410,7 +11397,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78749
+// Method Definition Index: 78752
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CGetRequestU3Ed__5_MoveNext_m980B703D248C1A5B0EC1B8E5370206CB5528ADDF (U3CGetRequestU3Ed__5_t3EC04BA7C573DF71B4DB3B7BCF0F227E7C090F1B* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11463,23 +11450,23 @@ FAULT_00e9:
 IL_0015_1:
 			{
 				__this->___U3CU3E1__state = (-1);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:75>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:75>
 				String_t* L_3 = __this->___endpoint;
 				V_2 = L_3;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:76>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:76>
 				String_t* L_4 = V_2;
 				String_t* L_5;
 				L_5 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral2DECF68EA3B13E62699EF918F079A433DD1E0C35, L_4, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_5, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:78>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:78>
 				String_t* L_6 = V_2;
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_7;
 				L_7 = UnityWebRequest_Get_m1A332EE069BB5052368307F254A5A7627BB5FD86(L_6, NULL);
 				__this->___U3CwwwU3E5__2 = L_7;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)L_7);
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:80>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:80>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_8 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_8);
 				UnityWebRequestAsyncOperation_t14BE94558FF3A2CFC2EFBE2511A3A88252042B8C* L_9;
@@ -11494,7 +11481,7 @@ IL_0015_1:
 IL_0066_1:
 			{
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:82>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:82>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_10 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_10);
 				int32_t L_11;
@@ -11505,7 +11492,7 @@ IL_0066_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:84>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:84>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_12 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_12);
 				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_13;
@@ -11517,7 +11504,7 @@ IL_0066_1:
 				L_15 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral979E8E0E871B036EAD53A6D170E4BF54FD916FAC, L_14, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_15, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:85>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:85>
 				Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_16 = __this->___callback;
 				Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_17 = L_16;
 				if (L_17)
@@ -11547,7 +11534,7 @@ IL_00a7_1:
 
 IL_00be_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:89>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:89>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_21 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_21);
 				String_t* L_22;
@@ -11560,11 +11547,11 @@ IL_00be_1:
 
 IL_00d8_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:91>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:91>
 				U3CGetRequestU3Ed__5_U3CU3Em__Finally1_m722BB3D83BAF940AE1C8268760C53B22B0ABF7F1(__this, NULL);
 				__this->___U3CwwwU3E5__2 = (UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:92>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:92>
 				V_0 = (bool)0;
 				goto IL_00f0;
 			}
@@ -11581,7 +11568,7 @@ IL_00f0:
 		return L_24;
 	}
 }
-// Method Definition Index: 78750
+// Method Definition Index: 78753
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CGetRequestU3Ed__5_U3CU3Em__Finally1_m722BB3D83BAF940AE1C8268760C53B22B0ABF7F1 (U3CGetRequestU3Ed__5_t3EC04BA7C573DF71B4DB3B7BCF0F227E7C090F1B* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11609,7 +11596,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78751
+// Method Definition Index: 78754
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CGetRequestU3Ed__5_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m608822327A064F0413EE2D8B88D748845DFD3069 (U3CGetRequestU3Ed__5_t3EC04BA7C573DF71B4DB3B7BCF0F227E7C090F1B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11617,7 +11604,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CGetRequestU3Ed__5_System_Co
 		return L_0;
 	}
 }
-// Method Definition Index: 78752
+// Method Definition Index: 78755
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CGetRequestU3Ed__5_System_Collections_IEnumerator_Reset_mC179F55A40886A467E3548C09B578BE5A0771F5D (U3CGetRequestU3Ed__5_t3EC04BA7C573DF71B4DB3B7BCF0F227E7C090F1B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11626,7 +11613,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CGetRequestU3Ed__5_System_Collections_
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CGetRequestU3Ed__5_System_Collections_IEnumerator_Reset_mC179F55A40886A467E3548C09B578BE5A0771F5D_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78753
+// Method Definition Index: 78756
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CGetRequestU3Ed__5_System_Collections_IEnumerator_get_Current_mA437CAEFED8AC748F4035E3D14D78A36084FEC95 (U3CGetRequestU3Ed__5_t3EC04BA7C573DF71B4DB3B7BCF0F227E7C090F1B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11642,7 +11629,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CGetRequestU3Ed__5_System_Co
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78754
+// Method Definition Index: 78757
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostFormRequestU3Ed__4__ctor_m3BE1766055A6A33A3B8C177E77478AAFC4A1F751 (U3CPostFormRequestU3Ed__4_tCD6C1578B7E5BC371B90A73DF2924A6E62BD1853* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -11652,7 +11639,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostFormRequestU3Ed__4__ctor_m3BE1766
 		return;
 	}
 }
-// Method Definition Index: 78755
+// Method Definition Index: 78758
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostFormRequestU3Ed__4_System_IDisposable_Dispose_m05329FCD849C6B56E53FCE843FF794445D547B57 (U3CPostFormRequestU3Ed__4_tCD6C1578B7E5BC371B90A73DF2924A6E62BD1853* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -11701,7 +11688,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78756
+// Method Definition Index: 78759
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CPostFormRequestU3Ed__4_MoveNext_m001AE4281F4337632A48D3E4477AEC1232595E4C (U3CPostFormRequestU3Ed__4_tCD6C1578B7E5BC371B90A73DF2924A6E62BD1853* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11756,16 +11743,16 @@ FAULT_0107:
 IL_0015_1:
 			{
 				__this->___U3CU3E1__state = (-1);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:53>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:53>
 				String_t* L_3 = __this->___endpoint;
 				V_2 = L_3;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:54>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:54>
 				String_t* L_4 = V_2;
 				String_t* L_5;
 				L_5 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral1ECDAF2BA8BDB592B6D10496FFE7040F7BEFCF36, L_4, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_5, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:56>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:56>
 				String_t* L_6 = V_2;
 				WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_7 = __this->___form;
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_8;
@@ -11773,7 +11760,7 @@ IL_0015_1:
 				__this->___U3CwwwU3E5__2 = L_8;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)L_8);
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:58>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:58>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_9 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_9);
 				UnityWebRequestAsyncOperation_t14BE94558FF3A2CFC2EFBE2511A3A88252042B8C* L_10;
@@ -11788,7 +11775,7 @@ IL_0015_1:
 IL_006c_1:
 			{
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:60>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:60>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_11 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_11);
 				int32_t L_12;
@@ -11799,7 +11786,7 @@ IL_006c_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:62>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:62>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_13 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_13);
 				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_14;
@@ -11811,7 +11798,7 @@ IL_006c_1:
 				L_16 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralA406EC2AF0C9D0D8FA49B0FEE968C25BF71A927E, L_15, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_16, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:63>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:63>
 				Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_17 = __this->___callback;
 				Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_18 = L_17;
 				if (L_18)
@@ -11841,7 +11828,7 @@ IL_00ad_1:
 
 IL_00c4_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:67>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:67>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_22 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_22);
 				String_t* L_23;
@@ -11861,11 +11848,11 @@ IL_00c4_1:
 
 IL_00f6_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:69>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:69>
 				U3CPostFormRequestU3Ed__4_U3CU3Em__Finally1_mE7C54BF2DCC8193F900A0E8E246256BA191043F7(__this, NULL);
 				__this->___U3CwwwU3E5__2 = (UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:70>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:70>
 				V_0 = (bool)0;
 				goto IL_010e;
 			}
@@ -11882,7 +11869,7 @@ IL_010e:
 		return L_28;
 	}
 }
-// Method Definition Index: 78757
+// Method Definition Index: 78760
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostFormRequestU3Ed__4_U3CU3Em__Finally1_mE7C54BF2DCC8193F900A0E8E246256BA191043F7 (U3CPostFormRequestU3Ed__4_tCD6C1578B7E5BC371B90A73DF2924A6E62BD1853* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -11910,7 +11897,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78758
+// Method Definition Index: 78761
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostFormRequestU3Ed__4_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mAC96511C124DB940CC5A513D9F035E41E0F69703 (U3CPostFormRequestU3Ed__4_tCD6C1578B7E5BC371B90A73DF2924A6E62BD1853* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11918,7 +11905,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostFormRequestU3Ed__4_Syst
 		return L_0;
 	}
 }
-// Method Definition Index: 78759
+// Method Definition Index: 78762
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostFormRequestU3Ed__4_System_Collections_IEnumerator_Reset_m2DBDC512D5F17019C7FB0061AE10E2EA3657F76A (U3CPostFormRequestU3Ed__4_tCD6C1578B7E5BC371B90A73DF2924A6E62BD1853* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11927,7 +11914,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostFormRequestU3Ed__4_System_Collect
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CPostFormRequestU3Ed__4_System_Collections_IEnumerator_Reset_m2DBDC512D5F17019C7FB0061AE10E2EA3657F76A_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78760
+// Method Definition Index: 78763
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostFormRequestU3Ed__4_System_Collections_IEnumerator_get_Current_mF035011C65EC96A0DC50D43AE1BBD24A985F58B7 (U3CPostFormRequestU3Ed__4_tCD6C1578B7E5BC371B90A73DF2924A6E62BD1853* __this, const RuntimeMethod* method) 
 {
 	{
@@ -11943,7 +11930,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostFormRequestU3Ed__4_Syst
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78761
+// Method Definition Index: 78764
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostRequestU3Ed__3__ctor_m87CEE3DFD660691083F2042DA320FCE65E38EC46 (U3CPostRequestU3Ed__3_t028852175EB9AA9ECABC00413C77F5ED223C5056* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -11953,7 +11940,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostRequestU3Ed__3__ctor_m87CEE3DFD66
 		return;
 	}
 }
-// Method Definition Index: 78762
+// Method Definition Index: 78765
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostRequestU3Ed__3_System_IDisposable_Dispose_mBC8CAE620D024C356179A96143B499CDF23DE136 (U3CPostRequestU3Ed__3_t028852175EB9AA9ECABC00413C77F5ED223C5056* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -12002,7 +11989,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78763
+// Method Definition Index: 78766
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CPostRequestU3Ed__3_MoveNext_mE80CF5ECD407A2164F1FCDEFF270C6D1DBE95C01 (U3CPostRequestU3Ed__3_t028852175EB9AA9ECABC00413C77F5ED223C5056* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12065,7 +12052,7 @@ FAULT_014c:
 IL_001f_1:
 			{
 				__this->___U3CU3E1__state = (-1);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:26>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:26>
 				APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* L_4 = V_2;
 				NullCheck(L_4);
 				String_t* L_5 = L_4->___baseUrl;
@@ -12073,13 +12060,13 @@ IL_001f_1:
 				String_t* L_7;
 				L_7 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(L_5, L_6, NULL);
 				V_3 = L_7;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:27>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:27>
 				String_t* L_8 = V_3;
 				String_t* L_9;
 				L_9 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral717BCECF512627CF465D701E9F62CBD7F8E06E85, L_8, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_9, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:29>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:29>
 				Encoding_t65CDEF28CF20A7B8C92E85A4E808920C2465F095* L_10;
 				L_10 = Encoding_get_UTF8_m9FA98A53CE96FD6D02982625C5246DD36C1235C9(NULL);
 				String_t* L_11 = __this->___jsonData;
@@ -12087,31 +12074,31 @@ IL_001f_1:
 				ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_12;
 				L_12 = VirtualFuncInvoker1< ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*, String_t* >::Invoke(18, L_10, L_11);
 				V_4 = L_12;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:31>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:31>
 				String_t* L_13 = V_3;
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_14 = (UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)il2cpp_codegen_object_new(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F_il2cpp_TypeInfo_var);
 				UnityWebRequest__ctor_mD4739B0BF1C4937479A83B24B531C6B819712A3E(L_14, L_13, _stringLiteral14E338D17C42E552FA7AF42CDAE40CA1F0E8A04D, NULL);
 				__this->___U3CwwwU3E5__2 = L_14;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)L_14);
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:33>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:33>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_15 = __this->___U3CwwwU3E5__2;
 				ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_16 = V_4;
 				UploadHandlerRaw_t0A24CF320CDF16F1BC6C5C086DE71A1908CBB91A* L_17 = (UploadHandlerRaw_t0A24CF320CDF16F1BC6C5C086DE71A1908CBB91A*)il2cpp_codegen_object_new(UploadHandlerRaw_t0A24CF320CDF16F1BC6C5C086DE71A1908CBB91A_il2cpp_TypeInfo_var);
 				UploadHandlerRaw__ctor_m168C957B67E29CB3072E3542044D37E2F16C42B7(L_17, L_16, NULL);
 				NullCheck(L_15);
 				UnityWebRequest_set_uploadHandler_m68F346550136DE178C79238944985892196027FE(L_15, L_17, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:34>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:34>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_18 = __this->___U3CwwwU3E5__2;
 				DownloadHandlerBuffer_t34C626F6513FA9A44FDDDEE85455CF2CD9DA5974* L_19 = (DownloadHandlerBuffer_t34C626F6513FA9A44FDDDEE85455CF2CD9DA5974*)il2cpp_codegen_object_new(DownloadHandlerBuffer_t34C626F6513FA9A44FDDDEE85455CF2CD9DA5974_il2cpp_TypeInfo_var);
 				DownloadHandlerBuffer__ctor_m5EE7C9E8AB468B2B937A7C9C66B4176A884147AF(L_19, NULL);
 				NullCheck(L_18);
 				UnityWebRequest_set_downloadHandler_m6CB94492012097DFC44E5773D1A627753788292F(L_18, L_19, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:35>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:35>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_20 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_20);
 				UnityWebRequest_SetRequestHeader_m099734EB787B7269B62AB2236A5A4F7D35AF8BC5(L_20, _stringLiteral5B58EBE31E594BF8FA4BEA3CD075473149322B18, _stringLiteral64058CC688A96A90239811EF06C9D20DB0499C3E, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:37>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:37>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_21 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_21);
 				UnityWebRequestAsyncOperation_t14BE94558FF3A2CFC2EFBE2511A3A88252042B8C* L_22;
@@ -12126,7 +12113,7 @@ IL_001f_1:
 IL_00c9_1:
 			{
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:39>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:39>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_23 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_23);
 				int32_t L_24;
@@ -12137,7 +12124,7 @@ IL_00c9_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:41>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:41>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_25 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_25);
 				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_26;
@@ -12149,7 +12136,7 @@ IL_00c9_1:
 				L_28 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral979E8E0E871B036EAD53A6D170E4BF54FD916FAC, L_27, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_28, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:42>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:42>
 				Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_29 = __this->___callback;
 				Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_30 = L_29;
 				if (L_30)
@@ -12179,7 +12166,7 @@ IL_010a_1:
 
 IL_0121_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:46>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:46>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_34 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_34);
 				String_t* L_35;
@@ -12192,11 +12179,11 @@ IL_0121_1:
 
 IL_013b_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:48>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:48>
 				U3CPostRequestU3Ed__3_U3CU3Em__Finally1_mFA17D5769968894238B55B7CDBE640F67F7F0A74(__this, NULL);
 				__this->___U3CwwwU3E5__2 = (UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/APIManager.cs:49>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/APIManager.cs:49>
 				V_0 = (bool)0;
 				goto IL_0153;
 			}
@@ -12213,7 +12200,7 @@ IL_0153:
 		return L_37;
 	}
 }
-// Method Definition Index: 78764
+// Method Definition Index: 78767
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostRequestU3Ed__3_U3CU3Em__Finally1_mFA17D5769968894238B55B7CDBE640F67F7F0A74 (U3CPostRequestU3Ed__3_t028852175EB9AA9ECABC00413C77F5ED223C5056* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12241,7 +12228,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78765
+// Method Definition Index: 78768
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostRequestU3Ed__3_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m2C7AD55F0D9FB263F0C5F6DF6159578F8F97DE0D (U3CPostRequestU3Ed__3_t028852175EB9AA9ECABC00413C77F5ED223C5056* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12249,7 +12236,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostRequestU3Ed__3_System_C
 		return L_0;
 	}
 }
-// Method Definition Index: 78766
+// Method Definition Index: 78769
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostRequestU3Ed__3_System_Collections_IEnumerator_Reset_m74E30D1DE6E584A94C72355C4E856538A9690EC6 (U3CPostRequestU3Ed__3_t028852175EB9AA9ECABC00413C77F5ED223C5056* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12258,7 +12245,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CPostRequestU3Ed__3_System_Collections
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CPostRequestU3Ed__3_System_Collections_IEnumerator_Reset_m74E30D1DE6E584A94C72355C4E856538A9690EC6_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78767
+// Method Definition Index: 78770
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostRequestU3Ed__3_System_Collections_IEnumerator_get_Current_mFA2BBA899CED9585D464A2FE4B4FC829C2F68CD6 (U3CPostRequestU3Ed__3_t028852175EB9AA9ECABC00413C77F5ED223C5056* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12274,7 +12261,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CPostRequestU3Ed__3_System_C
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78768
+// Method Definition Index: 78771
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSFormData__ctor_m13397459627BF64939D324B352BF14AC95EA2347 (SOSFormData_tADAE50F0A973DDDCAD3F5E373E2343CD9A8A5375* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12290,7 +12277,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSFormData__ctor_m13397459627BF64939D32
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78769
+// Method Definition Index: 78772
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundRequest__ctor_mC639ACCB3FFDB570F05A7BF8CC050251AF2A241A (LostFoundRequest_t67764E5721DFC5969B6DA86F354ED86C0F820440* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12306,7 +12293,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundRequest__ctor_mC639ACCB3FFDB570
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78770
+// Method Definition Index: 78773
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationRequest__ctor_m25E3509339D0F18A48D58E1A9420BBDED0A3692E (NavigationRequest_t687D4555242A64099BD4396FA25B3E5E87B2EB2F* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12322,7 +12309,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationRequest__ctor_m25E3509339D0F18
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78771
+// Method Definition Index: 78774
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdate__ctor_m348AC5CB11A731228C2F07857A8E411EBCC14EC9 (LiveUpdate_tC662E4091574D6043645EFE4F69DB3256E586972* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12338,7 +12325,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdate__ctor_m348AC5CB11A731228C2F07
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78772
+// Method Definition Index: 78775
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicData__ctor_m892183789010A4BDD3FAA4D7AC1A22ACC72BFDBE (DynamicData_t7527C43199934C08AACFBFDBB0A6890FBC70F053* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12354,7 +12341,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicData__ctor_m892183789010A4BDD3FAA
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78773
+// Method Definition Index: 78776
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationData__cctor_mD6EF2087D523AB6619FD198EECCFE98B94C00F0C (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12365,10 +12352,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationData__cctor_mD6EF2087D523AB661
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:8>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:8>
 		((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___DestinationName = _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
 		Il2CppCodeGenWriteBarrier((void**)(&((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___DestinationName), (void*)_stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:9>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:9>
 		((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___HasData = (bool)0;
 		return;
 	}
@@ -12381,17 +12368,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationData__cctor_mD6EF2087D523AB661
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78774
+// Method Definition Index: 78777
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GeoCoordinate__ctor_m2FE7D1FF7250C6E86645900211EE34F393584B46 (GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801* __this, double ___0_lat, double ___1_lon, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:21>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:21>
 		double L_0 = ___0_lat;
 		__this->___latitude = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:22>
 		double L_1 = ___1_lon;
 		__this->___longitude = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:23>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:23>
 		return;
 	}
 }
@@ -12402,11 +12389,11 @@ IL2CPP_EXTERN_C  void GeoCoordinate__ctor_m2FE7D1FF7250C6E86645900211EE34F393584
 	_thisAdjusted = reinterpret_cast<GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801*>(__this + _offset);
 	GeoCoordinate__ctor_m2FE7D1FF7250C6E86645900211EE34F393584B46(_thisAdjusted, ___0_lat, ___1_lon, method);
 }
-// Method Definition Index: 78775
+// Method Definition Index: 78778
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 GeoCoordinate_ToVector2_m8C8B0AA78D38F262EFAB3166023A0945E80D0764 (GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:28>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:28>
 		double L_0 = __this->___latitude;
 		double L_1 = __this->___longitude;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_2;
@@ -12424,18 +12411,18 @@ IL2CPP_EXTERN_C  Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 GeoCoordinate
 	_returnValue = GeoCoordinate_ToVector2_m8C8B0AA78D38F262EFAB3166023A0945E80D0764(_thisAdjusted, method);
 	return _returnValue;
 }
-// Method Definition Index: 78776
+// Method Definition Index: 78779
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 GeoCoordinate_get_zero_m6573A0D740E827F36DB0511B10F69718C3F3B110 (const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:31>
 		GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 L_0;
 		memset((&L_0), 0, sizeof(L_0));
 		GeoCoordinate__ctor_m2FE7D1FF7250C6E86645900211EE34F393584B46((&L_0), (0.0), (0.0), NULL);
 		return L_0;
 	}
 }
-// Method Definition Index: 78777
+// Method Definition Index: 78780
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GeoCoordinate_IsZero_m599E29D6275EDBD7C2588DD6E290A4FA0CF242E6 (GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12445,7 +12432,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GeoCoordinate_IsZero_m599E29D6275EDBD7C2
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/Managers/NavigationData.cs:35>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/Managers/NavigationData.cs:35>
 		double L_0 = __this->___latitude;
 		il2cpp_codegen_runtime_class_init_inline(Math_tEB65DE7CA8B083C412C969C92981C030865486CE_il2cpp_TypeInfo_var);
 		double L_1;
@@ -12485,7 +12472,7 @@ IL2CPP_EXTERN_C  bool GeoCoordinate_IsZero_m599E29D6275EDBD7C2588DD6E290A4FA0CF2
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78778
+// Method Definition Index: 78781
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_Start_mA218BEF50CC724138489278EF6D06DF4C26F375E (PopupManager_tABFC2AA7056D01702EEAE5CB67EA32B88F4EF41C* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12497,7 +12484,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_Start_mA218BEF50CC724138489
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:13>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:13>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___popupPanel;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -12508,7 +12495,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_Start_mA218BEF50CC724138489
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:14>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:14>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2 = __this->___popupPanel;
 		NullCheck(L_2);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_2, (bool)0, NULL);
@@ -12516,7 +12503,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_Start_mA218BEF50CC724138489
 
 IL_001a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:16>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:16>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_3 = __this->___okButton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_4;
@@ -12527,7 +12514,7 @@ IL_001a:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:17>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:17>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_5 = __this->___okButton;
 		NullCheck(L_5);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_6;
@@ -12540,11 +12527,11 @@ IL_001a:
 
 IL_0044:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:18>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:18>
 		return;
 	}
 }
-// Method Definition Index: 78779
+// Method Definition Index: 78782
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ShowPopup_m020A240D7E4A1A8A2EAF2934E0A5AC80B64CA361 (PopupManager_tABFC2AA7056D01702EEAE5CB67EA32B88F4EF41C* __this, String_t* ___0_message, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12554,7 +12541,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ShowPopup_m020A240D7E4A1A8A
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:22>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___popupPanel;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -12575,12 +12562,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ShowPopup_m020A240D7E4A1A8A
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:24>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:24>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_4 = __this->___messageText;
 		String_t* L_5 = ___0_message;
 		NullCheck(L_4);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_4, L_5);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:25>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:25>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_6 = __this->___popupPanel;
 		NullCheck(L_6);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_6, (bool)1, NULL);
@@ -12588,11 +12575,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ShowPopup_m020A240D7E4A1A8A
 
 IL_0034:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:27>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:27>
 		return;
 	}
 }
-// Method Definition Index: 78780
+// Method Definition Index: 78783
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ClosePopup_mB372FADEC95213422E51A476EB5852A1DD738707 (PopupManager_tABFC2AA7056D01702EEAE5CB67EA32B88F4EF41C* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12602,7 +12589,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ClosePopup_mB372FADEC952134
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:31>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___popupPanel;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -12613,7 +12600,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ClosePopup_mB372FADEC952134
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:32>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:32>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2 = __this->___popupPanel;
 		NullCheck(L_2);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_2, (bool)0, NULL);
@@ -12621,11 +12608,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager_ClosePopup_mB372FADEC952134
 
 IL_001a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/PopupManager.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/PopupManager.cs:33>
 		return;
 	}
 }
-// Method Definition Index: 78781
+// Method Definition Index: 78784
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager__ctor_m6171F8CDA25C4FE2113A731A6307D18867F1DA09 (PopupManager_tABFC2AA7056D01702EEAE5CB67EA32B88F4EF41C* __this, const RuntimeMethod* method) 
 {
 	{
@@ -12641,7 +12628,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PopupManager__ctor_m6171F8CDA25C4FE2113A
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78782
+// Method Definition Index: 78785
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_Start_m2C87C6CCCCD9DBC9EF365ED70D049F204280D371 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12664,17 +12651,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_Start_m2C87C6CCCCD9DBC
 	int32_t G_B7_0 = 0;
 	GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* G_B7_1 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:109>
 		ScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E* L_0;
 		L_0 = Component_GetComponent_TisScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E_m807654BF9CCD1E13E3FB8498D557BDDF13006518(__this, Component_GetComponent_TisScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E_m807654BF9CCD1E13E3FB8498D557BDDF13006518_RuntimeMethod_var);
 		__this->___scrollRect = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___scrollRect), (void*)L_0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:110>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:110>
 		GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* L_1;
 		L_1 = Component_GetComponentInChildren_TisGridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940_m5D7C1B7C2884754C2A27D5A932DCD0C47E282B3A(__this, Component_GetComponentInChildren_TisGridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940_m5D7C1B7C2884754C2A27D5A932DCD0C47E282B3A_RuntimeMethod_var);
 		__this->___gridLayoutGroup = L_1;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___gridLayoutGroup), (void*)L_1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:112>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:112>
 		GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* L_2 = __this->___gridLayoutGroup;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -12685,23 +12672,23 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_Start_m2C87C6CCCCD9DBC
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:114>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:114>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral958354020A0B67DA234F5FD8C53E8BE5D35A37B3, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:115>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:115>
 		return;
 	}
 
 IL_0031:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:118>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:118>
 		GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* L_4 = __this->___gridLayoutGroup;
 		NullCheck(L_4);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_5;
 		L_5 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_4, NULL);
 		__this->___contentRectTransform = ((RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5*)IsInstSealed((RuntimeObject*)L_5, RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_il2cpp_TypeInfo_var));
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___contentRectTransform), (void*)((RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5*)IsInstSealed((RuntimeObject*)L_5, RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_il2cpp_TypeInfo_var)));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:120>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:120>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_6 = __this->___contentRectTransform;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_7;
@@ -12712,16 +12699,16 @@ IL_0031:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:122>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:122>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral9973F38D8298F0A6466D72A61A51161F5CA8F98A, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:123>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:123>
 		return;
 	}
 
 IL_0060:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:127>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:127>
 		GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* L_8 = __this->___gridLayoutGroup;
 		int32_t L_9 = __this->___layoutType;
 		if (!L_9)
@@ -12747,11 +12734,11 @@ IL_0072:
 	{
 		NullCheck(G_B7_1);
 		GridLayoutGroup_set_startAxis_m2C9BCD2A1CD3ECFDDF3B0A8B7EE28C48179A7739(G_B7_1, G_B7_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:129>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:129>
 		UIContentCarousel_CalculateTotalPages_m1CEF69D0C63EF2C4022648F112D43BAA523F0CD7(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:130>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:130>
 		UIContentCarousel_SetSnapTarget_mE9AE7AEF9A4C2BD99AD53D28D1F998976DECF8F2(__this, 0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:132>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:132>
 		bool L_10 = __this->___carouselMode;
 		if (!L_10)
 		{
@@ -12759,13 +12746,13 @@ IL_0072:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:134>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:134>
 		UIContentCarousel_InitializeNavigationDots_m871F916A90F51AF74C81008CE084AE09F2F1596D(__this, NULL);
 	}
 
 IL_0092:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:138>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:138>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_11 = __this->___nextButton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_12;
@@ -12776,7 +12763,7 @@ IL_0092:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:140>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:140>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_13 = __this->___nextButton;
 		NullCheck(L_13);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_14;
@@ -12789,7 +12776,7 @@ IL_0092:
 
 IL_00bc:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:143>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:143>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_16 = __this->___prevButton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_17;
@@ -12800,7 +12787,7 @@ IL_00bc:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:145>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:145>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_18 = __this->___prevButton;
 		NullCheck(L_18);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_19;
@@ -12813,11 +12800,11 @@ IL_00bc:
 
 IL_00e6:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:147>
 		return;
 	}
 }
-// Method Definition Index: 78783
+// Method Definition Index: 78786
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_InitializeNavigationDots_m871F916A90F51AF74C81008CE084AE09F2F1596D (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12846,14 +12833,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_InitializeNavigationDo
 	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* G_B7_1 = NULL;
 	UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* G_B7_2 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:151>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:151>
 		V_0 = 0;
 		goto IL_005b;
 	}
 
 IL_0004:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:153>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:153>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___dotPrefab;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1 = __this->___dotsContainer;
 		NullCheck(L_1);
@@ -12863,7 +12850,7 @@ IL_0004:
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3;
 		L_3 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m58C654F1134533E29502629CA67645682B404811(L_0, L_2, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m58C654F1134533E29502629CA67645682B404811_RuntimeMethod_var);
 		V_1 = L_3;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:154>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:154>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4 = V_1;
 		int32_t L_5 = V_0;
 		int32_t L_6 = __this->___currentIndex;
@@ -12896,7 +12883,7 @@ IL_0034:
 	{
 		NullCheck(G_B4_2);
 		UIContentCarousel_SetDotSize_mB8E172B28A4F419E7CFCE4733CEB5A17136AB8CB(G_B4_2, G_B4_1, G_B4_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:155>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9 = V_1;
 		int32_t L_10 = V_0;
 		int32_t L_11 = __this->___currentIndex;
@@ -12929,14 +12916,14 @@ IL_0052:
 	{
 		NullCheck(G_B7_2);
 		UIContentCarousel_SetDotColor_mF9C9A1D3EAE11C428C2754A887CB1488F2D9CB06(G_B7_2, G_B7_1, G_B7_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:151>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:151>
 		int32_t L_14 = V_0;
 		V_0 = ((int32_t)il2cpp_codegen_add(L_14, 1));
 	}
 
 IL_005b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:151>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:151>
 		int32_t L_15 = V_0;
 		int32_t L_16 = __this->___totalPages;
 		if ((((int32_t)L_15) < ((int32_t)L_16)))
@@ -12945,11 +12932,11 @@ IL_005b:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:158>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:158>
 		return;
 	}
 }
-// Method Definition Index: 78784
+// Method Definition Index: 78787
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotColor_mF9C9A1D3EAE11C428C2754A887CB1488F2D9CB06 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_dot, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F ___1_color, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -12961,13 +12948,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotColor_mF9C9A1D3E
 	}
 	Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* V_0 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:162>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:162>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ___0_dot;
 		NullCheck(L_0);
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_1;
 		L_1 = GameObject_GetComponent_TisImage_tBC1D03F63BF71132E9A5E472B8742F172A011E7E_mA59EA7D5F9133B2593F4AB70B099928BA955EE7D(L_0, GameObject_GetComponent_TisImage_tBC1D03F63BF71132E9A5E472B8742F172A011E7E_mA59EA7D5F9133B2593F4AB70B099928BA955EE7D_RuntimeMethod_var);
 		V_0 = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:163>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:163>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_2 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -12978,7 +12965,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotColor_mF9C9A1D3E
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:165>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:165>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_4 = V_0;
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_5 = ___1_color;
 		NullCheck(L_4);
@@ -12987,11 +12974,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotColor_mF9C9A1D3E
 
 IL_0017:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:167>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:167>
 		return;
 	}
 }
-// Method Definition Index: 78785
+// Method Definition Index: 78788
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotSize_mB8E172B28A4F419E7CFCE4733CEB5A17136AB8CB (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_dot, Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 ___1_size, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -13003,13 +12990,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotSize_mB8E172B28A
 	}
 	RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* V_0 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:171>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:171>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ___0_dot;
 		NullCheck(L_0);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_1;
 		L_1 = GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4(L_0, GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4_RuntimeMethod_var);
 		V_0 = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:172>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:172>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_2 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -13020,7 +13007,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotSize_mB8E172B28A
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:174>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_4 = V_0;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_5 = ___1_size;
 		NullCheck(L_4);
@@ -13029,16 +13016,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetDotSize_mB8E172B28A
 
 IL_0017:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:176>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:176>
 		return;
 	}
 }
-// Method Definition Index: 78786
+// Method Definition Index: 78789
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_CalculateTotalPages_m1CEF69D0C63EF2C4022648F112D43BAA523F0CD7 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:180>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:180>
 		GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* L_0 = __this->___gridLayoutGroup;
 		NullCheck(L_0);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_1;
@@ -13047,7 +13034,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_CalculateTotalPages_m1
 		int32_t L_2;
 		L_2 = Transform_get_childCount_mE9C29C702AB662CC540CA053EDE48BDAFA35B4B0(L_1, NULL);
 		V_0 = L_2;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:181>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:181>
 		int32_t L_3 = V_0;
 		GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* L_4 = __this->___gridLayoutGroup;
 		NullCheck(L_4);
@@ -13056,17 +13043,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_CalculateTotalPages_m1
 		int32_t L_6;
 		L_6 = Mathf_CeilToInt_mF2BF9F4261B3431DC20E10A46CFEEED103C48963_inline(((float)(((float)L_3)/((float)L_5))), NULL);
 		__this->___totalPages = L_6;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:182>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:182>
 		return;
 	}
 }
-// Method Definition Index: 78787
+// Method Definition Index: 78790
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetSnapTarget_mE9AE7AEF9A4C2BD99AD53D28D1F998976DECF8F2 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, int32_t ___0_page, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
 	int32_t V_1 = 0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:186>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:186>
 		bool L_0 = __this->___infiniteLooping;
 		if (!L_0)
 		{
@@ -13074,15 +13061,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetSnapTarget_mE9AE7AE
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:188>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:188>
 		int32_t L_1 = __this->___totalPages;
 		V_0 = ((int32_t)il2cpp_codegen_multiply(L_1, 2));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:189>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:189>
 		int32_t L_2 = ___0_page;
 		int32_t L_3 = V_0;
 		int32_t L_4 = __this->___totalPages;
 		V_1 = ((int32_t)(((int32_t)il2cpp_codegen_add(L_2, L_3))%L_4));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:190>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:190>
 		float L_5 = __this->___pageSize;
 		int32_t L_6 = V_1;
 		__this->___targetPosition = ((float)il2cpp_codegen_multiply(((-L_5)), ((float)L_6)));
@@ -13091,7 +13078,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_SetSnapTarget_mE9AE7AE
 
 IL_002e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:194>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:194>
 		float L_7 = __this->___pageSize;
 		int32_t L_8 = ___0_page;
 		__this->___targetPosition = ((float)il2cpp_codegen_multiply(((-L_7)), ((float)L_8)));
@@ -13099,42 +13086,42 @@ IL_002e:
 
 IL_003e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:197>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:197>
 		int32_t L_9 = ___0_page;
 		__this->___currentIndex = L_9;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:198>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:198>
 		return;
 	}
 }
-// Method Definition Index: 78788
+// Method Definition Index: 78791
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_OnBeginDrag_m44675811B6B1B1D4897A100B801F1C1AC33C88D4 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, PointerEventData_t9670F3C7D823CCB738A1604C72A1EB90292396FB* ___0_eventData, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:202>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:202>
 		__this->___isDragging = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:203>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:203>
 		PointerEventData_t9670F3C7D823CCB738A1604C72A1EB90292396FB* L_0 = ___0_eventData;
 		NullCheck(L_0);
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_1;
 		L_1 = PointerEventData_get_position_m5BE71C28EB72EFB8435749E4E6E839213AEF458C_inline(L_0, NULL);
 		__this->___dragStartPos = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:204>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:204>
 		float L_2;
 		L_2 = Time_get_unscaledTime_mAF4040B858903E1325D1C65B8BF1AC61460B2503(NULL);
 		__this->___lastDragTime = L_2;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:205>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:205>
 		return;
 	}
 }
-// Method Definition Index: 78789
+// Method Definition Index: 78792
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_OnEndDrag_m3E5FECD9C24BD109A330516E718E94C11EDB0AA1 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, PointerEventData_t9670F3C7D823CCB738A1604C72A1EB90292396FB* ___0_eventData, const RuntimeMethod* method) 
 {
 	float V_0 = 0.0f;
 	float V_1 = 0.0f;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:209>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:209>
 		__this->___isDragging = (bool)0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:211>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:211>
 		PointerEventData_t9670F3C7D823CCB738A1604C72A1EB90292396FB* L_0 = ___0_eventData;
 		NullCheck(L_0);
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_1;
@@ -13145,7 +13132,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_OnEndDrag_m3E5FECD9C24
 		float L_5;
 		L_5 = fabsf(((float)il2cpp_codegen_subtract(L_2, L_4)));
 		V_0 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:212>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:212>
 		PointerEventData_t9670F3C7D823CCB738A1604C72A1EB90292396FB* L_6 = ___0_eventData;
 		NullCheck(L_6);
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_7;
@@ -13155,7 +13142,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_OnEndDrag_m3E5FECD9C24
 		L_9 = Time_get_unscaledTime_mAF4040B858903E1325D1C65B8BF1AC61460B2503(NULL);
 		float L_10 = __this->___lastDragTime;
 		V_1 = ((float)(L_8/((float)il2cpp_codegen_subtract(L_9, L_10))));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:214>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:214>
 		bool L_11 = __this->___autoMove;
 		if (!L_11)
 		{
@@ -13163,14 +13150,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_OnEndDrag_m3E5FECD9C24
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:216>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:216>
 		float L_12 = __this->___autoMoveTimer;
 		__this->___autoMoveTimerCountdown = L_12;
 	}
 
 IL_0051:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:219>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:219>
 		bool L_13 = __this->___carouselMode;
 		if (!L_13)
 		{
@@ -13178,7 +13165,7 @@ IL_0051:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:222>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:222>
 		float L_14 = V_0;
 		float L_15 = __this->___pageSize;
 		float L_16 = __this->___swipeThreshold;
@@ -13200,7 +13187,7 @@ IL_0051:
 
 IL_0077:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:224>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:224>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_20 = __this->___contentRectTransform;
 		NullCheck(L_20);
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_21;
@@ -13209,7 +13196,7 @@ IL_0077:
 		float L_23 = __this->___pageSize;
 		int32_t L_24;
 		L_24 = Mathf_RoundToInt_m60F8B66CF27F1FA75AA219342BD184B75771EB4B_inline(((float)(L_22/((-L_23)))), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:226>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:226>
 		float L_25 = V_1;
 		if ((!(((float)L_25) > ((float)(0.0f)))))
 		{
@@ -13217,36 +13204,36 @@ IL_0077:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:228>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:228>
 		UIContentCarousel_MoveToPreviousPage_m71C10875B7E76C47641544C82E15EFC5EAC1D8AE(__this, NULL);
 		return;
 	}
 
 IL_00a4:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:232>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:232>
 		UIContentCarousel_MoveToNextPage_m7C8C2339DF723903D85D62C2D5D242D86C3B6783(__this, NULL);
 		return;
 	}
 
 IL_00ab:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:238>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:238>
 		int32_t L_26 = __this->___currentIndex;
 		UIContentCarousel_SetSnapTarget_mE9AE7AEF9A4C2BD99AD53D28D1F998976DECF8F2(__this, L_26, NULL);
 	}
 
 IL_00b7:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:241>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:241>
 		return;
 	}
 }
-// Method Definition Index: 78790
+// Method Definition Index: 78793
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_Update_mBA335375A5996AB44305CF51FFF422A0D6C09C74 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:245>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:245>
 		bool L_0 = __this->___autoMove;
 		if (!L_0)
 		{
@@ -13254,12 +13241,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_Update_mBA335375A5996A
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:247>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:247>
 		float L_1 = __this->___autoMoveTimerCountdown;
 		float L_2;
 		L_2 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->___autoMoveTimerCountdown = ((float)il2cpp_codegen_subtract(L_1, L_2));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:248>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:248>
 		float L_3 = __this->___autoMoveTimerCountdown;
 		if ((!(((float)L_3) <= ((float)(0.0f)))))
 		{
@@ -13267,16 +13254,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_Update_mBA335375A5996A
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:250>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:250>
 		UIContentCarousel_MoveToNextPage_m7C8C2339DF723903D85D62C2D5D242D86C3B6783(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:251>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:251>
 		float L_4 = __this->___autoMoveTimer;
 		__this->___autoMoveTimerCountdown = L_4;
 	}
 
 IL_0039:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:255>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:255>
 		bool L_5 = __this->___isDragging;
 		if (L_5)
 		{
@@ -13284,11 +13271,11 @@ IL_0039:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:257>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:258>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:259>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:260>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:261>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:257>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:258>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:259>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:260>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:261>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_6 = __this->___contentRectTransform;
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_7 = __this->___contentRectTransform;
 		NullCheck(L_7);
@@ -13310,19 +13297,19 @@ IL_0039:
 		L_16 = Vector2_Lerp_m1A36103F7967F653A929556E26E6D052C298C00C_inline(L_8, L_13, ((float)il2cpp_codegen_multiply(L_14, L_15)), NULL);
 		NullCheck(L_6);
 		RectTransform_set_anchoredPosition_mF903ACE04F6959B1CD67E2B94FABC0263068F965(L_6, L_16, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:264>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:264>
 		UIContentCarousel_UpdateDotSizes_m2B4CE3A68E7FEAB61FA11C93B06402F4EEA85C86(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:267>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:267>
 		UIContentCarousel_RotateContent_m83B4F4C0C5BBB27134688972446759E57CDD0523(__this, NULL);
 	}
 
 IL_008f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:269>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:269>
 		return;
 	}
 }
-// Method Definition Index: 78791
+// Method Definition Index: 78794
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_RotateContent_m83B4F4C0C5BBB27134688972446759E57CDD0523 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -13331,14 +13318,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_RotateContent_m83B4F4C
 	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 V_3;
 	memset((&V_3), 0, sizeof(V_3));
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:273>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:273>
 		V_0 = 0;
 		goto IL_007f;
 	}
 
 IL_0004:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:275>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:275>
 		GridLayoutGroup_tEE9C68F88C13E6BD716BBD356D008ACFB63F1940* L_0 = __this->___gridLayoutGroup;
 		NullCheck(L_0);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_1;
@@ -13351,7 +13338,7 @@ IL_0004:
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4;
 		L_4 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_3, NULL);
 		V_1 = L_4;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:276>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:276>
 		float L_5 = __this->___maxRotationAngle;
 		int32_t L_6 = __this->___currentIndex;
 		int32_t L_7 = V_0;
@@ -13361,12 +13348,12 @@ IL_0004:
 		float L_10;
 		L_10 = Mathf_Lerp_m47EF2FFB7647BD0A1FDC26DC03E28B19812139B5_inline((0.0f), L_5, ((float)(((float)L_8)/((float)L_9))), NULL);
 		V_2 = L_10;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:277>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:277>
 		float L_11 = V_2;
 		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_12;
 		L_12 = Quaternion_Euler_m9262AB29E3E9CE94EF71051F38A28E82AEC73F90_inline((0.0f), (0.0f), L_11, NULL);
 		V_3 = L_12;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:279>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:279>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_13 = V_1;
 		NullCheck(L_13);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_14;
@@ -13386,14 +13373,14 @@ IL_0004:
 		L_21 = Quaternion_Slerp_m0A9969F500E7716EA4F6BC4E7D5464372D8E9E15(L_17, L_18, ((float)il2cpp_codegen_multiply(L_19, L_20)), NULL);
 		NullCheck(L_14);
 		Transform_set_rotation_m61340DE74726CF0F9946743A727C4D444397331D(L_14, L_21, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:273>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:273>
 		int32_t L_22 = V_0;
 		V_0 = ((int32_t)il2cpp_codegen_add(L_22, 1));
 	}
 
 IL_007f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:273>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:273>
 		int32_t L_23 = V_0;
 		int32_t L_24 = __this->___totalPages;
 		if ((((int32_t)L_23) < ((int32_t)L_24)))
@@ -13402,17 +13389,17 @@ IL_007f:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:281>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:281>
 		return;
 	}
 }
-// Method Definition Index: 78792
+// Method Definition Index: 78795
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToPreviousPage_m71C10875B7E76C47641544C82E15EFC5EAC1D8AE (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
 	int32_t V_1 = 0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:285>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:285>
 		bool L_0 = __this->___infiniteLooping;
 		if (!L_0)
 		{
@@ -13420,12 +13407,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToPreviousPage_m71
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:287>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:287>
 		int32_t L_1 = __this->___currentIndex;
 		int32_t L_2 = __this->___totalPages;
 		int32_t L_3 = __this->___totalPages;
 		V_0 = ((int32_t)(((int32_t)il2cpp_codegen_add(((int32_t)il2cpp_codegen_subtract(L_1, 1)), L_2))%L_3));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:288>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:288>
 		int32_t L_4 = V_0;
 		UIContentCarousel_SetSnapTarget_mE9AE7AEF9A4C2BD99AD53D28D1F998976DECF8F2(__this, L_4, NULL);
 		return;
@@ -13433,20 +13420,20 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToPreviousPage_m71
 
 IL_0027:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:292>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:292>
 		int32_t L_5 = __this->___currentIndex;
 		int32_t L_6 = __this->___totalPages;
 		int32_t L_7;
 		L_7 = Mathf_Clamp_m4DC36EEFDBE5F07C16249DA568023C5ECCFF0E7B_inline(((int32_t)il2cpp_codegen_subtract(L_5, 1)), 0, ((int32_t)il2cpp_codegen_subtract(L_6, 1)), NULL);
 		V_1 = L_7;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:293>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:293>
 		int32_t L_8 = V_1;
 		UIContentCarousel_SetSnapTarget_mE9AE7AEF9A4C2BD99AD53D28D1F998976DECF8F2(__this, L_8, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:295>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:295>
 		return;
 	}
 }
-// Method Definition Index: 78793
+// Method Definition Index: 78796
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToNextPage_m7C8C2339DF723903D85D62C2D5D242D86C3B6783 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -13459,7 +13446,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToNextPage_m7C8C23
 	int32_t V_0 = 0;
 	int32_t V_1 = 0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:299>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:299>
 		bool L_0 = __this->___infiniteLooping;
 		if (!L_0)
 		{
@@ -13467,11 +13454,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToNextPage_m7C8C23
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:301>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:301>
 		int32_t L_1 = __this->___currentIndex;
 		int32_t L_2 = __this->___totalPages;
 		V_0 = ((int32_t)(((int32_t)il2cpp_codegen_add(L_1, 1))%L_2));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:302>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:302>
 		int32_t L_3 = V_0;
 		int32_t L_4 = L_3;
 		RuntimeObject* L_5 = Box(il2cpp_defaults.int32_class, &L_4);
@@ -13479,7 +13466,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToNextPage_m7C8C23
 		L_6 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteral9FB29E949798F1575B8894228E3FCAC43E0B3EB6, L_5, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_6, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:303>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:303>
 		int32_t L_7 = V_0;
 		UIContentCarousel_SetSnapTarget_mE9AE7AEF9A4C2BD99AD53D28D1F998976DECF8F2(__this, L_7, NULL);
 		return;
@@ -13487,13 +13474,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_MoveToNextPage_m7C8C23
 
 IL_0035:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:307>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:307>
 		int32_t L_8 = __this->___currentIndex;
 		int32_t L_9 = __this->___totalPages;
 		int32_t L_10;
 		L_10 = Mathf_Clamp_m4DC36EEFDBE5F07C16249DA568023C5ECCFF0E7B_inline(((int32_t)il2cpp_codegen_add(L_8, 1)), 0, ((int32_t)il2cpp_codegen_subtract(L_9, 1)), NULL);
 		V_1 = L_10;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:308>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:308>
 		int32_t L_11 = V_1;
 		int32_t L_12 = L_11;
 		RuntimeObject* L_13 = Box(il2cpp_defaults.int32_class, &L_12);
@@ -13501,14 +13488,14 @@ IL_0035:
 		L_14 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteral9FB29E949798F1575B8894228E3FCAC43E0B3EB6, L_13, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_14, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:309>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:309>
 		int32_t L_15 = V_1;
 		UIContentCarousel_SetSnapTarget_mE9AE7AEF9A4C2BD99AD53D28D1F998976DECF8F2(__this, L_15, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:311>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:311>
 		return;
 	}
 }
-// Method Definition Index: 78794
+// Method Definition Index: 78797
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_UpdateDotSizes_m2B4CE3A68E7FEAB61FA11C93B06402F4EEA85C86 (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -13536,14 +13523,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel_UpdateDotSizes_m2B4CE3
 	Color_tD001788D726C3A7F1379BEED0260B9591F440C1F G_B10_0;
 	memset((&G_B10_0), 0, sizeof(G_B10_0));
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:315>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:315>
 		V_0 = 0;
 		goto IL_00ae;
 	}
 
 IL_0007:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:317>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:317>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = __this->___dotsContainer;
 		NullCheck(L_0);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_1;
@@ -13555,7 +13542,7 @@ IL_0007:
 		NullCheck(L_3);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_4;
 		L_4 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_3, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:318>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:318>
 		int32_t L_5 = V_0;
 		int32_t L_6 = __this->___currentIndex;
 		if ((((int32_t)L_5) == ((int32_t)L_6)))
@@ -13582,13 +13569,13 @@ IL_002e:
 IL_0034:
 	{
 		V_1 = G_B4_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:319>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:319>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9 = G_B4_1;
 		NullCheck(L_9);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_10;
 		L_10 = GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4(L_9, GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4_RuntimeMethod_var);
 		V_2 = L_10;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:321>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:321>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_11 = V_2;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_12;
@@ -13601,7 +13588,7 @@ IL_0034:
 		G_B5_0 = L_9;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:324>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:324>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_13 = V_2;
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_14 = V_2;
 		NullCheck(L_14);
@@ -13620,12 +13607,12 @@ IL_0034:
 
 IL_0063:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:328>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:328>
 		NullCheck(G_B6_0);
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_20;
 		L_20 = GameObject_GetComponent_TisImage_tBC1D03F63BF71132E9A5E472B8742F172A011E7E_mA59EA7D5F9133B2593F4AB70B099928BA955EE7D(G_B6_0, GameObject_GetComponent_TisImage_tBC1D03F63BF71132E9A5E472B8742F172A011E7E_mA59EA7D5F9133B2593F4AB70B099928BA955EE7D_RuntimeMethod_var);
 		V_3 = L_20;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:329>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:329>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_21 = V_3;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_22;
@@ -13636,7 +13623,7 @@ IL_0063:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:331>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:331>
 		int32_t L_23 = V_0;
 		int32_t L_24 = __this->___currentIndex;
 		if ((((int32_t)L_23) == ((int32_t)L_24)))
@@ -13659,7 +13646,7 @@ IL_0083:
 IL_0089:
 	{
 		V_4 = G_B10_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:332>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:332>
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_27 = V_3;
 		Image_tBC1D03F63BF71132E9A5E472B8742F172A011E7E* L_28 = V_3;
 		NullCheck(L_28);
@@ -13677,14 +13664,14 @@ IL_0089:
 
 IL_00aa:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:315>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:315>
 		int32_t L_34 = V_0;
 		V_0 = ((int32_t)il2cpp_codegen_add(L_34, 1));
 	}
 
 IL_00ae:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:315>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:315>
 		int32_t L_35 = V_0;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_36 = __this->___dotsContainer;
 		NullCheck(L_36);
@@ -13699,49 +13686,49 @@ IL_00ae:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:335>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:335>
 		return;
 	}
 }
-// Method Definition Index: 78795
+// Method Definition Index: 78798
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel__ctor_mEBE5B1A93EC4F4028DE14580BBDB22CF9770186B (UIContentCarousel_tA151735CFADE958E299DB90419DBA287C9D614EA* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:24>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:24>
 		__this->___pageSize = (600.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:27>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:27>
 		__this->___swipeThreshold = (0.200000003f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:30>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:30>
 		__this->___snapSpeed = (8.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:47>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:47>
 		__this->___autoMoveTimer = (5.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:58>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_0;
 		L_0 = Color_get_yellow_m66637FA14383E8D74F24AE256B577CE1D55D469F_inline(NULL);
 		__this->___activeDotColor = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:61>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_1;
 		L_1 = Color_get_grey_m1CE6BEDA3EF8569E939F77A4B0231D9839864F92(NULL);
 		__this->___inactiveDotColor = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:64>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:64>
 		__this->___dotColorTransitionSpeed = (5.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:68>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:68>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_2;
 		memset((&L_2), 0, sizeof(L_2));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_2), (20.0f), (10.0f), NULL);
 		__this->___activeDotSize = L_2;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:71>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:71>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_3;
 		memset((&L_3), 0, sizeof(L_3));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_3), (10.0f), (10.0f), NULL);
 		__this->___inactiveDotSize = L_3;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:74>
 		__this->___dotScalingSpeed = (5.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:78>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:78>
 		__this->___maxRotationAngle = (45.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:81>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:81>
 		__this->___rotationSpeed = (5.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIContentCarousel.cs:86>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIContentCarousel.cs:86>
 		__this->___infiniteLooping = (bool)1;
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
@@ -13763,7 +13750,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UIContentCarousel__ctor_mEBE5B1A93EC4F40
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78796
+// Method Definition Index: 78799
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ParkingPoint__ctor_mB01FC61C2C37DF96337DBDD4EA1E3570CACC286E (ParkingPoint_t55B5AE2DC7FA767BB5BE235D04C22DA65B9DA622* __this, const RuntimeMethod* method) 
 {
 	{
@@ -13779,7 +13766,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ParkingPoint__ctor_mB01FC61C2C37DF96337D
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78797
+// Method Definition Index: 78800
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ParkingResponse__ctor_mBDDA0BF4D28717CFBD1B8E5986C2E26263B136B2 (ParkingResponse_t986E1E1A702AE6F9DDDC60E56E8AD7901096E70D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -13795,7 +13782,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void ParkingResponse__ctor_mBDDA0BF4D28717CFB
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78798
+// Method Definition Index: 78801
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_Start_m75ABD5BF29F67E6C942E4017B8D1EAE29E489C61 (DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -13809,7 +13796,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_Start_m75ABD5BF29F6
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:49>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_0 = __this->___contentParent;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -13820,12 +13807,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_Start_m75ABD5BF29F6
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:51>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:51>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_2;
 		L_2 = DynamicDataUIManager_FindScrollContent_mD2E12B2095DC32CE93A0100F3DAB533E86F7D461(__this, NULL);
 		__this->___contentParent = L_2;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___contentParent), (void*)L_2);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:52>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:52>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_3 = __this->___contentParent;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_4;
@@ -13836,7 +13823,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_Start_m75ABD5BF29F6
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:54>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:54>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralC23E08D3CDAC15FF660A719C13C237A9AA322B77, NULL);
 		goto IL_004e;
@@ -13844,7 +13831,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_Start_m75ABD5BF29F6
 
 IL_0034:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:58>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_5 = __this->___contentParent;
 		NullCheck(L_5);
 		String_t* L_6;
@@ -13857,7 +13844,7 @@ IL_0034:
 
 IL_004e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:62>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:62>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_8 = __this->___parkingItemPrefab;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_9;
@@ -13868,25 +13855,25 @@ IL_004e:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:64>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:64>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral83F0CD13F4493C4EB9AA09273A0BE8F31D227B8D, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:65>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:65>
 		return;
 	}
 
 IL_0067:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:68>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:68>
 		RuntimeObject* L_10;
 		L_10 = DynamicDataUIManager_FetchParkingPoints_FormPost_mE98D1934273C1854C89C7CBBD1468FD637B0EFCB(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_11;
 		L_11 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_10, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:69>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:69>
 		return;
 	}
 }
-// Method Definition Index: 78799
+// Method Definition Index: 78802
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* DynamicDataUIManager_FindScrollContent_mD2E12B2095DC32CE93A0100F3DAB533E86F7D461 (DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -13910,11 +13897,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RectTransform_t6C5DA5E41A89E0F488B001E45E5896
 	int32_t V_4 = 0;
 	ScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E* V_5 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:74>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0;
 		L_0 = GameObject_Find_m7A669B4EEC2617AB82F6E3FF007CDCD9F21DB300(_stringLiteralB6F0795DD4F409C92875D0327F58FDEA357047F1, NULL);
 		V_0 = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:75>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:75>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
@@ -13925,13 +13912,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RectTransform_t6C5DA5E41A89E0F488B001E45E5896
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:77>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:77>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3 = V_0;
 		NullCheck(L_3);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_4;
 		L_4 = GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4(L_3, GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4_RuntimeMethod_var);
 		V_2 = L_4;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:78>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:78>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_5 = V_2;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_6;
@@ -13942,18 +13929,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RectTransform_t6C5DA5E41A89E0F488B001E45E5896
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:78>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:78>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_7 = V_2;
 		return L_7;
 	}
 
 IL_0026:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:82>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:82>
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		ScrollRectU5BU5D_t23B351AE3BDAF4EB2E8A261826DDE74F976D28E7* L_8;
 		L_8 = Object_FindObjectsOfType_TisScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E_m34EAE52961641BC4918B9A27C887A6D5938B4D8E(Object_FindObjectsOfType_TisScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E_m34EAE52961641BC4918B9A27C887A6D5938B4D8E_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:83>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:83>
 		V_3 = L_8;
 		V_4 = 0;
 		goto IL_0054;
@@ -13961,14 +13948,14 @@ IL_0026:
 
 IL_0031:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:83>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:83>
 		ScrollRectU5BU5D_t23B351AE3BDAF4EB2E8A261826DDE74F976D28E7* L_9 = V_3;
 		int32_t L_10 = V_4;
 		NullCheck(L_9);
 		int32_t L_11 = L_10;
 		ScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E* L_12 = (L_9)->GetAt(static_cast<il2cpp_array_size_t>(L_11));
 		V_5 = L_12;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:85>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:85>
 		ScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E* L_13 = V_5;
 		NullCheck(L_13);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_14;
@@ -13982,7 +13969,7 @@ IL_0031:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:85>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:85>
 		ScrollRect_t17D2F2939CA8953110180DF53164CFC3DC88D70E* L_16 = V_5;
 		NullCheck(L_16);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_17;
@@ -13998,7 +13985,7 @@ IL_004e:
 
 IL_0054:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:83>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:83>
 		int32_t L_19 = V_4;
 		ScrollRectU5BU5D_t23B351AE3BDAF4EB2E8A261826DDE74F976D28E7* L_20 = V_3;
 		NullCheck(L_20);
@@ -14008,12 +13995,12 @@ IL_0054:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:89>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:89>
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_21;
 		L_21 = Object_FindObjectOfType_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m4AD0E4AD3F779EA1CBA37403B0244126814EA6D1(Object_FindObjectOfType_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m4AD0E4AD3F779EA1CBA37403B0244126814EA6D1_RuntimeMethod_var);
 		V_1 = L_21;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:90>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:90>
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_22 = V_1;
 		bool L_23;
 		L_23 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_22, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -14023,7 +14010,7 @@ IL_0054:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:92>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:92>
 		TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* L_24 = (TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB*)(TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB*)SZArrayNew(TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB_il2cpp_TypeInfo_var, (uint32_t)1);
 		TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* L_25 = L_24;
 		RuntimeTypeHandle_t332A452B8B6179E4469B69525D0FE82A88030F7B L_26 = { reinterpret_cast<intptr_t> (RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_0_0_0_var) };
@@ -14035,7 +14022,7 @@ IL_0054:
 		(L_25)->SetAt(static_cast<il2cpp_array_size_t>(0), (Type_t*)L_27);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_28 = (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*)il2cpp_codegen_object_new(GameObject_t76FEDD663AB33C991A9C9A23129337651094216F_il2cpp_TypeInfo_var);
 		GameObject__ctor_m721D643351E55308EA4F5F41B67D5446D11C61F0(L_28, _stringLiteral118BE9B31492AFFA1C9D1A5199BCA7C99B442CC1, L_25, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:93>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:93>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_29 = L_28;
 		NullCheck(L_29);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_30;
@@ -14046,42 +14033,42 @@ IL_0054:
 		L_32 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_31, NULL);
 		NullCheck(L_30);
 		Transform_SetParent_m9BDD7B7476714B2D7919B10BDC22CE75C0A0A195(L_30, L_32, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:94>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:94>
 		NullCheck(L_29);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_33;
 		L_33 = GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4(L_29, GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:95>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:95>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_34 = L_33;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_35;
 		memset((&L_35), 0, sizeof(L_35));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_35), (0.5f), (0.5f), NULL);
 		NullCheck(L_34);
 		RectTransform_set_anchorMin_m931442ABE3368D6D4309F43DF1D64AB64B0F52E3(L_34, L_35, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:96>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:96>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_36 = L_34;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_37;
 		memset((&L_37), 0, sizeof(L_37));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_37), (0.5f), (0.5f), NULL);
 		NullCheck(L_36);
 		RectTransform_set_anchorMax_m52829ABEDD229ABD3DA20BCA676FA1DCA4A39B7D(L_36, L_37, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:97>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:97>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_38 = L_36;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_39;
 		memset((&L_39), 0, sizeof(L_39));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_39), (800.0f), (600.0f), NULL);
 		NullCheck(L_38);
 		RectTransform_set_sizeDelta_mC9A980EA6036E6725EF24CEDF3EE80A9B2B50EE5(L_38, L_39, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:98>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:98>
 		return L_38;
 	}
 
 IL_00de:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:101>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:101>
 		return (RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5*)NULL;
 	}
 }
-// Method Definition Index: 78800
+// Method Definition Index: 78803
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* DynamicDataUIManager_FetchParkingPoints_FormPost_mE98D1934273C1854C89C7CBBD1468FD637B0EFCB (DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -14100,7 +14087,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* DynamicDataUIManager_FetchPark
 		return L_1;
 	}
 }
-// Method Definition Index: 78801
+// Method Definition Index: 78804
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_PopulateList_mD7A823745073860DDD77223C19C1A2AD03DD7EEF (DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* __this, ParkingPointU5BU5D_t71F5EE290C8D0DBE2DFDF17AA7FE3F9076D779B4* ___0_points, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -14131,7 +14118,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_PopulateList_mD7A82
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* V_9 = NULL;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* V_10 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:157>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:157>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_0 = __this->___contentParent;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -14142,14 +14129,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager_PopulateList_mD7A82
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:159>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:159>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteralB9AF0058D1D95CB31A23F083580DC6323944B28F, NULL);
 	}
 
 IL_0018:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:163>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:163>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_2 = __this->___contentParent;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -14160,7 +14147,7 @@ IL_0018:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:165>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:165>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_4 = __this->___contentParent;
 		NullCheck(L_4);
 		int32_t L_5;
@@ -14171,7 +14158,7 @@ IL_0018:
 
 IL_0036:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:167>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:167>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_6 = __this->___contentParent;
 		int32_t L_7 = V_1;
 		NullCheck(L_6);
@@ -14182,14 +14169,14 @@ IL_0036:
 		L_9 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_8, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_9, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:165>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:165>
 		int32_t L_10 = V_1;
 		V_1 = ((int32_t)il2cpp_codegen_subtract(L_10, 1));
 	}
 
 IL_0050:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:165>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:165>
 		int32_t L_11 = V_1;
 		if ((((int32_t)L_11) >= ((int32_t)0)))
 		{
@@ -14199,7 +14186,7 @@ IL_0050:
 
 IL_0054:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:171>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:171>
 		ParkingPointU5BU5D_t71F5EE290C8D0DBE2DFDF17AA7FE3F9076D779B4* L_12 = ___0_points;
 		NullCheck(L_12);
 		int32_t L_13 = ((int32_t)(((RuntimeArray*)L_12)->max_length));
@@ -14208,9 +14195,9 @@ IL_0054:
 		L_15 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteralDF95E5E1DCCF54D14D123399BF92AC9BE5E7008C, L_14, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_15, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:173>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:173>
 		V_0 = 0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:174>
 		ParkingPointU5BU5D_t71F5EE290C8D0DBE2DFDF17AA7FE3F9076D779B4* L_16 = ___0_points;
 		V_2 = L_16;
 		V_3 = 0;
@@ -14219,14 +14206,14 @@ IL_0054:
 
 IL_0076:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:174>
 		ParkingPointU5BU5D_t71F5EE290C8D0DBE2DFDF17AA7FE3F9076D779B4* L_17 = V_2;
 		int32_t L_18 = V_3;
 		NullCheck(L_17);
 		int32_t L_19 = L_18;
 		ParkingPoint_t55B5AE2DC7FA767BB5BE235D04C22DA65B9DA622* L_20 = (L_17)->GetAt(static_cast<il2cpp_array_size_t>(L_19));
 		V_4 = L_20;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:176>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:176>
 		ParkingPoint_t55B5AE2DC7FA767BB5BE235D04C22DA65B9DA622* L_21 = V_4;
 		if (!L_21)
 		{
@@ -14234,7 +14221,7 @@ IL_0076:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:181>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:181>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_22 = __this->___contentParent;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_23;
@@ -14245,7 +14232,7 @@ IL_0076:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:183>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:183>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_24 = __this->___parkingItemPrefab;
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_25 = __this->___contentParent;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -14257,7 +14244,7 @@ IL_0076:
 
 IL_00a6:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:188>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:188>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_27 = __this->___parkingItemPrefab;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_28;
@@ -14267,7 +14254,7 @@ IL_00a6:
 
 IL_00b3:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:191>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:191>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_29 = V_5;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_30;
@@ -14278,13 +14265,13 @@ IL_00b3:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:194>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:194>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_31 = V_5;
 		NullCheck(L_31);
 		ParkingItem_tFABA185ADF09661514ABE315C606DCB1F9478617* L_32;
 		L_32 = GameObject_GetComponent_TisParkingItem_tFABA185ADF09661514ABE315C606DCB1F9478617_mB3AB7015E7C47541C867E1AEC75B9C0704952F48(L_31, GameObject_GetComponent_TisParkingItem_tFABA185ADF09661514ABE315C606DCB1F9478617_mB3AB7015E7C47541C867E1AEC75B9C0704952F48_RuntimeMethod_var);
 		V_6 = L_32;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:195>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:195>
 		ParkingItem_tFABA185ADF09661514ABE315C606DCB1F9478617* L_33 = V_6;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_34;
@@ -14295,7 +14282,7 @@ IL_00b3:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:197>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:197>
 		ParkingItem_tFABA185ADF09661514ABE315C606DCB1F9478617* L_35 = V_6;
 		ParkingPoint_t55B5AE2DC7FA767BB5BE235D04C22DA65B9DA622* L_36 = V_4;
 		NullCheck(L_36);
@@ -14314,16 +14301,16 @@ IL_00b3:
 		String_t* L_45 = L_44->___long;
 		NullCheck(L_35);
 		ParkingItem_Set_m5A56956D48358BF1FDFF1D30CDCAC84F6A313103(L_35, L_37, L_39, L_41, L_43, L_45, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:198>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:198>
 		int32_t L_46 = V_0;
 		V_0 = ((int32_t)il2cpp_codegen_add(L_46, 1));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:199>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:199>
 		goto IL_0186;
 	}
 
 IL_0106:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:203>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:203>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_47 = V_5;
 		NullCheck(L_47);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_48;
@@ -14332,7 +14319,7 @@ IL_0106:
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_49;
 		L_49 = Transform_Find_m3087032B0E1C5B96A2D2C27020BAEAE2DA08F932(L_48, _stringLiteralA68F5417A20A00E0516DD81F71C3AC97171E56D5, NULL);
 		V_7 = L_49;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:204>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:204>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_50 = V_5;
 		NullCheck(L_50);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_51;
@@ -14341,7 +14328,7 @@ IL_0106:
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_52;
 		L_52 = Transform_Find_m3087032B0E1C5B96A2D2C27020BAEAE2DA08F932(L_51, _stringLiteralB6F0795DD4F409C92875D0327F58FDEA357047F1, NULL);
 		V_8 = L_52;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:206>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:206>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_53 = V_7;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_54;
@@ -14352,13 +14339,13 @@ IL_0106:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:208>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:208>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_55 = V_7;
 		NullCheck(L_55);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_56;
 		L_56 = Component_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m0C4C5268B54C7097888C6B109527A680772EBCB5(L_55, Component_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m0C4C5268B54C7097888C6B109527A680772EBCB5_RuntimeMethod_var);
 		V_9 = L_56;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:209>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:209>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_57 = V_9;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_58;
@@ -14369,7 +14356,7 @@ IL_0106:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:209>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:209>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_59 = V_9;
 		ParkingPoint_t55B5AE2DC7FA767BB5BE235D04C22DA65B9DA622* L_60 = V_4;
 		NullCheck(L_60);
@@ -14380,7 +14367,7 @@ IL_0106:
 
 IL_0157:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:211>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:211>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_62 = V_8;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_63;
@@ -14391,13 +14378,13 @@ IL_0157:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:213>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:213>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_64 = V_8;
 		NullCheck(L_64);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_65;
 		L_65 = Component_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m0C4C5268B54C7097888C6B109527A680772EBCB5(L_64, Component_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m0C4C5268B54C7097888C6B109527A680772EBCB5_RuntimeMethod_var);
 		V_10 = L_65;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:214>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:214>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_66 = V_10;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_67;
@@ -14408,7 +14395,7 @@ IL_0157:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:214>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:214>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_68 = V_10;
 		ParkingPoint_t55B5AE2DC7FA767BB5BE235D04C22DA65B9DA622* L_69 = V_4;
 		NullCheck(L_69);
@@ -14419,7 +14406,7 @@ IL_0157:
 
 IL_0182:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:217>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:217>
 		int32_t L_71 = V_0;
 		V_0 = ((int32_t)il2cpp_codegen_add(L_71, 1));
 	}
@@ -14432,7 +14419,7 @@ IL_0186:
 
 IL_018a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:174>
 		int32_t L_73 = V_3;
 		ParkingPointU5BU5D_t71F5EE290C8D0DBE2DFDF17AA7FE3F9076D779B4* L_74 = V_2;
 		NullCheck(L_74);
@@ -14442,7 +14429,7 @@ IL_018a:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:220>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:220>
 		int32_t L_75 = V_0;
 		int32_t L_76 = L_75;
 		RuntimeObject* L_77 = Box(il2cpp_defaults.int32_class, &L_76);
@@ -14450,11 +14437,11 @@ IL_018a:
 		L_78 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteral64A60CFE22FC07F8DDD821ED49EF9FAD37B90E09, L_77, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_78, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:221>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:221>
 		return;
 	}
 }
-// Method Definition Index: 78802
+// Method Definition Index: 78805
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* DynamicDataUIManager_Truncate_m7171ED46F9AE3101E5D8B844328171444C501F24 (DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* __this, String_t* ___0_s, int32_t ___1_max, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -14464,7 +14451,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* DynamicDataUIManager_Truncate_m7171
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:225>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:225>
 		String_t* L_0 = ___0_s;
 		bool L_1;
 		L_1 = String_IsNullOrEmpty_mEA9E3FB005AC28FE02E69FCF95A7B8456192B478(L_0, NULL);
@@ -14474,14 +14461,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* DynamicDataUIManager_Truncate_m7171
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:225>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:225>
 		String_t* L_2 = ___0_s;
 		return L_2;
 	}
 
 IL_000a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:226>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:226>
 		String_t* L_3 = ___0_s;
 		NullCheck(L_3);
 		int32_t L_4;
@@ -14493,14 +14480,14 @@ IL_000a:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:226>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:226>
 		String_t* L_6 = ___0_s;
 		return L_6;
 	}
 
 IL_0015:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:227>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:227>
 		String_t* L_7 = ___0_s;
 		int32_t L_8 = ___1_max;
 		NullCheck(L_7);
@@ -14511,7 +14498,7 @@ IL_0015:
 		return L_10;
 	}
 }
-// Method Definition Index: 78803
+// Method Definition Index: 78806
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager__ctor_m10A50B68FFF4EFEB59FBFD3466255226074F8DC0 (DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -14521,7 +14508,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager__ctor_m10A50B68FFF4
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:44>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:44>
 		__this->___apiUrl = _stringLiteral90C542CEAB67B74529155EF2E4942D44A7732122;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___apiUrl), (void*)_stringLiteral90C542CEAB67B74529155EF2E4942D44A7732122);
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
@@ -14536,7 +14523,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void DynamicDataUIManager__ctor_m10A50B68FFF4
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78804
+// Method Definition Index: 78807
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchParkingPoints_FormPostU3Ed__5__ctor_m6F76F55C3B4E2D536786C12C21378F22ACF172E5 (U3CFetchParkingPoints_FormPostU3Ed__5_tEB8F1BD0FF177AD55C90D39FDA42D67B33752228* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -14546,7 +14533,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchParkingPoints_FormPostU3Ed__5__c
 		return;
 	}
 }
-// Method Definition Index: 78805
+// Method Definition Index: 78808
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchParkingPoints_FormPostU3Ed__5_System_IDisposable_Dispose_m78A84EBEB8B387E355C9358202B3BF3D5CB12E94 (U3CFetchParkingPoints_FormPostU3Ed__5_tEB8F1BD0FF177AD55C90D39FDA42D67B33752228* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -14595,7 +14582,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78806
+// Method Definition Index: 78809
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CFetchParkingPoints_FormPostU3Ed__5_MoveNext_mC27124B65D32EFDC92BD263C3ACFB7F7BE11F45B (U3CFetchParkingPoints_FormPostU3Ed__5_tEB8F1BD0FF177AD55C90D39FDA42D67B33752228* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -14662,15 +14649,15 @@ FAULT_018f:
 IL_001c_1:
 			{
 				__this->___U3CU3E1__state = (-1);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:106>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:106>
 				WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_4 = (WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045*)il2cpp_codegen_object_new(WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045_il2cpp_TypeInfo_var);
 				WWWForm__ctor_mB1AA4D4BE7011A371B590332CC65794270F269F6(L_4, NULL);
 				V_3 = L_4;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:107>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:107>
 				WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_5 = V_3;
 				NullCheck(L_5);
 				WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_5, _stringLiteralF3C6C902DBF80139640F6554F0C3392016A8ADF7, _stringLiteral89532017B4B8A22D92A8A31DD811B9C0763792A5, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:109>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:109>
 				DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* L_6 = V_2;
 				NullCheck(L_6);
 				String_t* L_7 = L_6->___apiUrl;
@@ -14680,11 +14667,11 @@ IL_001c_1:
 				__this->___U3CwwwU3E5__2 = L_9;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)L_9);
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:111>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:111>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_10 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_10);
 				UnityWebRequest_set_timeout_mE9C8169FA8CF1BE17E3D9FDACDC6E1A9508DF618(L_10, ((int32_t)15), NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:112>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:112>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_11 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_11);
 				UnityWebRequestAsyncOperation_t14BE94558FF3A2CFC2EFBE2511A3A88252042B8C* L_12;
@@ -14699,7 +14686,7 @@ IL_001c_1:
 IL_007f_1:
 			{
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:115>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:115>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_13 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_13);
 				int32_t L_14;
@@ -14710,7 +14697,7 @@ IL_007f_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:120>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:120>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_15 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_15);
 				String_t* L_16;
@@ -14722,14 +14709,14 @@ IL_007f_1:
 				L_19 = String_Concat_m093934F71A9B351911EE46311674ED463B180006(_stringLiteral323918EF8D870ACEFA30F21C062240EA03590599, L_16, _stringLiteral874E5D11C5B1A4CE44A43218D774359E80709095, L_18, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(L_19, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:121>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:121>
 				V_0 = (bool)0;
 				goto IL_017c_1;
 			}
 
 IL_00c1_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:124>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:124>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_20 = __this->___U3CwwwU3E5__2;
 				NullCheck(L_20);
 				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_21;
@@ -14738,7 +14725,7 @@ IL_00c1_1:
 				String_t* L_22;
 				L_22 = DownloadHandler_get_text_mA6DE5CB2647A21E577B963708DC3D0DA4DBFE7D8(L_21, NULL);
 				V_4 = L_22;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:125>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:125>
 				DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* L_23 = V_2;
 				String_t* L_24 = V_4;
 				NullCheck(L_23);
@@ -14748,13 +14735,13 @@ IL_00c1_1:
 				L_26 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralEB38EB6211DB440F5F58418093E0986C2650B568, L_25, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_26, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:127>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:127>
 				String_t* L_27 = V_4;
 				NullCheck(L_27);
 				String_t* L_28;
 				L_28 = String_Trim_mCD6D8C6D4CFD15225D12DB7D3E0544CA80FB8DA5(L_27, NULL);
 				V_5 = L_28;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:128>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:128>
 				String_t* L_29 = V_5;
 				NullCheck(L_29);
 				bool L_30;
@@ -14775,27 +14762,27 @@ IL_00c1_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:130>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:130>
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralA8472528AAF9E50AA7C123B8DF2C502FFC816067, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:131>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:131>
 				V_0 = (bool)0;
 				goto IL_017c_1;
 			}
 
 IL_0122_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:134>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:134>
 				V_6 = (ParkingResponse_t986E1E1A702AE6F9DDDC60E56E8AD7901096E70D*)NULL;
 			}
 			try
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:137>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:137>
 				String_t* L_33 = V_5;
 				ParkingResponse_t986E1E1A702AE6F9DDDC60E56E8AD7901096E70D* L_34;
 				L_34 = JsonUtility_FromJson_TisParkingResponse_t986E1E1A702AE6F9DDDC60E56E8AD7901096E70D_mA6786313A74C81FB0E0D2C6BE0B388D7F17D207C(L_33, JsonUtility_FromJson_TisParkingResponse_t986E1E1A702AE6F9DDDC60E56E8AD7901096E70D_mA6786313A74C81FB0E0D2C6BE0B388D7F17D207C_RuntimeMethod_var);
 				V_6 = L_34;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:138>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:138>
 				goto IL_014c_1;
 			}
 			catch(Il2CppExceptionWrapper& e)
@@ -14811,9 +14798,9 @@ IL_0122_1:
 CATCH_0130_1:
 			{
 				Exception_t* L_35 = ((Exception_t*)IL2CPP_GET_ACTIVE_EXCEPTION(Exception_t*));;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:139>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:139>
 				V_7 = L_35;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:141>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:141>
 				Exception_t* L_36 = V_7;
 				NullCheck(L_36);
 				String_t* L_37;
@@ -14822,7 +14809,7 @@ CATCH_0130_1:
 				L_38 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(((String_t*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&_stringLiteralF24575892515FB8E793997E95D06EB2E1DE4B163)), L_37, NULL);
 				il2cpp_codegen_runtime_class_init_inline(((RuntimeClass*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var)));
 				Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(L_38, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:142>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:142>
 				V_0 = (bool)0;
 				IL2CPP_POP_ACTIVE_EXCEPTION(Exception_t*);
 				goto IL_017c_1;
@@ -14830,7 +14817,7 @@ CATCH_0130_1:
 
 IL_014c_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:145>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:145>
 				ParkingResponse_t986E1E1A702AE6F9DDDC60E56E8AD7901096E70D* L_39 = V_6;
 				if (!L_39)
 				{
@@ -14849,24 +14836,24 @@ IL_014c_1:
 
 IL_0159_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:147>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:147>
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteral3590C5EA9E52AB93BCC1589CF9BB15551976D073, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:148>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:148>
 				V_0 = (bool)0;
 				goto IL_017c_1;
 			}
 
 IL_0167_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:151>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:151>
 				DynamicDataUIManager_t1FC5CEB8367F49C94A0AF0EBDD833571CDC9CAB4* L_42 = V_2;
 				ParkingResponse_t986E1E1A702AE6F9DDDC60E56E8AD7901096E70D* L_43 = V_6;
 				NullCheck(L_43);
 				ParkingPointU5BU5D_t71F5EE290C8D0DBE2DFDF17AA7FE3F9076D779B4* L_44 = L_43->___data;
 				NullCheck(L_42);
 				DynamicDataUIManager_PopulateList_mD7A823745073860DDD77223C19C1A2AD03DD7EEF(L_42, L_44, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:152>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:152>
 				U3CFetchParkingPoints_FormPostU3Ed__5_U3CU3Em__Finally1_mE992AE2A9B108A8FB6A7287EF6889593DBA0247F(__this, NULL);
 				goto IL_0184_1;
 			}
@@ -14881,7 +14868,7 @@ IL_0184_1:
 			{
 				__this->___U3CwwwU3E5__2 = (UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CwwwU3E5__2), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/DynamicDataUIManager.cs:153>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/DynamicDataUIManager.cs:153>
 				V_0 = (bool)0;
 				goto IL_0196;
 			}
@@ -14898,7 +14885,7 @@ IL_0196:
 		return L_45;
 	}
 }
-// Method Definition Index: 78807
+// Method Definition Index: 78810
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchParkingPoints_FormPostU3Ed__5_U3CU3Em__Finally1_mE992AE2A9B108A8FB6A7287EF6889593DBA0247F (U3CFetchParkingPoints_FormPostU3Ed__5_tEB8F1BD0FF177AD55C90D39FDA42D67B33752228* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -14926,7 +14913,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78808
+// Method Definition Index: 78811
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchParkingPoints_FormPostU3Ed__5_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m4DC62462CA5A1633B685D526C8DC11B2052497DC (U3CFetchParkingPoints_FormPostU3Ed__5_tEB8F1BD0FF177AD55C90D39FDA42D67B33752228* __this, const RuntimeMethod* method) 
 {
 	{
@@ -14934,7 +14921,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchParkingPoints_FormPost
 		return L_0;
 	}
 }
-// Method Definition Index: 78809
+// Method Definition Index: 78812
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchParkingPoints_FormPostU3Ed__5_System_Collections_IEnumerator_Reset_m88761BE52B6182CF3DF6AA04A9F258FD69F3B747 (U3CFetchParkingPoints_FormPostU3Ed__5_tEB8F1BD0FF177AD55C90D39FDA42D67B33752228* __this, const RuntimeMethod* method) 
 {
 	{
@@ -14943,7 +14930,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchParkingPoints_FormPostU3Ed__5_Sy
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CFetchParkingPoints_FormPostU3Ed__5_System_Collections_IEnumerator_Reset_m88761BE52B6182CF3DF6AA04A9F258FD69F3B747_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78810
+// Method Definition Index: 78813
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchParkingPoints_FormPostU3Ed__5_System_Collections_IEnumerator_get_Current_m5B4697C270F109AFA12130EF60F05E0DC90EC4D8 (U3CFetchParkingPoints_FormPostU3Ed__5_tEB8F1BD0FF177AD55C90D39FDA42D67B33752228* __this, const RuntimeMethod* method) 
 {
 	{
@@ -14959,7 +14946,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchParkingPoints_FormPost
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78811
+// Method Definition Index: 78814
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateUIManager_Start_m65CEB181D9EECC6B2ADAAC4154CAA50068D11C5B (LiveUpdateUIManager_t6CD4E9E6C224EB4B25EB3C9E9151A2B55EA1349D* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -14972,7 +14959,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateUIManager_Start_m65CEB181D9EEC
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:15>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:15>
 		APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* L_0 = ((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance;
 		Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_1 = (Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)il2cpp_codegen_object_new(Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var);
 		Action_1__ctor_m9DC2953C55C4D7D4B7BEFE03D84DA1F9362D652C(L_1, __this, (intptr_t)((void*)LiveUpdateUIManager_OnLiveUpdatesReceived_mD72A6D430B38911CD491E8A7A8FF2AEA9FCB4182_RuntimeMethod_var), NULL);
@@ -14981,11 +14968,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateUIManager_Start_m65CEB181D9EEC
 		L_2 = APIManager_GetRequest_mBDF59CFA7DBCCAA0819BC57CF946CB222E79C893(L_0, _stringLiteral747EF72EED051B52DDAA082ADE76EB88255D0244, L_1, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_3;
 		L_3 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_2, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:16>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:16>
 		return;
 	}
 }
-// Method Definition Index: 78812
+// Method Definition Index: 78815
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateUIManager_OnLiveUpdatesReceived_mD72A6D430B38911CD491E8A7A8FF2AEA9FCB4182 (LiveUpdateUIManager_t6CD4E9E6C224EB4B25EB3C9E9151A2B55EA1349D* __this, String_t* ___0_json, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -15013,12 +15000,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateUIManager_OnLiveUpdatesReceive
 	int32_t V_7 = 0;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* V_8 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:21>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:21>
 		String_t* L_0 = ___0_json;
 		LiveUpdateU5BU5D_t62017430CD27A1B739EDAA0F22EB91128C42D205* L_1;
 		L_1 = JsonHelper_FromJson_TisLiveUpdate_tC662E4091574D6043645EFE4F69DB3256E586972_m05EBD7EBABFFB36791D9CB831CFFDA7DE4A5B74F(L_0, JsonHelper_FromJson_TisLiveUpdate_tC662E4091574D6043645EFE4F69DB3256E586972_m05EBD7EBABFFB36791D9CB831CFFDA7DE4A5B74F_RuntimeMethod_var);
 		V_0 = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:24>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:24>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_2 = __this->___cardContainer;
 		NullCheck(L_2);
 		RuntimeObject* L_3;
@@ -15060,12 +15047,12 @@ IL_0044:
 
 IL_0015_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:24>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:24>
 				RuntimeObject* L_7 = V_1;
 				NullCheck(L_7);
 				RuntimeObject* L_8;
 				L_8 = InterfaceFuncInvoker0< RuntimeObject* >::Invoke(1, IEnumerator_t7B609C2FFA6EB5167D9C62A0C32A21DE2F666DAA_il2cpp_TypeInfo_var, L_7);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:25>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:25>
 				NullCheck(((Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1*)CastclassClass((RuntimeObject*)L_8, Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1_il2cpp_TypeInfo_var)));
 				GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
 				L_9 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(((Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1*)CastclassClass((RuntimeObject*)L_8, Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1_il2cpp_TypeInfo_var)), NULL);
@@ -15075,7 +15062,7 @@ IL_0015_1:
 
 IL_002a_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:24>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:24>
 				RuntimeObject* L_10 = V_1;
 				NullCheck(L_10);
 				bool L_11;
@@ -15097,7 +15084,7 @@ IL_002a_1:
 
 IL_0045:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:28>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:28>
 		LiveUpdateU5BU5D_t62017430CD27A1B739EDAA0F22EB91128C42D205* L_12 = V_0;
 		V_3 = L_12;
 		V_4 = 0;
@@ -15106,24 +15093,24 @@ IL_0045:
 
 IL_004f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:28>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:28>
 		LiveUpdateU5BU5D_t62017430CD27A1B739EDAA0F22EB91128C42D205* L_13 = V_3;
 		int32_t L_14 = V_4;
 		NullCheck(L_13);
 		int32_t L_15 = L_14;
 		LiveUpdate_tC662E4091574D6043645EFE4F69DB3256E586972* L_16 = (L_13)->GetAt(static_cast<il2cpp_array_size_t>(L_15));
 		V_5 = L_16;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:30>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:30>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_17 = __this->___cardPrefab;
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_18 = __this->___cardContainer;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_19;
 		L_19 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m58C654F1134533E29502629CA67645682B404811(L_17, L_18, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m58C654F1134533E29502629CA67645682B404811_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:31>
 		NullCheck(L_19);
 		TMP_TextU5BU5D_t12384CBAF397196B9A7886087BDC8C19D800C24F* L_20;
 		L_20 = GameObject_GetComponentsInChildren_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_mB5FEED34BC8C80227F216612E01435E8CA87C46E(L_19, GameObject_GetComponentsInChildren_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_mB5FEED34BC8C80227F216612E01435E8CA87C46E_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:33>
 		V_6 = L_20;
 		V_7 = 0;
 		goto IL_00e6;
@@ -15131,14 +15118,14 @@ IL_004f:
 
 IL_0072:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:33>
 		TMP_TextU5BU5D_t12384CBAF397196B9A7886087BDC8C19D800C24F* L_21 = V_6;
 		int32_t L_22 = V_7;
 		NullCheck(L_21);
 		int32_t L_23 = L_22;
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_24 = (L_21)->GetAt(static_cast<il2cpp_array_size_t>(L_23));
 		V_8 = L_24;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:35>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:35>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_25 = V_8;
 		NullCheck(L_25);
 		String_t* L_26;
@@ -15151,7 +15138,7 @@ IL_0072:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:35>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:35>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_28 = V_8;
 		LiveUpdate_tC662E4091574D6043645EFE4F69DB3256E586972* L_29 = V_5;
 		NullCheck(L_29);
@@ -15163,7 +15150,7 @@ IL_0072:
 
 IL_009c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:36>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:36>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_31 = V_8;
 		NullCheck(L_31);
 		String_t* L_32;
@@ -15176,7 +15163,7 @@ IL_009c:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:36>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:36>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_34 = V_8;
 		LiveUpdate_tC662E4091574D6043645EFE4F69DB3256E586972* L_35 = V_5;
 		NullCheck(L_35);
@@ -15188,7 +15175,7 @@ IL_009c:
 
 IL_00bf:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:37>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:37>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_37 = V_8;
 		NullCheck(L_37);
 		String_t* L_38;
@@ -15201,7 +15188,7 @@ IL_00bf:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:37>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:37>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_40 = V_8;
 		LiveUpdate_tC662E4091574D6043645EFE4F69DB3256E586972* L_41 = V_5;
 		NullCheck(L_41);
@@ -15218,7 +15205,7 @@ IL_00e0:
 
 IL_00e6:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:33>
 		int32_t L_44 = V_7;
 		TMP_TextU5BU5D_t12384CBAF397196B9A7886087BDC8C19D800C24F* L_45 = V_6;
 		NullCheck(L_45);
@@ -15234,7 +15221,7 @@ IL_00e6:
 
 IL_00f4:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:28>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:28>
 		int32_t L_47 = V_4;
 		LiveUpdateU5BU5D_t62017430CD27A1B739EDAA0F22EB91128C42D205* L_48 = V_3;
 		NullCheck(L_48);
@@ -15244,11 +15231,11 @@ IL_00f4:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LiveUpdateUIManager.cs:40>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LiveUpdateUIManager.cs:40>
 		return;
 	}
 }
-// Method Definition Index: 78813
+// Method Definition Index: 78816
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateUIManager__ctor_m6B03E8049394B96E302B697E5C10CED9F07616E8 (LiveUpdateUIManager_t6CD4E9E6C224EB4B25EB3C9E9151A2B55EA1349D* __this, const RuntimeMethod* method) 
 {
 	{
@@ -15264,7 +15251,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LiveUpdateUIManager__ctor_m6B03E8049394B
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78814
+// Method Definition Index: 78817
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_Start_m08250772FDF755049F09259714B2019C31206EF8 (LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -15280,7 +15267,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_Start_m08250772FDF755
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:29>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:29>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_0 = __this->___submitButton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -15291,7 +15278,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_Start_m08250772FDF755
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:31>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_2 = __this->___submitButton;
 		NullCheck(L_2);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_3;
@@ -15300,7 +15287,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_Start_m08250772FDF755
 		UnityAction__ctor_mC53E20D6B66E0D5688CD81B88DBB34F5A58B7131(L_4, __this, (intptr_t)((void*)LostFoundUIManager_OnSubmit_m06375D804F454DDBB6FD5E2662C7BF075CF37332_RuntimeMethod_var), NULL);
 		NullCheck(L_3);
 		UnityEvent_RemoveListener_m0E138F5575CB4363019D3DA570E98FAD502B812C(L_3, L_4, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:32>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:32>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_5 = __this->___submitButton;
 		NullCheck(L_5);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_6;
@@ -15314,14 +15301,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_Start_m08250772FDF755
 
 IL_0048:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:36>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:36>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteralD312A7135A4572E4CBB8D9CF953B06C2ADF5BE22, NULL);
 	}
 
 IL_0052:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:39>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:39>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_8 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_9;
@@ -15332,14 +15319,14 @@ IL_0052:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:40>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:40>
 		LostFoundUIManager_TryFindOrCreateAlertText_mCEB15C1FBA08952A886B23B6ACDEE43D4E788A72(__this, NULL);
 		goto IL_0079;
 	}
 
 IL_0068:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:42>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:42>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_10 = __this->___alertText;
 		NullCheck(L_10);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_11;
@@ -15350,7 +15337,7 @@ IL_0068:
 
 IL_0079:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:44>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:44>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_12 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_13;
@@ -15363,11 +15350,11 @@ IL_0079:
 		L_15 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral1B0A027CBF05FD03ECB8686729E3AC0D0513D56E, L_14, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_15, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:45>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:45>
 		return;
 	}
 }
-// Method Definition Index: 78815
+// Method Definition Index: 78818
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_OnSubmit_m06375D804F454DDBB6FD5E2662C7BF075CF37332 (LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -15453,18 +15440,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_OnSubmit_m06375D804F4
 	String_t* G_B22_1 = NULL;
 	WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* G_B22_2 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:50>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:50>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_0 = __this->___infoColor;
 		LostFoundUIManager_ShowAlert_m0A7D97EF62AC0C8AD747603ACE7EA28174E0E75F(__this, _stringLiteralF4F147F7E7E5C1B8A25AFDC6E0BBACFBB34EDEAD, L_0, (-1.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:53>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:53>
 		V_0 = _stringLiteralF944DCD635F9801F7AC90A407FBC479964DEC024;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:54>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:54>
 		V_1 = _stringLiteralF944DCD635F9801F7AC90A407FBC479964DEC024;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:56>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:56>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_1 = (WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045*)il2cpp_codegen_object_new(WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045_il2cpp_TypeInfo_var);
 		WWWForm__ctor_mB1AA4D4BE7011A371B590332CC65794270F269F6(L_1, NULL);
 		V_2 = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:57>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:57>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_2 = V_2;
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_3 = __this->___nameField;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15501,7 +15488,7 @@ IL_004e:
 	{
 		NullCheck(G_B3_2);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(G_B3_2, G_B3_1, G_B3_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:58>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_7 = V_2;
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_8 = __this->___descriptionField;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15538,7 +15525,7 @@ IL_0079:
 	{
 		NullCheck(G_B6_2);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(G_B6_2, G_B6_1, G_B6_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:59>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:59>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_12 = V_2;
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_13 = __this->___age;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15575,9 +15562,9 @@ IL_00a4:
 	{
 		NullCheck(G_B9_2);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(G_B9_2, G_B9_1, G_B9_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:60>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:61>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:62>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:60>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:62>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_17 = V_2;
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_18 = __this->___reportTypeDropdown;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15643,7 +15630,7 @@ IL_00f7:
 	{
 		NullCheck(G_B13_2);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(G_B13_2, G_B13_1, G_B13_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:63>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:63>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_29 = V_2;
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_30 = __this->___locationField;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15680,17 +15667,17 @@ IL_0122:
 	{
 		NullCheck(G_B16_2);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(G_B16_2, G_B16_1, G_B16_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:64>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:64>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_34 = V_2;
 		String_t* L_35 = V_0;
 		NullCheck(L_34);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_34, _stringLiteral4F947DD752BAA3989FD8419D4B2425AD0C64D6C3, L_35, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:65>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:65>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_36 = V_2;
 		String_t* L_37 = V_1;
 		NullCheck(L_36);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_36, _stringLiteralD890B2BC5E5200965CD02403ABB6C221A614A1B7, L_37, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:66>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:66>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_38 = V_2;
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_39 = __this->___nameuserField;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15727,7 +15714,7 @@ IL_0165:
 	{
 		NullCheck(G_B19_2);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(G_B19_2, G_B19_1, G_B19_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:67>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:67>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_43 = V_2;
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_44 = __this->___mobileField;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
@@ -15764,7 +15751,7 @@ IL_0190:
 	{
 		NullCheck(G_B22_2);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(G_B22_2, G_B22_1, G_B22_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:69>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:69>
 		APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* L_48 = ((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_49;
@@ -15775,11 +15762,11 @@ IL_0190:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:71>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:72>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:73>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:74>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:75>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:71>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:72>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:73>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:75>
 		APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* L_50 = ((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance;
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_51 = V_2;
 		Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_52 = (Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)il2cpp_codegen_object_new(Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var);
@@ -15794,18 +15781,18 @@ IL_0190:
 
 IL_01c6:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:79>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:79>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteral6F50576B814EACE161FE58CCB2AAB203829FDF98, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:80>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:80>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_55 = __this->___errorColor;
 		float L_56 = __this->___alertDuration;
 		LostFoundUIManager_ShowAlert_m0A7D97EF62AC0C8AD747603ACE7EA28174E0E75F(__this, _stringLiteral9CA721D26236A61D0861AE7ECA4E47813E06C162, L_55, L_56, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:82>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:82>
 		return;
 	}
 }
-// Method Definition Index: 78816
+// Method Definition Index: 78819
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_OnResponse_mF7BABFCBFDFF2C8968F74278D9B7027ACE6A7C7E (LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* __this, String_t* ___0_res, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -15820,13 +15807,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_OnResponse_mF7BABFCBF
 	}
 	int32_t G_B3_0 = 0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:86>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:86>
 		String_t* L_0 = ___0_res;
 		String_t* L_1;
 		L_1 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral5EE02421DA69BD33D316BB9FCED00D4E0A4A3801, L_0, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:89>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:89>
 		String_t* L_2 = ___0_res;
 		bool L_3;
 		L_3 = String_IsNullOrEmpty_mEA9E3FB005AC28FE02E69FCF95A7B8456192B478(L_2, NULL);
@@ -15854,14 +15841,14 @@ IL_002d:
 
 IL_002e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:91>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:91>
 		if (!G_B3_0)
 		{
 			goto IL_0048;
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:93>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:93>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_7 = __this->___successColor;
 		float L_8 = __this->___alertDuration;
 		LostFoundUIManager_ShowAlert_m0A7D97EF62AC0C8AD747603ACE7EA28174E0E75F(__this, _stringLiteral5921125BC64463B0BF604305BA1FDA433FC9F531, L_7, L_8, NULL);
@@ -15870,15 +15857,15 @@ IL_002e:
 
 IL_0048:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:97>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:97>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_9 = __this->___errorColor;
 		float L_10 = __this->___alertDuration;
 		LostFoundUIManager_ShowAlert_m0A7D97EF62AC0C8AD747603ACE7EA28174E0E75F(__this, _stringLiteral392734B30BCBF375A7175DF2561CBCEAA492C85B, L_9, L_10, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:99>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:99>
 		return;
 	}
 }
-// Method Definition Index: 78817
+// Method Definition Index: 78820
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_ShowAlert_m0A7D97EF62AC0C8AD747603ACE7EA28174E0E75F (LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* __this, String_t* ___0_message, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F ___1_color, float ___2_duration, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -15891,7 +15878,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_ShowAlert_m0A7D97EF62
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:104>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:104>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_0 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -15902,12 +15889,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_ShowAlert_m0A7D97EF62
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:106>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:106>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteral378E40043089BF04136ABAC6062B829CE74D9CC6, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:107>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:107>
 		LostFoundUIManager_TryFindOrCreateAlertText_mCEB15C1FBA08952A886B23B6ACDEE43D4E788A72(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:108>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:108>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_2 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -15918,40 +15905,40 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_ShowAlert_m0A7D97EF62
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:110>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:110>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral665A9B745FD43221804E35F6CC2D2C6A1F6267BC, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:111>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:111>
 		return;
 	}
 
 IL_0037:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:115>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:115>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_4 = __this->___alertText;
 		String_t* L_5 = ___0_message;
 		NullCheck(L_4);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_4, L_5);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:116>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:116>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_6 = __this->___alertText;
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_7 = ___1_color;
 		NullCheck(L_6);
 		VirtualActionInvoker1< Color_tD001788D726C3A7F1379BEED0260B9591F440C1F >::Invoke(23, L_6, L_7);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:117>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:117>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_8 = __this->___alertText;
 		NullCheck(L_8);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
 		L_9 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_8, NULL);
 		NullCheck(L_9);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_9, (bool)1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:118>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:118>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_10 = __this->___alertText;
 		NullCheck(L_10);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_11;
 		L_11 = TMP_Text_get_transform_m6BD41E08BFCFCE722DFCE4627626AD60CA99CCA8(L_10, NULL);
 		NullCheck(L_11);
 		Transform_SetAsLastSibling_m848AF1A0B4C7912FE88D8CBCF92B83D57B2B917E(L_11, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:120>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:120>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_12 = __this->___alertCoroutine;
 		if (!L_12)
 		{
@@ -15959,14 +15946,14 @@ IL_0037:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:121>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:121>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_13 = __this->___alertCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_13, NULL);
 	}
 
 IL_0084:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:123>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:123>
 		float L_14 = ___2_duration;
 		if ((!(((float)L_14) > ((float)(0.0f)))))
 		{
@@ -15974,7 +15961,7 @@ IL_0084:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:124>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:124>
 		float L_15 = ___2_duration;
 		RuntimeObject* L_16;
 		L_16 = LostFoundUIManager_HideAlertAfterSeconds_m41FF4544DE4C009849FD41C9DDFB42AC577FC869(__this, L_15, NULL);
@@ -15987,14 +15974,14 @@ IL_0084:
 
 IL_00a0:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:126>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:126>
 		__this->___alertCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___alertCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:127>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:127>
 		return;
 	}
 }
-// Method Definition Index: 78818
+// Method Definition Index: 78821
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* LostFoundUIManager_HideAlertAfterSeconds_m41FF4544DE4C009849FD41C9DDFB42AC577FC869 (LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* __this, float ___0_seconds, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16017,7 +16004,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* LostFoundUIManager_HideAlertAf
 		return L_2;
 	}
 }
-// Method Definition Index: 78819
+// Method Definition Index: 78822
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_TryFindOrCreateAlertText_mCEB15C1FBA08952A886B23B6ACDEE43D4E788A72 (LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16044,11 +16031,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_TryFindOrCreateAlertT
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* V_2 = NULL;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* V_3 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:141>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:141>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0;
 		L_0 = GameObject_Find_m7A669B4EEC2617AB82F6E3FF007CDCD9F21DB300(_stringLiteralA82EBA22221D789BF3A2CE5A1A68047461345044, NULL);
 		V_0 = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:142>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:142>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
@@ -16059,13 +16046,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_TryFindOrCreateAlertT
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:144>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:144>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3 = V_0;
 		NullCheck(L_3);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_4;
 		L_4 = GameObject_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_mA59A63181077B821132B53D44724D7F86C6FECB3(L_3, GameObject_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_mA59A63181077B821132B53D44724D7F86C6FECB3_RuntimeMethod_var);
 		V_3 = L_4;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:145>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:145>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_5 = V_3;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_6;
@@ -16076,32 +16063,32 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager_TryFindOrCreateAlertT
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:147>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_7 = V_3;
 		__this->___alertText = L_7;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___alertText), (void*)L_7);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:148>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:148>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_8 = __this->___alertText;
 		NullCheck(L_8);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
 		L_9 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_8, NULL);
 		NullCheck(L_9);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_9, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:149>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:149>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral611BDBF0A75520849E8E686FEE214931C30D09C1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:150>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:150>
 		return;
 	}
 
 IL_0047:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:154>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:154>
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_10;
 		L_10 = Object_FindObjectOfType_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m4AD0E4AD3F779EA1CBA37403B0244126814EA6D1(Object_FindObjectOfType_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m4AD0E4AD3F779EA1CBA37403B0244126814EA6D1_RuntimeMethod_var);
 		V_1 = L_10;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:155>
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_11 = V_1;
 		bool L_12;
 		L_12 = Object_op_Equality_mB6120F782D83091EF56A198FCEBCF066DB4A9605(L_11, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -16111,16 +16098,16 @@ IL_0047:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:157>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:157>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralC06C632AF51E560F2B02BC054D657BD6F13C69E9, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:158>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:158>
 		return;
 	}
 
 IL_0061:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:161>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:161>
 		TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* L_13 = (TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB*)(TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB*)SZArrayNew(TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB_il2cpp_TypeInfo_var, (uint32_t)1);
 		TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* L_14 = L_13;
 		RuntimeTypeHandle_t332A452B8B6179E4469B69525D0FE82A88030F7B L_15 = { reinterpret_cast<intptr_t> (RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_0_0_0_var) };
@@ -16132,7 +16119,7 @@ IL_0061:
 		(L_14)->SetAt(static_cast<il2cpp_array_size_t>(0), (Type_t*)L_16);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_17 = (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*)il2cpp_codegen_object_new(GameObject_t76FEDD663AB33C991A9C9A23129337651094216F_il2cpp_TypeInfo_var);
 		GameObject__ctor_m721D643351E55308EA4F5F41B67D5446D11C61F0(L_17, _stringLiteralA82EBA22221D789BF3A2CE5A1A68047461345044, L_14, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:162>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:162>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_18 = L_17;
 		NullCheck(L_18);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_19;
@@ -16143,92 +16130,92 @@ IL_0061:
 		L_21 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_20, NULL);
 		NullCheck(L_19);
 		Transform_SetParent_m9BDD7B7476714B2D7919B10BDC22CE75C0A0A195(L_19, L_21, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:164>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:164>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_22 = L_18;
 		NullCheck(L_22);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_23;
 		L_23 = GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4(L_22, GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:165>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:165>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_24 = L_23;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_25;
 		memset((&L_25), 0, sizeof(L_25));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_25), (0.5f), (0.949999988f), NULL);
 		NullCheck(L_24);
 		RectTransform_set_anchorMin_m931442ABE3368D6D4309F43DF1D64AB64B0F52E3(L_24, L_25, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:166>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:166>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_26 = L_24;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_27;
 		memset((&L_27), 0, sizeof(L_27));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_27), (0.5f), (0.949999988f), NULL);
 		NullCheck(L_26);
 		RectTransform_set_anchorMax_m52829ABEDD229ABD3DA20BCA676FA1DCA4A39B7D(L_26, L_27, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:167>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:167>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_28 = L_26;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_29;
 		memset((&L_29), 0, sizeof(L_29));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_29), (0.5f), (0.5f), NULL);
 		NullCheck(L_28);
 		RectTransform_set_pivot_m79D0177D383D432A93C2615F1932B739B1C6E146(L_28, L_29, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:168>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:168>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_30;
 		memset((&L_30), 0, sizeof(L_30));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_30), (600.0f), (60.0f), NULL);
 		NullCheck(L_28);
 		RectTransform_set_sizeDelta_mC9A980EA6036E6725EF24CEDF3EE80A9B2B50EE5(L_28, L_30, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:170>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:170>
 		NullCheck(L_22);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_31;
 		L_31 = GameObject_AddComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m5B9EFF0A3AD5E7AB4FD7A4A4D9C2802FA3240275(L_22, GameObject_AddComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m5B9EFF0A3AD5E7AB4FD7A4A4D9C2802FA3240275_RuntimeMethod_var);
 		V_2 = L_31;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:171>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:171>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_32 = V_2;
 		NullCheck(L_32);
 		TMP_Text_set_fontSize_m1C3A3BA2BC88E5E1D89375FD35A0AA91E75D3AAD(L_32, (24.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:172>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:172>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_33 = V_2;
 		NullCheck(L_33);
 		TMP_Text_set_alignment_mE5216A28797987CC19927ED3CB8DFAC438C6B95A(L_33, ((int32_t)514), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:173>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:173>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_34 = V_2;
 		NullCheck(L_34);
 		TMP_Text_set_enableWordWrapping_mFAEE849315B4723F9C86C127B1A59EF50BE1C12F(L_34, (bool)1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:174>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_35 = V_2;
 		NullCheck(L_35);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_35, _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:184>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:184>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_36 = V_2;
 		__this->___alertText = L_36;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___alertText), (void*)L_36);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:185>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:185>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_37 = __this->___alertText;
 		NullCheck(L_37);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_38;
 		L_38 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_37, NULL);
 		NullCheck(L_38);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_38, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:186>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:186>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral07CA485224A4E99F5F0859D21F35196A3C64DD29, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:187>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:187>
 		return;
 	}
 }
-// Method Definition Index: 78820
+// Method Definition Index: 78823
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager__ctor_mDEE55C1EF68A28F99E2028ADD2BE3D459FCDFC25 (LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:20>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:20>
 		__this->___alertDuration = (3.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:21>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:21>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_0;
 		L_0 = Color_get_green_mEB001F2CD8C68C6BBAEF9101990B779D3AA2A6EF_inline(NULL);
 		__this->___successColor = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:22>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_1;
 		L_1 = Color_get_red_mA2E53E7173FDC97E68E335049AB0FAAEE43A844D_inline(NULL);
 		__this->___errorColor = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:23>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:23>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_2;
 		L_2 = Color_get_yellow_m66637FA14383E8D74F24AE256B577CE1D55D469F_inline(NULL);
 		__this->___infoColor = L_2;
@@ -16244,7 +16231,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LostFoundUIManager__ctor_mDEE55C1EF68A28
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78821
+// Method Definition Index: 78824
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__18__ctor_mB87A468709C75B413F160A2E8A4BA229234F0D29 (U3CHideAlertAfterSecondsU3Ed__18_t10810D9526D1D95ACEEF4400514EC0A786BDB589* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -16254,14 +16241,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__18__ctor_m
 		return;
 	}
 }
-// Method Definition Index: 78822
+// Method Definition Index: 78825
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__18_System_IDisposable_Dispose_m8A71794A5B78D60EE21058550453A69BFB2A6D2A (U3CHideAlertAfterSecondsU3Ed__18_t10810D9526D1D95ACEEF4400514EC0A786BDB589* __this, const RuntimeMethod* method) 
 {
 	{
 		return;
 	}
 }
-// Method Definition Index: 78823
+// Method Definition Index: 78826
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CHideAlertAfterSecondsU3Ed__18_MoveNext_mBC11BA1E3094CF0E326B85ADE609AD2FAA23514C (U3CHideAlertAfterSecondsU3Ed__18_t10810D9526D1D95ACEEF4400514EC0A786BDB589* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16298,7 +16285,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CHideAlertAfterSecondsU3Ed__18_MoveNex
 IL_0017:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:131>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:131>
 		float L_4 = __this->___seconds;
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_5 = (WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3*)il2cpp_codegen_object_new(WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3_il2cpp_TypeInfo_var);
 		WaitForSeconds__ctor_m579F95BADEDBAB4B3A7E302C6EE3995926EF2EFC(L_5, L_4, NULL);
@@ -16311,7 +16298,7 @@ IL_0017:
 IL_0038:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:132>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:132>
 		LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* L_6 = V_1;
 		NullCheck(L_6);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_7 = L_6->___alertText;
@@ -16324,7 +16311,7 @@ IL_0038:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:133>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:133>
 		LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* L_9 = V_1;
 		NullCheck(L_9);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_10 = L_9->___alertText;
@@ -16337,16 +16324,16 @@ IL_0038:
 
 IL_005e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:134>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:134>
 		LostFoundUIManager_t8DE9786C4E4A010BE3E97293A2BBB4223A3A017C* L_12 = V_1;
 		NullCheck(L_12);
 		L_12->___alertCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&L_12->___alertCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/LostFoundUIManager.cs:135>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/LostFoundUIManager.cs:135>
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78824
+// Method Definition Index: 78827
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__18_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mD093D9FC61012C1131E384CAF6A4788050B2758C (U3CHideAlertAfterSecondsU3Ed__18_t10810D9526D1D95ACEEF4400514EC0A786BDB589* __this, const RuntimeMethod* method) 
 {
 	{
@@ -16354,7 +16341,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__
 		return L_0;
 	}
 }
-// Method Definition Index: 78825
+// Method Definition Index: 78828
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__18_System_Collections_IEnumerator_Reset_m8CF887F5A7BE1DE8D6B02CCB6BB4FC6FB3FA4886 (U3CHideAlertAfterSecondsU3Ed__18_t10810D9526D1D95ACEEF4400514EC0A786BDB589* __this, const RuntimeMethod* method) 
 {
 	{
@@ -16363,7 +16350,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__18_System_
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CHideAlertAfterSecondsU3Ed__18_System_Collections_IEnumerator_Reset_m8CF887F5A7BE1DE8D6B02CCB6BB4FC6FB3FA4886_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78826
+// Method Definition Index: 78829
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__18_System_Collections_IEnumerator_get_Current_m53C7E99022982636704FE9155F35827FD76019C4 (U3CHideAlertAfterSecondsU3Ed__18_t10810D9526D1D95ACEEF4400514EC0A786BDB589* __this, const RuntimeMethod* method) 
 {
 	{
@@ -16379,7 +16366,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78827
+// Method Definition Index: 78830
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationPoint__ctor_m22B12B1810E271C7F9AC1BAA34D85C80711CC3FF (LocationPoint_t686FD790106DD0CE70682378C1710EBFEF0EDD7B* __this, const RuntimeMethod* method) 
 {
 	{
@@ -16395,13 +16382,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LocationPoint__ctor_m22B12B1810E271C7F9A
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78828
+// Method Definition Index: 78831
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_Start_m5FC3CBDDE25D23674E5C215ED062217CD0FB42B9 (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:33>
 		NavigationButton_PopulateDropdown_m31241D73FDB36E965ABFDD709B524F67CA99BE16(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:34>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:34>
 		bool L_0 = __this->___autoFillCurrentLocation;
 		if (!L_0)
 		{
@@ -16409,17 +16396,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_Start_m5FC3CBDDE25D2367
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:36>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:36>
 		NavigationButton_StartGPSLocation_m96EC916ABF30527DFFA826A7D37A015DCB1B46C0(__this, NULL);
 	}
 
 IL_0014:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:38>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:38>
 		return;
 	}
 }
-// Method Definition Index: 78829
+// Method Definition Index: 78832
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_StartGPSLocation_m96EC916ABF30527DFFA826A7D37A015DCB1B46C0 (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16430,7 +16417,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_StartGPSLocation_m96EC9
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:42>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:42>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_0;
 		L_0 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_0);
@@ -16442,30 +16429,30 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_StartGPSLocation_m96EC9
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:44>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:44>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralCD733E2CF4BD825CF3B9FDE54A4CB58C10600FB0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:45>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:45>
 		return;
 	}
 
 IL_0017:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:48>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:48>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_2;
 		L_2 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_2);
 		LocationService_Start_m5076FE201E96C086B0F9C2D8677DA69C98099F3D(L_2, (1.0f), (1.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:49>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:49>
 		RuntimeObject* L_3;
 		L_3 = NavigationButton_WaitForLocation_mD2465CEC480EAFF0AECDEBB9D979CCCAA7344A04(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_4;
 		L_4 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_3, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:50>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:50>
 		return;
 	}
 }
-// Method Definition Index: 78830
+// Method Definition Index: 78833
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* NavigationButton_WaitForLocation_mD2465CEC480EAFF0AECDEBB9D979CCCAA7344A04 (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16484,7 +16471,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* NavigationButton_WaitForLocati
 		return L_1;
 	}
 }
-// Method Definition Index: 78831
+// Method Definition Index: 78834
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_PopulateDropdown_m31241D73FDB36E965ABFDD709B524F67CA99BE16 (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16505,19 +16492,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_PopulateDropdown_m31241
 	memset((&V_1), 0, sizeof(V_1));
 	LocationPoint_t686FD790106DD0CE70682378C1710EBFEF0EDD7B* V_2 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:84>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:84>
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_0 = __this->___destinationDropdown;
 		NullCheck(L_0);
 		TMP_Dropdown_ClearOptions_m9888C23BC3033268E5C2D8613C0854661E7BDEB5(L_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:85>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:85>
 		List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD* L_1 = (List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD*)il2cpp_codegen_object_new(List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD_il2cpp_TypeInfo_var);
 		List_1__ctor_mCA8DD57EAC70C2B5923DBB9D5A77CEAC22E7068E(L_1, List_1__ctor_mCA8DD57EAC70C2B5923DBB9D5A77CEAC22E7068E_RuntimeMethod_var);
 		V_0 = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:87>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:87>
 		List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD* L_2 = V_0;
 		NullCheck(L_2);
 		List_1_Add_mF10DB1D3CBB0B14215F0E4F8AB4934A1955E5351_inline(L_2, _stringLiteral8193AE3C7591CC3F46D2DAA8C8CEE6B8C55B7512, List_1_Add_mF10DB1D3CBB0B14215F0E4F8AB4934A1955E5351_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:88>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:88>
 		List_1_tB8BCB21B730C2223095EB315026DA842E13B56E3* L_3 = __this->___points;
 		NullCheck(L_3);
 		Enumerator_t1BD3D314D8A8B0E88819077E7D888004F1E50938 L_4;
@@ -16542,11 +16529,11 @@ FINALLY_0049:
 
 IL_002a_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:88>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:88>
 				LocationPoint_t686FD790106DD0CE70682378C1710EBFEF0EDD7B* L_5;
 				L_5 = Enumerator_get_Current_m3884A6916B73F5E70BBCC66F6B058E2BD3AED5AC_inline((&V_1), Enumerator_get_Current_m3884A6916B73F5E70BBCC66F6B058E2BD3AED5AC_RuntimeMethod_var);
 				V_2 = L_5;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:90>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:90>
 				List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD* L_6 = V_0;
 				LocationPoint_t686FD790106DD0CE70682378C1710EBFEF0EDD7B* L_7 = V_2;
 				NullCheck(L_7);
@@ -16557,7 +16544,7 @@ IL_002a_1:
 
 IL_003e_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:88>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:88>
 				bool L_9;
 				L_9 = Enumerator_MoveNext_m5C2CB026217DE450193CF72735AD33C859BEA822((&V_1), Enumerator_MoveNext_m5C2CB026217DE450193CF72735AD33C859BEA822_RuntimeMethod_var);
 				if (L_9)
@@ -16577,24 +16564,24 @@ IL_003e_1:
 
 IL_0057:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:93>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:93>
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_10 = __this->___destinationDropdown;
 		List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD* L_11 = V_0;
 		NullCheck(L_10);
 		TMP_Dropdown_AddOptions_m6EB4E175FE6B5555BDC2C31EFBCC3B115DE85FF5(L_10, L_11, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:94>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:94>
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_12 = __this->___destinationDropdown;
 		NullCheck(L_12);
 		TMP_Dropdown_set_value_m8362A866D571975FECFD1FE47D3C4D83559795BF(L_12, 0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:95>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:95>
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_13 = __this->___destinationDropdown;
 		NullCheck(L_13);
 		TMP_Dropdown_RefreshShownValue_mF63797E989A9075B6E4CF767B2C4B55FBD23DFF8(L_13, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:96>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:96>
 		return;
 	}
 }
-// Method Definition Index: 78832
+// Method Definition Index: 78835
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_OnNavigateButtonPressed_m81433F8A66626EA146E3537BCD3526CDBC793158 (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16630,7 +16617,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_OnNavigateButtonPressed
 	RuntimeObject* G_B15_2 = NULL;
 	String_t* G_B15_3 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:100>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:100>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_0 = __this->___currentLocationInput;
 		NullCheck(L_0);
 		String_t* L_1;
@@ -16643,16 +16630,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton_OnNavigateButtonPressed
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:102>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:102>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralA584355FDCA33F6FB27E03D6D02B3E4D7DAA58A4, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:103>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:103>
 		return;
 	}
 
 IL_001d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:106>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:106>
 		List_1_tB8BCB21B730C2223095EB315026DA842E13B56E3* L_3 = __this->___points;
 		if (!L_3)
 		{
@@ -16672,16 +16659,16 @@ IL_001d:
 
 IL_0032:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:108>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:108>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralA3B1379BD87A26ADBD623D3945FB300707872ECE, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:109>
 		return;
 	}
 
 IL_003d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:113>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:113>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_6 = __this->___currentLocationInput;
 		NullCheck(L_6);
 		String_t* L_7;
@@ -16689,7 +16676,7 @@ IL_003d:
 		GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 L_8;
 		L_8 = NavigationButton_ParseLatLonDouble_mE9234B1C1D7CDF385030CC83575F2CE108F9E829(__this, L_7, NULL);
 		V_0 = L_8;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:114>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:114>
 		bool L_9;
 		L_9 = GeoCoordinate_IsZero_m599E29D6275EDBD7C2588DD6E290A4FA0CF242E6((&V_0), NULL);
 		if (!L_9)
@@ -16698,22 +16685,22 @@ IL_003d:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:116>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:116>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralC15734774E752F8648F8C88E0EC27FBC8B27452C, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:117>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:117>
 		return;
 	}
 
 IL_0063:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:121>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:121>
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_10 = __this->___destinationDropdown;
 		NullCheck(L_10);
 		int32_t L_11;
 		L_11 = TMP_Dropdown_get_value_m5916A6D1897431E8ED789FEC24551A311D1B5C70_inline(L_10, NULL);
 		V_1 = L_11;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:123>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:123>
 		int32_t L_12 = V_1;
 		if (L_12)
 		{
@@ -16721,19 +16708,19 @@ IL_0063:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:125>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:125>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralF09D4D6EE323501786F5BB26A86928E1B16DB60E, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:126>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:126>
 		return;
 	}
 
 IL_007d:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:129>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:129>
 		int32_t L_13 = V_1;
 		V_2 = ((int32_t)il2cpp_codegen_subtract(L_13, 1));
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:131>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:131>
 		List_1_tB8BCB21B730C2223095EB315026DA842E13B56E3* L_14 = __this->___points;
 		if (!L_14)
 		{
@@ -16761,7 +16748,7 @@ IL_007d:
 
 IL_009b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:133>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:133>
 		int32_t L_19 = V_1;
 		int32_t L_20 = L_19;
 		RuntimeObject* L_21 = Box(il2cpp_defaults.int32_class, &L_20);
@@ -16808,20 +16795,20 @@ IL_00c2:
 		L_30 = String_Format_mA0534D6E2AE4D67A6BD8D45B3321323930EB930C(G_B15_3, G_B15_2, G_B15_1, L_29, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(L_30, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:134>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:134>
 		return;
 	}
 
 IL_00d2:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:137>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:137>
 		List_1_tB8BCB21B730C2223095EB315026DA842E13B56E3* L_31 = __this->___points;
 		int32_t L_32 = V_2;
 		NullCheck(L_31);
 		LocationPoint_t686FD790106DD0CE70682378C1710EBFEF0EDD7B* L_33;
 		L_33 = List_1_get_Item_m53456703AEC05D3A6F969FA5E1CB0A0385FDD15B(L_31, L_32, List_1_get_Item_m53456703AEC05D3A6F969FA5E1CB0A0385FDD15B_RuntimeMethod_var);
 		V_3 = L_33;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:138>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:138>
 		LocationPoint_t686FD790106DD0CE70682378C1710EBFEF0EDD7B* L_34 = V_3;
 		NullCheck(L_34);
 		double L_35 = L_34->___lat;
@@ -16831,22 +16818,22 @@ IL_00d2:
 		GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 L_38;
 		memset((&L_38), 0, sizeof(L_38));
 		GeoCoordinate__ctor_m2FE7D1FF7250C6E86645900211EE34F393584B46((&L_38), L_35, L_37, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:141>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:141>
 		GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 L_39 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var);
 		((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___Source = L_39;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:142>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:142>
 		((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___Destination = L_38;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:143>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:143>
 		LocationPoint_t686FD790106DD0CE70682378C1710EBFEF0EDD7B* L_40 = V_3;
 		NullCheck(L_40);
 		String_t* L_41 = L_40->___name;
 		((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___DestinationName = L_41;
 		Il2CppCodeGenWriteBarrier((void**)(&((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___DestinationName), (void*)L_41);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:144>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:144>
 		((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___HasData = (bool)1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:146>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:146>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:147>
 		double L_42 = (&((NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_StaticFields*)il2cpp_codegen_static_fields_for(NavigationData_t1AF76BFCA0DE9DD3CD222DA0B512AFA944426390_il2cpp_TypeInfo_var))->___Source)->___latitude;
 		double L_43 = L_42;
 		RuntimeObject* L_44 = Box(il2cpp_defaults.double_class, &L_43);
@@ -16867,15 +16854,15 @@ IL_00d2:
 		L_56 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(L_48, L_55, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_56, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:150>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:150>
 		String_t* L_57 = __this->___targetSceneName;
 		il2cpp_codegen_runtime_class_init_inline(SceneManager_tA0EF56A88ACA4A15731AF7FDC10A869FA4C698FA_il2cpp_TypeInfo_var);
 		SceneManager_LoadScene_mBB3DBC1601A21F8F4E8A5D68FED30EA9412F218E(L_57, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:151>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:151>
 		return;
 	}
 }
-// Method Definition Index: 78833
+// Method Definition Index: 78836
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 NavigationButton_ParseLatLonDouble_mE9234B1C1D7CDF385030CC83575F2CE108F9E829 (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, String_t* ___0_input, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -16893,7 +16880,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F
 	double V_1 = 0.0;
 	double V_2 = 0.0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:154>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:154>
 		String_t* L_0 = ___0_input;
 		bool L_1;
 		L_1 = String_IsNullOrEmpty_mEA9E3FB005AC28FE02E69FCF95A7B8456192B478(L_0, NULL);
@@ -16903,10 +16890,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:156>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:156>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral8531F3C136942B21DC8147EA894BB9CBF7CC9549, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:157>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:157>
 		GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 L_2;
 		L_2 = GeoCoordinate_get_zero_m6573A0D740E827F36DB0511B10F69718C3F3B110(NULL);
 		return L_2;
@@ -16914,7 +16901,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F
 
 IL_0018:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:161>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:161>
 		String_t* L_3 = ___0_input;
 		NullCheck(L_3);
 		String_t* L_4;
@@ -16923,7 +16910,7 @@ IL_0018:
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_5;
 		L_5 = String_Split_m9530B73D02054692283BF35C3A27C8F2230946F4(L_4, ((int32_t)44), 0, NULL);
 		V_0 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:162>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:162>
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_6 = V_0;
 		NullCheck(L_6);
 		if ((!(((uint32_t)((int32_t)(((RuntimeArray*)L_6)->max_length))) == ((uint32_t)2))))
@@ -16932,8 +16919,8 @@ IL_0018:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:164>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:165>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:164>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:165>
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_7 = V_0;
 		NullCheck(L_7);
 		int32_t L_8 = 0;
@@ -16964,7 +16951,7 @@ IL_0018:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:168>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:168>
 		double L_17 = V_1;
 		if ((!(((double)L_17) >= ((double)(-90.0)))))
 		{
@@ -16993,7 +16980,7 @@ IL_0018:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:170>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:170>
 		double L_21 = V_1;
 		double L_22 = L_21;
 		RuntimeObject* L_23 = Box(il2cpp_defaults.double_class, &L_22);
@@ -17004,7 +16991,7 @@ IL_0018:
 		L_27 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteral8690D027BFD16605E04C9C171EF624B1C5B65DD0, L_23, L_26, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_27, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:171>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:171>
 		double L_28 = V_1;
 		double L_29 = V_2;
 		GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 L_30;
@@ -17015,7 +17002,7 @@ IL_0018:
 
 IL_00a5:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:175>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:175>
 		double L_31 = V_1;
 		double L_32 = L_31;
 		RuntimeObject* L_33 = Box(il2cpp_defaults.double_class, &L_32);
@@ -17030,30 +17017,30 @@ IL_00a5:
 
 IL_00c0:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:180>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:180>
 		String_t* L_38 = ___0_input;
 		String_t* L_39;
 		L_39 = String_Concat_m8855A6DE10F84DA7F4EC113CADDB59873A25573B(_stringLiteral522329AC426850FB301353F42B73F0B2F3421379, L_38, _stringLiteral12848BF9151E34987854BFA56C380059E87FAEB4, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(L_39, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:181>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:181>
 		GeoCoordinate_tC0D5E4C573E677E74248BAE19FC38F7C6217D801 L_40;
 		L_40 = GeoCoordinate_get_zero_m6573A0D740E827F36DB0511B10F69718C3F3B110(NULL);
 		return L_40;
 	}
 }
-// Method Definition Index: 78834
+// Method Definition Index: 78837
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool NavigationButton_TryParseLatLon_mBAB20C7CCC6AB4B22E2B309A8346D11D82409AA0 (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, String_t* ___0_input, double* ___1_lat, double* ___2_lon, const RuntimeMethod* method) 
 {
 	StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* V_0 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:186>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:186>
 		double* L_0 = ___1_lat;
 		*((double*)L_0) = (double)(0.0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:186>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:186>
 		double* L_1 = ___2_lon;
 		*((double*)L_1) = (double)(0.0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:187>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:187>
 		String_t* L_2 = ___0_input;
 		bool L_3;
 		L_3 = String_IsNullOrEmpty_mEA9E3FB005AC28FE02E69FCF95A7B8456192B478(L_2, NULL);
@@ -17063,13 +17050,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool NavigationButton_TryParseLatLon_mBAB20C7
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:187>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:187>
 		return (bool)0;
 	}
 
 IL_0020:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:189>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:189>
 		String_t* L_4 = ___0_input;
 		NullCheck(L_4);
 		String_t* L_5;
@@ -17078,9 +17065,9 @@ IL_0020:
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_6;
 		L_6 = String_Split_m9530B73D02054692283BF35C3A27C8F2230946F4(L_5, ((int32_t)44), 0, NULL);
 		V_0 = L_6;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:190>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:191>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:192>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:190>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:191>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:192>
 		StringU5BU5D_t7674CD946EC0CE7B3AE0BE70E6EE85F2ECD9F248* L_7 = V_0;
 		NullCheck(L_7);
 		if ((!(((uint32_t)((int32_t)(((RuntimeArray*)L_7)->max_length))) == ((uint32_t)2))))
@@ -17121,7 +17108,7 @@ IL_0020:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:194>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:194>
 		double* L_20 = ___1_lat;
 		double L_21 = *((double*)L_20);
 		if ((!(((double)L_21) >= ((double)(-90.0)))))
@@ -17154,17 +17141,17 @@ IL_0020:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:195>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:195>
 		return (bool)1;
 	}
 
 IL_008b:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:198>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:198>
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78835
+// Method Definition Index: 78838
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton__ctor_m6901D43543C121756CCEEF6F9D086C435985577D (NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17177,18 +17164,18 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton__ctor_m6901D43543C12175
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:18>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:18>
 		__this->___apiUrl = _stringLiteral4F47925DD9413E589F6164ECED03546F862B5D6B;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___apiUrl), (void*)_stringLiteral4F47925DD9413E589F6164ECED03546F862B5D6B);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:24>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:24>
 		List_1_tB8BCB21B730C2223095EB315026DA842E13B56E3* L_0 = (List_1_tB8BCB21B730C2223095EB315026DA842E13B56E3*)il2cpp_codegen_object_new(List_1_tB8BCB21B730C2223095EB315026DA842E13B56E3_il2cpp_TypeInfo_var);
 		List_1__ctor_mF36A8E605D9F812112FEB1B0CCF39D3FA0D5DE5B(L_0, List_1__ctor_mF36A8E605D9F812112FEB1B0CCF39D3FA0D5DE5B_RuntimeMethod_var);
 		__this->___points = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___points), (void*)L_0);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:26>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:26>
 		__this->___targetSceneName = _stringLiteral90ACFBDD644C249239BF4D0BAB55BDCFE32E7DC7;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___targetSceneName), (void*)_stringLiteral90ACFBDD644C249239BF4D0BAB55BDCFE32E7DC7);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:29>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:29>
 		__this->___autoFillCurrentLocation = (bool)1;
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
@@ -17202,7 +17189,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationButton__ctor_m6901D43543C12175
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78836
+// Method Definition Index: 78839
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForLocationU3Ed__8__ctor_mFE671946A6745310D3B8B0C09549F10EF46869D1 (U3CWaitForLocationU3Ed__8_tA7E77794AB6D9FFF10218A1BC15A04F6636E6AFF* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -17212,14 +17199,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForLocationU3Ed__8__ctor_mFE67194
 		return;
 	}
 }
-// Method Definition Index: 78837
+// Method Definition Index: 78840
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForLocationU3Ed__8_System_IDisposable_Dispose_m8DE3C5B7E7FD15525D001BFFD944BA0BB55277CE (U3CWaitForLocationU3Ed__8_tA7E77794AB6D9FFF10218A1BC15A04F6636E6AFF* __this, const RuntimeMethod* method) 
 {
 	{
 		return;
 	}
 }
-// Method Definition Index: 78838
+// Method Definition Index: 78841
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CWaitForLocationU3Ed__8_MoveNext_mC9A8272A5EEA1BB8206E0E859D4B07D92AFE5F2B (U3CWaitForLocationU3Ed__8_tA7E77794AB6D9FFF10218A1BC15A04F6636E6AFF* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17265,14 +17252,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CWaitForLocationU3Ed__8_MoveNext_mC9A8
 IL_0017:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:54>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:54>
 		__this->___U3CmaxWaitU3E5__2 = ((int32_t)20);
 		goto IL_005a;
 	}
 
 IL_0028:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:57>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:57>
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_4 = (WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3*)il2cpp_codegen_object_new(WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3_il2cpp_TypeInfo_var);
 		WaitForSeconds__ctor_m579F95BADEDBAB4B3A7E302C6EE3995926EF2EFC(L_4, (1.0f), NULL);
 		__this->___U3CU3E2__current = L_4;
@@ -17284,7 +17271,7 @@ IL_0028:
 IL_0041:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:58>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:58>
 		int32_t L_5 = __this->___U3CmaxWaitU3E5__2;
 		V_4 = L_5;
 		int32_t L_6 = V_4;
@@ -17293,7 +17280,7 @@ IL_0041:
 
 IL_005a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:55>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:55>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_7;
 		L_7 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_7);
@@ -17314,7 +17301,7 @@ IL_005a:
 
 IL_0070:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:61>
 		int32_t L_10 = __this->___U3CmaxWaitU3E5__2;
 		if ((((int32_t)L_10) > ((int32_t)0)))
 		{
@@ -17322,16 +17309,16 @@ IL_0070:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:63>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:63>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral28979E1AD593FB6D27118465A09511E7BD4B17E7, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:64>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:64>
 		return (bool)0;
 	}
 
 IL_0085:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:67>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:67>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_11;
 		L_11 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_11);
@@ -17343,16 +17330,16 @@ IL_0085:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:69>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:69>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralE2EE8E73413D8C0EC384803067E74CF1A2A1AAFB, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:70>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:70>
 		return (bool)0;
 	}
 
 IL_009e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:74>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_13;
 		L_13 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_13);
@@ -17362,7 +17349,7 @@ IL_009e:
 		float L_15;
 		L_15 = LocationInfo_get_latitude_mAF0A46443555AF18EA3C516292CB92B1669CA863((&V_5), NULL);
 		V_2 = ((double)L_15);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:75>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:75>
 		LocationService_tF2F2720FE2C07562EBFD128889F9A99F4B41B1B2* L_16;
 		L_16 = Input_get_location_m1D1FA0938E5B83C46A666CE78D95A58B39164DB5(NULL);
 		NullCheck(L_16);
@@ -17372,7 +17359,7 @@ IL_009e:
 		float L_18;
 		L_18 = LocationInfo_get_longitude_mCB720DD0E139B7C614F78D40595E1BBF1F5433A2((&V_5), NULL);
 		V_3 = ((double)L_18);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:76>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:76>
 		NavigationButton_tDE88B7795F121F4BB2AE73ABE9F54BDD1E3DEF83* L_19 = V_1;
 		NullCheck(L_19);
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_20 = L_19->___currentLocationInput;
@@ -17386,7 +17373,7 @@ IL_009e:
 		L_27 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteral55D198F5D01E7A0DA998AE7D4D73E9670D68CE87, L_23, L_26, NULL);
 		NullCheck(L_20);
 		TMP_InputField_set_text_m684E9CDA2D9E82D1C497B5E03DBE79C00584FF62(L_20, L_27, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:78>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:78>
 		double L_28 = V_2;
 		double L_29 = L_28;
 		RuntimeObject* L_30 = Box(il2cpp_defaults.double_class, &L_29);
@@ -17397,11 +17384,11 @@ IL_009e:
 		L_34 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteralC41F4DE6ECB53748A109565D79D4E16702CEA7A2, L_30, L_33, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_34, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationButton.cs:79>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationButton.cs:79>
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78839
+// Method Definition Index: 78842
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForLocationU3Ed__8_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m9D820CA8091E0DDE21AF5C135E9AD8548EAAF644 (U3CWaitForLocationU3Ed__8_tA7E77794AB6D9FFF10218A1BC15A04F6636E6AFF* __this, const RuntimeMethod* method) 
 {
 	{
@@ -17409,7 +17396,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForLocationU3Ed__8_Syst
 		return L_0;
 	}
 }
-// Method Definition Index: 78840
+// Method Definition Index: 78843
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForLocationU3Ed__8_System_Collections_IEnumerator_Reset_m180E66ED0B93A1AA0388B93EAEB97830E7F25E01 (U3CWaitForLocationU3Ed__8_tA7E77794AB6D9FFF10218A1BC15A04F6636E6AFF* __this, const RuntimeMethod* method) 
 {
 	{
@@ -17418,7 +17405,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CWaitForLocationU3Ed__8_System_Collect
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CWaitForLocationU3Ed__8_System_Collections_IEnumerator_Reset_m180E66ED0B93A1AA0388B93EAEB97830E7F25E01_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78841
+// Method Definition Index: 78844
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForLocationU3Ed__8_System_Collections_IEnumerator_get_Current_m592F51E640A697C5AEE9E18BFB424BCC0484BDFF (U3CWaitForLocationU3Ed__8_tA7E77794AB6D9FFF10218A1BC15A04F6636E6AFF* __this, const RuntimeMethod* method) 
 {
 	{
@@ -17434,7 +17421,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CWaitForLocationU3Ed__8_Syst
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78842
+// Method Definition Index: 78845
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PointData__ctor_mB3FA49753A518A7A7F607CA08EF13BBCB1872B05 (PointData_t595EC1A2A4E93FB6D934CC615687604A824CD050* __this, const RuntimeMethod* method) 
 {
 	{
@@ -17450,7 +17437,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PointData__ctor_mB3FA49753A518A7A7F607CA
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78843
+// Method Definition Index: 78846
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PointDataWrapper__ctor_m07B1F6AEC4A727E1CD24FC50DB2723F380EF498F (PointDataWrapper_tAEF01A2928FAB1551C9285EC012912E6E64D3395* __this, const RuntimeMethod* method) 
 {
 	{
@@ -17466,7 +17453,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void PointDataWrapper__ctor_m07B1F6AEC4A727E1
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78844
+// Method Definition Index: 78847
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_Start_m86AC99EA81732A5C6AAB26B2C139A9C2E17D170E (NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17477,12 +17464,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_Start_m86AC99EA81732
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:41>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:41>
 		RuntimeObject* L_0;
 		L_0 = NavigationUIManager_FetchDestinations_m4B59531D575911FDEC0B8A65237D71B779DC3EC9(__this, NULL);
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_1;
 		L_1 = MonoBehaviour_StartCoroutine_m4CAFF732AA28CD3BDC5363B44A863575530EC812(__this, L_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:42>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:42>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_2 = __this->___getDirectionButton;
 		NullCheck(L_2);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_3;
@@ -17491,11 +17478,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_Start_m86AC99EA81732
 		UnityAction__ctor_mC53E20D6B66E0D5688CD81B88DBB34F5A58B7131(L_4, __this, (intptr_t)((void*)NavigationUIManager_OnGetDirection_m1D03DB69D672259ADD0FE573C62F4F63EAC36C2A_RuntimeMethod_var), NULL);
 		NullCheck(L_3);
 		UnityEvent_AddListener_m8AA4287C16628486B41DA41CA5E7A856A706D302(L_3, L_4, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:43>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:43>
 		return;
 	}
 }
-// Method Definition Index: 78845
+// Method Definition Index: 78848
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* NavigationUIManager_FetchDestinations_m4B59531D575911FDEC0B8A65237D71B779DC3EC9 (NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17514,7 +17501,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* NavigationUIManager_FetchDesti
 		return L_1;
 	}
 }
-// Method Definition Index: 78846
+// Method Definition Index: 78849
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_OnGetDirection_m1D03DB69D672259ADD0FE573C62F4F63EAC36C2A (NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17534,7 +17521,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_OnGetDirection_m1D03
 	Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 V_2;
 	memset((&V_2), 0, sizeof(V_2));
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:86>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:86>
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_0 = __this->___destinationDropdown;
 		NullCheck(L_0);
 		List_1_tCADFA900711C24701A9C70EE674B91FC45D42A52* L_1;
@@ -17550,13 +17537,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_OnGetDirection_m1D03
 		String_t* L_5;
 		L_5 = OptionData_get_text_m2E822D5D50B597BFBA7AB3485EF15B526A726A1A_inline(L_4, NULL);
 		V_0 = L_5;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:87>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:87>
 		String_t* L_6 = V_0;
 		String_t* L_7;
 		L_7 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral264EF9C09452836050CAACEA0710CB86800615AC, L_6, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_7, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:90>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:90>
 		CanvasSwitcher_t9AFDE179EBF619701BD35138D662924440B0D82E* L_8 = __this->___canvasSwitcher;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_9;
@@ -17567,7 +17554,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_OnGetDirection_m1D03
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:92>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:92>
 		CanvasSwitcher_t9AFDE179EBF619701BD35138D662924440B0D82E* L_10 = __this->___canvasSwitcher;
 		NullCheck(L_10);
 		CanvasSwitcher_ShowNavigationCanvas_m52E9E2FC7C0544F6CF53FFC1D6E7E8F73C36499C(L_10, NULL);
@@ -17576,14 +17563,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager_OnGetDirection_m1D03
 
 IL_004c:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:96>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:96>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralAEEE59201CD3AAB705F9B5DD122E19147DBD3EC5, NULL);
 	}
 
 IL_0056:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:100>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:100>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_11 = __this->___arNavigation;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_12;
@@ -17594,11 +17581,11 @@ IL_0056:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:102>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:102>
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&V_1), (0.0f), (0.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:103>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:103>
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&V_2), (32.1548004f), (82.6588974f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:105>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:105>
 		ARNavigation_tD3C152B76FD621B55CA41031516A7A21C3AAC96A* L_13 = __this->___arNavigation;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_14 = V_1;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_15 = V_2;
@@ -17609,14 +17596,14 @@ IL_0056:
 
 IL_0094:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:109>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral8864528616FAE288B341ABA94C2F7065A0BB834C, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:111>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:111>
 		return;
 	}
 }
-// Method Definition Index: 78847
+// Method Definition Index: 78850
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager__ctor_mB64BBB6AE4E9644EAFC7B7896958E8C9A68AB203 (NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17628,10 +17615,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager__ctor_mB64BBB6AE4E96
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:36>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:36>
 		__this->___apiUrl = _stringLiteral4F47925DD9413E589F6164ECED03546F862B5D6B;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___apiUrl), (void*)_stringLiteral4F47925DD9413E589F6164ECED03546F862B5D6B);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:37>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:37>
 		List_1_tA5C4A4538A25CE844BC1E39D9109A2C14B2A057F* L_0 = (List_1_tA5C4A4538A25CE844BC1E39D9109A2C14B2A057F*)il2cpp_codegen_object_new(List_1_tA5C4A4538A25CE844BC1E39D9109A2C14B2A057F_il2cpp_TypeInfo_var);
 		List_1__ctor_mC9DFE18C2F82401D97A2C64F81C6564E512A4E38(L_0, List_1__ctor_mC9DFE18C2F82401D97A2C64F81C6564E512A4E38_RuntimeMethod_var);
 		__this->___cachedPoints = L_0;
@@ -17648,7 +17635,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void NavigationUIManager__ctor_mB64BBB6AE4E96
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78848
+// Method Definition Index: 78851
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchDestinationsU3Ed__7__ctor_mA2D4D7439B263D6E0814F804DEAEF52524D838C0 (U3CFetchDestinationsU3Ed__7_tFA9F4C7652D487A6FCD5EDDA499F6D3E1A93F1D7* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -17658,7 +17645,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchDestinationsU3Ed__7__ctor_mA2D4D
 		return;
 	}
 }
-// Method Definition Index: 78849
+// Method Definition Index: 78852
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchDestinationsU3Ed__7_System_IDisposable_Dispose_m95C5DCB037D04EE9AF88529D777D2A48F78B8A8E (U3CFetchDestinationsU3Ed__7_tFA9F4C7652D487A6FCD5EDDA499F6D3E1A93F1D7* __this, const RuntimeMethod* method) 
 {
 	int32_t V_0 = 0;
@@ -17707,7 +17694,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78850
+// Method Definition Index: 78853
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CFetchDestinationsU3Ed__7_MoveNext_m3340247B85E09B2BDB296FB787E68C0F1B46B1E1 (U3CFetchDestinationsU3Ed__7_tFA9F4C7652D487A6FCD5EDDA499F6D3E1A93F1D7* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -17781,11 +17768,11 @@ FAULT_019d:
 IL_001c_1:
 			{
 				__this->___U3CU3E1__state = (-1);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:47>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:47>
 				WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_4 = (WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045*)il2cpp_codegen_object_new(WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045_il2cpp_TypeInfo_var);
 				WWWForm__ctor_mB1AA4D4BE7011A371B590332CC65794270F269F6(L_4, NULL);
 				V_3 = L_4;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:49>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:49>
 				NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* L_5 = V_2;
 				NullCheck(L_5);
 				String_t* L_6 = L_5->___apiUrl;
@@ -17795,7 +17782,7 @@ IL_001c_1:
 				__this->___U3CrequestU3E5__2 = L_8;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CrequestU3E5__2), (void*)L_8);
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:51>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:51>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_9 = __this->___U3CrequestU3E5__2;
 				NullCheck(L_9);
 				UnityWebRequestAsyncOperation_t14BE94558FF3A2CFC2EFBE2511A3A88252042B8C* L_10;
@@ -17810,8 +17797,8 @@ IL_001c_1:
 IL_0062_1:
 			{
 				__this->___U3CU3E1__state = ((int32_t)-3);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:53>
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:54>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:53>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:54>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_11 = __this->___U3CrequestU3E5__2;
 				NullCheck(L_11);
 				int32_t L_12;
@@ -17834,7 +17821,7 @@ IL_0062_1:
 
 IL_0086_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:56>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:56>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_15 = __this->___U3CrequestU3E5__2;
 				NullCheck(L_15);
 				String_t* L_16;
@@ -17849,14 +17836,14 @@ IL_0086_1:
 				L_21 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteralFD28B3AD433E7DAF419DF24E5EA17C250D7390AA, L_16, L_20, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(L_21, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:57>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:57>
 				V_0 = (bool)0;
 				goto IL_018a_1;
 			}
 
 IL_00b7_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:60>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:60>
 				UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* L_22 = __this->___U3CrequestU3E5__2;
 				NullCheck(L_22);
 				DownloadHandler_t1B56C7D3F65D97A1E4B566A14A1E783EA8AE4EBB* L_23;
@@ -17865,18 +17852,18 @@ IL_00b7_1:
 				String_t* L_24;
 				L_24 = DownloadHandler_get_text_mA6DE5CB2647A21E577B963708DC3D0DA4DBFE7D8(L_23, NULL);
 				V_4 = L_24;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:61>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:61>
 				String_t* L_25 = V_4;
 				String_t* L_26;
 				L_26 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral2F2CE3C46A9CB2505C05009F549F3100DEB3E7DA, L_25, NULL);
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_26, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:63>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:63>
 				String_t* L_27 = V_4;
 				PointDataWrapper_tAEF01A2928FAB1551C9285EC012912E6E64D3395* L_28;
 				L_28 = JsonUtility_FromJson_TisPointDataWrapper_tAEF01A2928FAB1551C9285EC012912E6E64D3395_m76A08E04627F223B3AF9B03F3657C14C3D9C6CDC(L_27, JsonUtility_FromJson_TisPointDataWrapper_tAEF01A2928FAB1551C9285EC012912E6E64D3395_m76A08E04627F223B3AF9B03F3657C14C3D9C6CDC_RuntimeMethod_var);
 				V_5 = L_28;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:64>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:64>
 				PointDataWrapper_tAEF01A2928FAB1551C9285EC012912E6E64D3395* L_29 = V_5;
 				if (!L_29)
 				{
@@ -17893,7 +17880,7 @@ IL_00b7_1:
 				}
 			}
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:66>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:66>
 				NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* L_32 = V_2;
 				PointDataWrapper_tAEF01A2928FAB1551C9285EC012912E6E64D3395* L_33 = V_5;
 				NullCheck(L_33);
@@ -17901,11 +17888,11 @@ IL_00b7_1:
 				NullCheck(L_32);
 				L_32->___cachedPoints = L_34;
 				Il2CppCodeGenWriteBarrier((void**)(&L_32->___cachedPoints), (void*)L_34);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:68>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:68>
 				List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD* L_35 = (List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD*)il2cpp_codegen_object_new(List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD_il2cpp_TypeInfo_var);
 				List_1__ctor_mCA8DD57EAC70C2B5923DBB9D5A77CEAC22E7068E(L_35, List_1__ctor_mCA8DD57EAC70C2B5923DBB9D5A77CEAC22E7068E_RuntimeMethod_var);
 				V_6 = L_35;
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:69>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:69>
 				NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* L_36 = V_2;
 				NullCheck(L_36);
 				List_1_tA5C4A4538A25CE844BC1E39D9109A2C14B2A057F* L_37 = L_36->___cachedPoints;
@@ -17932,11 +17919,11 @@ FINALLY_0150_1:
 
 IL_0119_2:
 					{
-						//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:69>
+						//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:69>
 						PointData_t595EC1A2A4E93FB6D934CC615687604A824CD050* L_39;
 						L_39 = Enumerator_get_Current_mABCDB9C85158C11EDF089952EFB9932B4AFEBDD6_inline((&V_7), Enumerator_get_Current_mABCDB9C85158C11EDF089952EFB9932B4AFEBDD6_RuntimeMethod_var);
 						V_8 = L_39;
-						//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:71>
+						//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:71>
 						List_1_tF470A3BE5C1B5B68E1325EF3F109D172E60BD7CD* L_40 = V_6;
 						PointData_t595EC1A2A4E93FB6D934CC615687604A824CD050* L_41 = V_8;
 						NullCheck(L_41);
@@ -17973,7 +17960,7 @@ IL_0140_2:
 
 IL_0145_2:
 					{
-						//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:69>
+						//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:69>
 						bool L_46;
 						L_46 = Enumerator_MoveNext_m2C532D8CC4891BFBC6A4BE75F803B9C4B3DDE63A((&V_7), Enumerator_MoveNext_m2C532D8CC4891BFBC6A4BE75F803B9C4B3DDE63A_RuntimeMethod_var);
 						if (L_46)
@@ -17993,13 +17980,13 @@ IL_0145_2:
 
 IL_015e_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:74>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:74>
 				NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* L_47 = V_2;
 				NullCheck(L_47);
 				TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_48 = L_47->___destinationDropdown;
 				NullCheck(L_48);
 				TMP_Dropdown_ClearOptions_m9888C23BC3033268E5C2D8613C0854661E7BDEB5(L_48, NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:75>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:75>
 				NavigationUIManager_t96C5262CDB35257AC938031C734E45D2A2601127* L_49 = V_2;
 				NullCheck(L_49);
 				TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_50 = L_49->___destinationDropdown;
@@ -18011,14 +17998,14 @@ IL_015e_1:
 
 IL_0178_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:79>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:79>
 				il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 				Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteral739CBE3973D6F8B10BD9D6EBDB7FD7BF2FF0852B, NULL);
 			}
 
 IL_0182_1:
 			{
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:81>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:81>
 				U3CFetchDestinationsU3Ed__7_U3CU3Em__Finally1_m82309DE61CCBB5CDD2E30D26427D85AFBD218665(__this, NULL);
 				goto IL_0192_1;
 			}
@@ -18033,7 +18020,7 @@ IL_0192_1:
 			{
 				__this->___U3CrequestU3E5__2 = (UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL;
 				Il2CppCodeGenWriteBarrier((void**)(&__this->___U3CrequestU3E5__2), (void*)(UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F*)NULL);
-				//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/UIManager/NavigationUIManager.cs:82>
+				//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/UIManager/NavigationUIManager.cs:82>
 				V_0 = (bool)0;
 				goto IL_01a4;
 			}
@@ -18050,7 +18037,7 @@ IL_01a4:
 		return L_52;
 	}
 }
-// Method Definition Index: 78851
+// Method Definition Index: 78854
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchDestinationsU3Ed__7_U3CU3Em__Finally1_m82309DE61CCBB5CDD2E30D26427D85AFBD218665 (U3CFetchDestinationsU3Ed__7_tFA9F4C7652D487A6FCD5EDDA499F6D3E1A93F1D7* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -18078,7 +18065,7 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 78852
+// Method Definition Index: 78855
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchDestinationsU3Ed__7_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mD9A5A95A67249D297495BB90C2C7534A8EECE8D7 (U3CFetchDestinationsU3Ed__7_tFA9F4C7652D487A6FCD5EDDA499F6D3E1A93F1D7* __this, const RuntimeMethod* method) 
 {
 	{
@@ -18086,7 +18073,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchDestinationsU3Ed__7_Sy
 		return L_0;
 	}
 }
-// Method Definition Index: 78853
+// Method Definition Index: 78856
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchDestinationsU3Ed__7_System_Collections_IEnumerator_Reset_mF1FC982753E243489561280C5FFEF67D717ABFF7 (U3CFetchDestinationsU3Ed__7_tFA9F4C7652D487A6FCD5EDDA499F6D3E1A93F1D7* __this, const RuntimeMethod* method) 
 {
 	{
@@ -18095,7 +18082,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CFetchDestinationsU3Ed__7_System_Colle
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CFetchDestinationsU3Ed__7_System_Collections_IEnumerator_Reset_mF1FC982753E243489561280C5FFEF67D717ABFF7_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78854
+// Method Definition Index: 78857
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchDestinationsU3Ed__7_System_Collections_IEnumerator_get_Current_mC509CEF55BD441842B2A657736A84E3F6E005BF1 (U3CFetchDestinationsU3Ed__7_tFA9F4C7652D487A6FCD5EDDA499F6D3E1A93F1D7* __this, const RuntimeMethod* method) 
 {
 	{
@@ -18111,11 +18098,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CFetchDestinationsU3Ed__7_Sy
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78855
+// Method Definition Index: 78858
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SceneTemplate_RotateCube_Update_mAF2FB34B99E325443A80D60A7EB73DC092EAE9A6 (SceneTemplate_RotateCube_tB6D99CC88F0E89517A2E6E071F0334FE69FB44CC* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Settings/Project Configuration/SceneTemplate_RotateCube.cs:20>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Settings/Project Configuration/SceneTemplate_RotateCube.cs:20>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_0;
 		L_0 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(__this, NULL);
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_1 = __this->___objectRotation;
@@ -18128,15 +18115,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SceneTemplate_RotateCube_Update_mAF2FB34
 		L_5 = Vector3_op_Multiply_m87BA7C578F96C8E49BB07088DAAC4649F83B0353_inline(L_3, L_4, NULL);
 		NullCheck(L_0);
 		Transform_Rotate_m2A308205498AFEEA3DF784B1C86E4F7C126CA2EE(L_0, L_5, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Settings/Project Configuration/SceneTemplate_RotateCube.cs:21>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Settings/Project Configuration/SceneTemplate_RotateCube.cs:21>
 		return;
 	}
 }
-// Method Definition Index: 78856
+// Method Definition Index: 78859
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SceneTemplate_RotateCube__ctor_mC7E11C05D25FFF6F8D7EA06AAE5598B497365CD2 (SceneTemplate_RotateCube_tB6D99CC88F0E89517A2E6E071F0334FE69FB44CC* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Settings/Project Configuration/SceneTemplate_RotateCube.cs:10>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Settings/Project Configuration/SceneTemplate_RotateCube.cs:10>
 		__this->___rotateSpeed = (1.0f);
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
@@ -18150,7 +18137,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SceneTemplate_RotateCube__ctor_mC7E11C05
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78857
+// Method Definition Index: 78860
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_Start_m17BF049BF0595ECD470D87140F23FEDB4D661963 (SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -18168,7 +18155,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_Start_m17BF049BF0595ECD470D
 	}
 	bool V_0 = false;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:31>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:31>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_0 = __this->___submitButton;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -18179,7 +18166,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_Start_m17BF049BF0595ECD470D
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:33>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:33>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_2 = __this->___submitButton;
 		NullCheck(L_2);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_3;
@@ -18188,7 +18175,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_Start_m17BF049BF0595ECD470D
 		UnityAction__ctor_mC53E20D6B66E0D5688CD81B88DBB34F5A58B7131(L_4, __this, (intptr_t)((void*)SOSUIManager_OnSubmitSOS_m5573E846F8D42690EAD47FEB5464AD460C945A3E_RuntimeMethod_var), NULL);
 		NullCheck(L_3);
 		UnityEvent_RemoveListener_m0E138F5575CB4363019D3DA570E98FAD502B812C(L_3, L_4, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:34>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:34>
 		Button_t6786514A57F7AFDEE5431112FEA0CAB24F5AE098* L_5 = __this->___submitButton;
 		NullCheck(L_5);
 		ButtonClickedEvent_t8EA72E90B3BD1392FB3B3EF167D5121C23569E4C* L_6;
@@ -18202,22 +18189,22 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_Start_m17BF049BF0595ECD470D
 
 IL_0048:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:38>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:38>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteral70F23266C77B8F4DBFF6956BEB4F5736D6FF4A33, NULL);
 	}
 
 IL_0052:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:41>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:41>
 		float L_8;
 		L_8 = PlayerPrefs_GetFloat_m4A9B511E92C8BDEBB64D9B2557126FB030895A4D(_stringLiteral1AD82132BECAB23C0D916AA30E358551F6129DF5, (0.0f), NULL);
 		__this->___latitude = L_8;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:42>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:42>
 		float L_9;
 		L_9 = PlayerPrefs_GetFloat_m4A9B511E92C8BDEBB64D9B2557126FB030895A4D(_stringLiteralD48897F4210197057B42258E90C0C65A414B96A4, (0.0f), NULL);
 		__this->___longitude = L_9;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:45>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:45>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_10 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_11;
@@ -18228,14 +18215,14 @@ IL_0052:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:47>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:47>
 		SOSUIManager_TryFindOrCreateAlertText_m9605EB972ADEAB63DF787C4C87D483345EB24E57(__this, NULL);
 		goto IL_00a3;
 	}
 
 IL_0092:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:52>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:52>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_12 = __this->___alertText;
 		NullCheck(L_12);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_13;
@@ -18246,7 +18233,7 @@ IL_0092:
 
 IL_00a3:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:55>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:55>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_14 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_15;
@@ -18259,11 +18246,11 @@ IL_00a3:
 		L_17 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteral25928A0058846406794F92A3FD57ABE93F62A2CF, L_16, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_17, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:56>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:56>
 		return;
 	}
 }
-// Method Definition Index: 78858
+// Method Definition Index: 78861
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_OnSubmitSOS_m5573E846F8D42690EAD47FEB5464AD460C945A3E (SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -18305,10 +18292,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_OnSubmitSOS_m5573E846F8D426
 	String_t* G_B13_0 = NULL;
 	String_t* G_B16_0 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:61>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:61>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_0 = __this->___infoColor;
 		SOSUIManager_ShowAlert_mAB76FA62C1F9B38E6244513013F960A2E9A459D7(__this, _stringLiteral352B4BACE7E0F6B989D5BA3BC469139DB17D6C30, L_0, (-1.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:63>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:63>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_1 = __this->___nameInput;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
@@ -18335,7 +18322,7 @@ IL_002b:
 IL_0036:
 	{
 		V_0 = G_B3_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:64>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:64>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_5 = __this->___contactInput;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_6;
@@ -18362,9 +18349,9 @@ IL_004c:
 IL_0057:
 	{
 		V_1 = G_B6_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:65>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:66>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:67>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:65>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:66>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:67>
 		TMP_Dropdown_t73B37BFDA0D005451C7B750938AFB1748E5EA504* L_9 = __this->___emergencyTypeDropdown;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_10;
@@ -18416,7 +18403,7 @@ IL_0080:
 IL_00a0:
 	{
 		V_2 = G_B10_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:68>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:68>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_20 = __this->___addressInput;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_21;
@@ -18443,7 +18430,7 @@ IL_00b6:
 IL_00c1:
 	{
 		V_3 = G_B13_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:69>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:69>
 		TMP_InputField_t3488E0EE8C3DF56C6A328EC95D1BEEA2DF4A7D5F* L_24 = __this->___descriptionInput;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_25;
@@ -18470,56 +18457,56 @@ IL_00d7:
 IL_00e2:
 	{
 		V_4 = G_B16_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:70>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:70>
 		float* L_28 = (float*)(&__this->___latitude);
 		String_t* L_29;
 		L_29 = Single_ToString_mE282EDA9CA4F7DF88432D807732837A629D04972(L_28, NULL);
 		V_5 = L_29;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:71>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:71>
 		float* L_30 = (float*)(&__this->___longitude);
 		String_t* L_31;
 		L_31 = Single_ToString_mE282EDA9CA4F7DF88432D807732837A629D04972(L_30, NULL);
 		V_6 = L_31;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:73>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:73>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_32 = (WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045*)il2cpp_codegen_object_new(WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045_il2cpp_TypeInfo_var);
 		WWWForm__ctor_mB1AA4D4BE7011A371B590332CC65794270F269F6(L_32, NULL);
 		V_7 = L_32;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:74>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:74>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_33 = V_7;
 		String_t* L_34 = V_0;
 		NullCheck(L_33);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_33, _stringLiteralCE18B047107AA23D1AA9B2ED32D316148E02655F, L_34, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:75>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:75>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_35 = V_7;
 		String_t* L_36 = V_1;
 		NullCheck(L_35);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_35, _stringLiteralC5BD2056F76D659B19941DB41BB724C90C96621D, L_36, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:76>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:76>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_37 = V_7;
 		String_t* L_38 = V_2;
 		NullCheck(L_37);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_37, _stringLiteral34BDF280E8C4D0AF57E115B16FDF4D761F1129B9, L_38, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:77>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:77>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_39 = V_7;
 		String_t* L_40 = V_3;
 		NullCheck(L_39);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_39, _stringLiteralC1B1E0CE5A09CF4209B4BF3D3E285EB905BA1A14, L_40, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:78>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:78>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_41 = V_7;
 		String_t* L_42 = V_5;
 		NullCheck(L_41);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_41, _stringLiteral4F947DD752BAA3989FD8419D4B2425AD0C64D6C3, L_42, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:79>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:79>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_43 = V_7;
 		String_t* L_44 = V_6;
 		NullCheck(L_43);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_43, _stringLiteralD890B2BC5E5200965CD02403ABB6C221A614A1B7, L_44, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:80>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:80>
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_45 = V_7;
 		String_t* L_46 = V_4;
 		NullCheck(L_45);
 		WWWForm_AddField_m6315BDFDEA6F0F57ABCBCF4B1AE482E1893BEB8D(L_45, _stringLiteralEB534843932D1025EEE09575458F840C63DC1063, L_46, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:82>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:82>
 		APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* L_47 = ((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_48;
@@ -18530,10 +18517,10 @@ IL_00e2:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:84>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:85>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:86>
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:87>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:84>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:85>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:86>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:87>
 		APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530* L_49 = ((APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_StaticFields*)il2cpp_codegen_static_fields_for(APIManager_t4D987F68C4B2D450D5D3565B801AE78BD0795530_il2cpp_TypeInfo_var))->___Instance;
 		WWWForm_t0DAE123504AB1B2BC17C18714741B92AB3B3B045* L_50 = V_7;
 		Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A* L_51 = (Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A*)il2cpp_codegen_object_new(Action_1_t3CB5D1A819C3ED3F99E9E39F890F18633253949A_il2cpp_TypeInfo_var);
@@ -18548,18 +18535,18 @@ IL_00e2:
 
 IL_0195:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:91>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:91>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteralA02936D382D02CB38CFFEF427AC4D732F27E1E25, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:92>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:92>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_54 = __this->___errorColor;
 		float L_55 = __this->___alertDuration;
 		SOSUIManager_ShowAlert_mAB76FA62C1F9B38E6244513013F960A2E9A459D7(__this, _stringLiteral9CA721D26236A61D0861AE7ECA4E47813E06C162, L_54, L_55, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:94>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:94>
 		return;
 	}
 }
-// Method Definition Index: 78859
+// Method Definition Index: 78862
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_OnResponse_m5424A310CE8D0240D3EB695EFEC29D6FBFBD5869 (SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* __this, String_t* ___0_response, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -18574,13 +18561,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_OnResponse_m5424A310CE8D024
 	}
 	int32_t G_B3_0 = 0;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:98>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:98>
 		String_t* L_0 = ___0_response;
 		String_t* L_1;
 		L_1 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralBB3D94165F062009A621249A01E98BF287A70509, L_0, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:101>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:101>
 		String_t* L_2 = ___0_response;
 		bool L_3;
 		L_3 = String_IsNullOrEmpty_mEA9E3FB005AC28FE02E69FCF95A7B8456192B478(L_2, NULL);
@@ -18608,14 +18595,14 @@ IL_002d:
 
 IL_002e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:103>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:103>
 		if (!G_B3_0)
 		{
 			goto IL_0048;
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:105>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:105>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_7 = __this->___successColor;
 		float L_8 = __this->___alertDuration;
 		SOSUIManager_ShowAlert_mAB76FA62C1F9B38E6244513013F960A2E9A459D7(__this, _stringLiteralC058507EEE0A90D00E6A9CB527A8F0E26C5A6FDF, L_7, L_8, NULL);
@@ -18624,15 +18611,15 @@ IL_002e:
 
 IL_0048:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:109>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:109>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_9 = __this->___errorColor;
 		float L_10 = __this->___alertDuration;
 		SOSUIManager_ShowAlert_mAB76FA62C1F9B38E6244513013F960A2E9A459D7(__this, _stringLiteral2B27907308488BA0860D2A7D9B6529463FAE1F49, L_9, L_10, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:111>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:111>
 		return;
 	}
 }
-// Method Definition Index: 78860
+// Method Definition Index: 78863
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_ShowAlert_mAB76FA62C1F9B38E6244513013F960A2E9A459D7 (SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* __this, String_t* ___0_message, Color_tD001788D726C3A7F1379BEED0260B9591F440C1F ___1_color, float ___2_duration, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -18645,7 +18632,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_ShowAlert_mAB76FA62C1F9B38E
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:117>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:117>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_0 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_1;
@@ -18656,12 +18643,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_ShowAlert_mAB76FA62C1F9B38E
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:119>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:119>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogWarning_m33EF1B897E0C7C6FF538989610BFAFFEF4628CA9(_stringLiteralE4847D05D2C2B39C525F85CE960F9EA288FD2DE6, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:120>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:120>
 		SOSUIManager_TryFindOrCreateAlertText_m9605EB972ADEAB63DF787C4C87D483345EB24E57(__this, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:121>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:121>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_2 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_3;
@@ -18672,40 +18659,40 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_ShowAlert_mAB76FA62C1F9B38E
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:123>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:123>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralCCBFDC952AC377122E244195F64FC48C374C9FF2, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:124>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:124>
 		return;
 	}
 
 IL_0037:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:128>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:128>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_4 = __this->___alertText;
 		String_t* L_5 = ___0_message;
 		NullCheck(L_4);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_4, L_5);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:129>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:129>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_6 = __this->___alertText;
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_7 = ___1_color;
 		NullCheck(L_6);
 		VirtualActionInvoker1< Color_tD001788D726C3A7F1379BEED0260B9591F440C1F >::Invoke(23, L_6, L_7);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:130>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:130>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_8 = __this->___alertText;
 		NullCheck(L_8);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_9;
 		L_9 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_8, NULL);
 		NullCheck(L_9);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_9, (bool)1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:133>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:133>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_10 = __this->___alertText;
 		NullCheck(L_10);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_11;
 		L_11 = TMP_Text_get_transform_m6BD41E08BFCFCE722DFCE4627626AD60CA99CCA8(L_10, NULL);
 		NullCheck(L_11);
 		Transform_SetAsLastSibling_m848AF1A0B4C7912FE88D8CBCF92B83D57B2B917E(L_11, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:136>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:136>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_12 = __this->___alertCoroutine;
 		if (!L_12)
 		{
@@ -18713,14 +18700,14 @@ IL_0037:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:136>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:136>
 		Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B* L_13 = __this->___alertCoroutine;
 		MonoBehaviour_StopCoroutine_mB0FC91BE84203BD8E360B3FBAE5B958B4C5ED22A(__this, L_13, NULL);
 	}
 
 IL_0084:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:137>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:137>
 		float L_14 = ___2_duration;
 		if ((!(((float)L_14) > ((float)(0.0f)))))
 		{
@@ -18728,7 +18715,7 @@ IL_0084:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:139>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:139>
 		float L_15 = ___2_duration;
 		RuntimeObject* L_16;
 		L_16 = SOSUIManager_HideAlertAfterSeconds_m75B6169409877884A4A74A920274E8FD1A58403B(__this, L_15, NULL);
@@ -18740,11 +18727,11 @@ IL_0084:
 
 IL_009f:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:141>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:141>
 		return;
 	}
 }
-// Method Definition Index: 78861
+// Method Definition Index: 78864
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* SOSUIManager_HideAlertAfterSeconds_m75B6169409877884A4A74A920274E8FD1A58403B (SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* __this, float ___0_seconds, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -18767,7 +18754,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* SOSUIManager_HideAlertAfterSec
 		return L_2;
 	}
 }
-// Method Definition Index: 78862
+// Method Definition Index: 78865
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_TryFindOrCreateAlertText_m9605EB972ADEAB63DF787C4C87D483345EB24E57 (SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -18792,11 +18779,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_TryFindOrCreateAlertText_m9
 	Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* V_1 = NULL;
 	TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* V_2 = NULL;
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:155>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:155>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0;
 		L_0 = GameObject_Find_m7A669B4EEC2617AB82F6E3FF007CDCD9F21DB300(_stringLiteralA82EBA22221D789BF3A2CE5A1A68047461345044, NULL);
 		V_0 = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:156>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:156>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1 = V_0;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_2;
@@ -18807,14 +18794,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_TryFindOrCreateAlertText_m9
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:158>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:158>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_3 = V_0;
 		NullCheck(L_3);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_4;
 		L_4 = GameObject_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_mA59A63181077B821132B53D44724D7F86C6FECB3(L_3, GameObject_GetComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_mA59A63181077B821132B53D44724D7F86C6FECB3_RuntimeMethod_var);
 		__this->___alertText = L_4;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___alertText), (void*)L_4);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:159>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:159>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_5 = __this->___alertText;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		bool L_6;
@@ -18825,25 +18812,25 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager_TryFindOrCreateAlertText_m9
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:159>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:159>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_7 = __this->___alertText;
 		NullCheck(L_7);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_8;
 		L_8 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_7, NULL);
 		NullCheck(L_8);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_8, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:159>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:159>
 		return;
 	}
 
 IL_0040:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:163>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:163>
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_9;
 		L_9 = Object_FindObjectOfType_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m4AD0E4AD3F779EA1CBA37403B0244126814EA6D1(Object_FindObjectOfType_TisCanvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26_m4AD0E4AD3F779EA1CBA37403B0244126814EA6D1_RuntimeMethod_var);
 		V_1 = L_9;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:164>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:164>
 		Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26* L_10 = V_1;
 		bool L_11;
 		L_11 = Object_op_Equality_mB6120F782D83091EF56A198FCEBCF066DB4A9605(L_10, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
@@ -18853,16 +18840,16 @@ IL_0040:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:166>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:166>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_LogError_mB00B2B4468EF3CAF041B038D840820FB84C924B2(_stringLiteralF1A5D9F39FED09395AD2FC12D3DFD10AD36A22EC, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:167>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:167>
 		return;
 	}
 
 IL_005a:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:171>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:171>
 		TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* L_12 = (TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB*)(TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB*)SZArrayNew(TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB_il2cpp_TypeInfo_var, (uint32_t)1);
 		TypeU5BU5D_t97234E1129B564EB38B8D85CAC2AD8B5B9522FFB* L_13 = L_12;
 		RuntimeTypeHandle_t332A452B8B6179E4469B69525D0FE82A88030F7B L_14 = { reinterpret_cast<intptr_t> (RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_0_0_0_var) };
@@ -18874,7 +18861,7 @@ IL_005a:
 		(L_13)->SetAt(static_cast<il2cpp_array_size_t>(0), (Type_t*)L_15);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_16 = (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*)il2cpp_codegen_object_new(GameObject_t76FEDD663AB33C991A9C9A23129337651094216F_il2cpp_TypeInfo_var);
 		GameObject__ctor_m721D643351E55308EA4F5F41B67D5446D11C61F0(L_16, _stringLiteralA82EBA22221D789BF3A2CE5A1A68047461345044, L_13, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:172>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:172>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_17 = L_16;
 		NullCheck(L_17);
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_18;
@@ -18885,92 +18872,92 @@ IL_005a:
 		L_20 = Component_get_transform_m2919A1D81931E6932C7F06D4C2F0AB8DDA9A5371(L_19, NULL);
 		NullCheck(L_18);
 		Transform_SetParent_m9BDD7B7476714B2D7919B10BDC22CE75C0A0A195(L_18, L_20, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:174>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:174>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_21 = L_17;
 		NullCheck(L_21);
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_22;
 		L_22 = GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4(L_21, GameObject_GetComponent_TisRectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5_m1592DCB5AA07291F73A76006F0913A64DFB8A9C4_RuntimeMethod_var);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:175>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:175>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_23 = L_22;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_24;
 		memset((&L_24), 0, sizeof(L_24));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_24), (0.5f), (0.949999988f), NULL);
 		NullCheck(L_23);
 		RectTransform_set_anchorMin_m931442ABE3368D6D4309F43DF1D64AB64B0F52E3(L_23, L_24, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:176>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:176>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_25 = L_23;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_26;
 		memset((&L_26), 0, sizeof(L_26));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_26), (0.5f), (0.949999988f), NULL);
 		NullCheck(L_25);
 		RectTransform_set_anchorMax_m52829ABEDD229ABD3DA20BCA676FA1DCA4A39B7D(L_25, L_26, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:177>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:177>
 		RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5* L_27 = L_25;
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_28;
 		memset((&L_28), 0, sizeof(L_28));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_28), (0.5f), (0.5f), NULL);
 		NullCheck(L_27);
 		RectTransform_set_pivot_m79D0177D383D432A93C2615F1932B739B1C6E146(L_27, L_28, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:178>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:178>
 		Vector2_t1FD6F485C871E832B347AB2DC8CBA08B739D8DF7 L_29;
 		memset((&L_29), 0, sizeof(L_29));
 		Vector2__ctor_m9525B79969AFFE3254B303A40997A56DEEB6F548_inline((&L_29), (600.0f), (60.0f), NULL);
 		NullCheck(L_27);
 		RectTransform_set_sizeDelta_mC9A980EA6036E6725EF24CEDF3EE80A9B2B50EE5(L_27, L_29, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:181>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:181>
 		NullCheck(L_21);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_30;
 		L_30 = GameObject_AddComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m5B9EFF0A3AD5E7AB4FD7A4A4D9C2802FA3240275(L_21, GameObject_AddComponent_TisTMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_m5B9EFF0A3AD5E7AB4FD7A4A4D9C2802FA3240275_RuntimeMethod_var);
 		V_2 = L_30;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:182>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:182>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_31 = V_2;
 		NullCheck(L_31);
 		TMP_Text_set_fontSize_m1C3A3BA2BC88E5E1D89375FD35A0AA91E75D3AAD(L_31, (24.0f), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:183>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:183>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_32 = V_2;
 		NullCheck(L_32);
 		TMP_Text_set_alignment_mE5216A28797987CC19927ED3CB8DFAC438C6B95A(L_32, ((int32_t)514), NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:184>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:184>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_33 = V_2;
 		NullCheck(L_33);
 		TMP_Text_set_enableWordWrapping_mFAEE849315B4723F9C86C127B1A59EF50BE1C12F(L_33, (bool)1, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:185>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:185>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_34 = V_2;
 		NullCheck(L_34);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_34, _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:194>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:194>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_35 = V_2;
 		__this->___alertText = L_35;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___alertText), (void*)L_35);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:195>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:195>
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_36 = __this->___alertText;
 		NullCheck(L_36);
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_37;
 		L_37 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_36, NULL);
 		NullCheck(L_37);
 		GameObject_SetActive_m638E92E1E75E519E5B24CF150B08CA8E0CDFAB92(L_37, (bool)0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:197>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:197>
 		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
 		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteralDD7D01374F81F737DE523FEA21E64DD0466C8D42, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:198>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:198>
 		return;
 	}
 }
-// Method Definition Index: 78863
+// Method Definition Index: 78866
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager__ctor_mA0B17DE77FA5DDC0B0C843840EA46D07DC8DA0D2 (SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:20>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:20>
 		__this->___alertDuration = (3.0f);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:21>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:21>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_0;
 		L_0 = Color_get_green_mEB001F2CD8C68C6BBAEF9101990B779D3AA2A6EF_inline(NULL);
 		__this->___successColor = L_0;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:22>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:22>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_1;
 		L_1 = Color_get_red_mA2E53E7173FDC97E68E335049AB0FAAEE43A844D_inline(NULL);
 		__this->___errorColor = L_1;
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:23>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:23>
 		Color_tD001788D726C3A7F1379BEED0260B9591F440C1F L_2;
 		L_2 = Color_get_yellow_m66637FA14383E8D74F24AE256B577CE1D55D469F_inline(NULL);
 		__this->___infoColor = L_2;
@@ -18986,7 +18973,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void SOSUIManager__ctor_mA0B17DE77FA5DDC0B0C8
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78864
+// Method Definition Index: 78867
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__20__ctor_m9EB56040D88891A4FA819405252D59E74CFB8983 (U3CHideAlertAfterSecondsU3Ed__20_t95A86F59109525652C64884C6E114AF2FE2E0B64* __this, int32_t ___0_U3CU3E1__state, const RuntimeMethod* method) 
 {
 	{
@@ -18996,14 +18983,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__20__ctor_m
 		return;
 	}
 }
-// Method Definition Index: 78865
+// Method Definition Index: 78868
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__20_System_IDisposable_Dispose_m9EA84BBC993E70D0E7002B5D65D53A1C2191617A (U3CHideAlertAfterSecondsU3Ed__20_t95A86F59109525652C64884C6E114AF2FE2E0B64* __this, const RuntimeMethod* method) 
 {
 	{
 		return;
 	}
 }
-// Method Definition Index: 78866
+// Method Definition Index: 78869
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CHideAlertAfterSecondsU3Ed__20_MoveNext_mEC45B694894B506755CD5B92A6AAB07AB61AD716 (U3CHideAlertAfterSecondsU3Ed__20_t95A86F59109525652C64884C6E114AF2FE2E0B64* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -19040,7 +19027,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool U3CHideAlertAfterSecondsU3Ed__20_MoveNex
 IL_0017:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:145>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:145>
 		float L_4 = __this->___seconds;
 		WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3* L_5 = (WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3*)il2cpp_codegen_object_new(WaitForSeconds_tF179DF251655B8DF044952E70A60DF4B358A3DD3_il2cpp_TypeInfo_var);
 		WaitForSeconds__ctor_m579F95BADEDBAB4B3A7E302C6EE3995926EF2EFC(L_5, L_4, NULL);
@@ -19053,7 +19040,7 @@ IL_0017:
 IL_0038:
 	{
 		__this->___U3CU3E1__state = (-1);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:146>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:146>
 		SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* L_6 = V_1;
 		NullCheck(L_6);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_7 = L_6->___alertText;
@@ -19066,7 +19053,7 @@ IL_0038:
 		}
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:147>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:147>
 		SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* L_9 = V_1;
 		NullCheck(L_9);
 		TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9* L_10 = L_9->___alertText;
@@ -19079,16 +19066,16 @@ IL_0038:
 
 IL_005e:
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:148>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:148>
 		SOSUIManager_t05444795E94228AAB68ACA8F854BB3BF6B8EC80D* L_12 = V_1;
 		NullCheck(L_12);
 		L_12->___alertCoroutine = (Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL;
 		Il2CppCodeGenWriteBarrier((void**)(&L_12->___alertCoroutine), (void*)(Coroutine_t85EA685566A254C23F3FD77AB5BDFFFF8799596B*)NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/SOSUIManager.cs:149>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/SOSUIManager.cs:149>
 		return (bool)0;
 	}
 }
-// Method Definition Index: 78867
+// Method Definition Index: 78870
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__20_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_m51ADE9DEA194E86549532B77E5BA1B1DDB761383 (U3CHideAlertAfterSecondsU3Ed__20_t95A86F59109525652C64884C6E114AF2FE2E0B64* __this, const RuntimeMethod* method) 
 {
 	{
@@ -19096,7 +19083,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__
 		return L_0;
 	}
 }
-// Method Definition Index: 78868
+// Method Definition Index: 78871
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__20_System_Collections_IEnumerator_Reset_m65116B5FD047621A4FD78C2976A07D0C8C3F1AAC (U3CHideAlertAfterSecondsU3Ed__20_t95A86F59109525652C64884C6E114AF2FE2E0B64* __this, const RuntimeMethod* method) 
 {
 	{
@@ -19105,7 +19092,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CHideAlertAfterSecondsU3Ed__20_System_
 		IL2CPP_RAISE_MANAGED_EXCEPTION(L_0, ((RuntimeMethod*)il2cpp_codegen_initialize_runtime_metadata_inline((uintptr_t*)&U3CHideAlertAfterSecondsU3Ed__20_System_Collections_IEnumerator_Reset_m65116B5FD047621A4FD78C2976A07D0C8C3F1AAC_RuntimeMethod_var)));
 	}
 }
-// Method Definition Index: 78869
+// Method Definition Index: 78872
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__20_System_Collections_IEnumerator_get_Current_mC223FD6377B9665559E41A79C5FF4C8888217923 (U3CHideAlertAfterSecondsU3Ed__20_t95A86F59109525652C64884C6E114AF2FE2E0B64* __this, const RuntimeMethod* method) 
 {
 	{
@@ -19121,7 +19108,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* U3CHideAlertAfterSecondsU3Ed__
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78870
+// Method Definition Index: 78873
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC90C99D73A3E UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -19155,7 +19142,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC
 		return L_6;
 	}
 }
-// Method Definition Index: 78871
+// Method Definition Index: 78874
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1 (UnitySourceGeneratedAssemblyMonoScriptTypes_v1_tC95F24D0C6E6B77389433852BB389F39C692926E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -19241,7 +19228,7 @@ IL2CPP_EXTERN_C void MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC90C99D73A3E_ma
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 78872
+// Method Definition Index: 78875
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3* CutoutMaskUI_get_materialForRendering_m1E481305FA17C6A7AC2A91C9A8BC62CBA40EB21A (CutoutMaskUI_t331D7742560D4950E00071EF06D12E7CEB17C4C2* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -19252,22 +19239,22 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Material_t18053F08F347D0DCA5E1140EC7EC4533DD8
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:15>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:15>
 		Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3* L_0;
 		L_0 = Graphic_get_materialForRendering_m4B0017B2B59D2EF578D32ABFCF84A97A835B6B22(__this, NULL);
 		Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3* L_1 = (Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3*)il2cpp_codegen_object_new(Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3_il2cpp_TypeInfo_var);
 		Material__ctor_mFCC42FB90257F1E8F7516A8640A79C465A39961C(L_1, L_0, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:16>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:16>
 		Material_t18053F08F347D0DCA5E1140EC7EC4533DD8A14E3* L_2 = L_1;
 		il2cpp_codegen_runtime_class_init_inline(CutoutMaskUI_t331D7742560D4950E00071EF06D12E7CEB17C4C2_il2cpp_TypeInfo_var);
 		int32_t L_3 = ((CutoutMaskUI_t331D7742560D4950E00071EF06D12E7CEB17C4C2_StaticFields*)il2cpp_codegen_static_fields_for(CutoutMaskUI_t331D7742560D4950E00071EF06D12E7CEB17C4C2_il2cpp_TypeInfo_var))->___k_StencilComp;
 		NullCheck(L_2);
 		Material_SetInt_m9C05C9D7C152CFCC48F8572710F89DDAC9277E39(L_2, L_3, 6, NULL);
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:17>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:17>
 		return L_2;
 	}
 }
-// Method Definition Index: 78873
+// Method Definition Index: 78876
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CutoutMaskUI__ctor_m6E3A5D1ED0A30B06735B45E13EE7641085EADE2D (CutoutMaskUI_t331D7742560D4950E00071EF06D12E7CEB17C4C2* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -19282,7 +19269,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CutoutMaskUI__ctor_m6E3A5D1ED0A30B06735B
 		return;
 	}
 }
-// Method Definition Index: 78874
+// Method Definition Index: 78877
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CutoutMaskUI__cctor_m3FA8526EBAB8E0DFA5881AEBA12CDA8F6533303B (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -19293,7 +19280,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CutoutMaskUI__cctor_m3FA8526EBAB8E0DFA58
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:9>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/MobileARTemplateAssets/UI/Prefabs/Scripts/CutoutMaskUI.cs:9>
 		int32_t L_0;
 		L_0 = Shader_PropertyToID_mE98523D50F5656CAE89B30695C458253EB8956CA(_stringLiteral0F52C788AC4796FE5841155F7DF3896E049C051E, NULL);
 		((CutoutMaskUI_t331D7742560D4950E00071EF06D12E7CEB17C4C2_StaticFields*)il2cpp_codegen_static_fields_for(CutoutMaskUI_t331D7742560D4950E00071EF06D12E7CEB17C4C2_il2cpp_TypeInfo_var))->___k_StencilComp = L_0;
@@ -19327,7 +19314,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void CutoutMaskUI__cctor_m3FA8526EBAB8E0DFA58
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
-// Method Definition Index: 78669
+// Method Definition Index: 78672
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* ARSessionManager_get_Instance_m04B99098093B13F23A7FC75B81B06EEFCFC62815_inline (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -19337,12 +19324,12 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR ARSessionManager_t70CCF0C34CAD996
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:6>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:6>
 		ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* L_0 = ((ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_StaticFields*)il2cpp_codegen_static_fields_for(ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_il2cpp_TypeInfo_var))->___U3CInstanceU3Ek__BackingField;
 		return L_0;
 	}
 }
-// Method Definition Index: 78670
+// Method Definition Index: 78673
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void ARSessionManager_set_Instance_m332F730CBC9427125EE240760B1FB8D6C2FEC35A_inline (ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* ___0_value, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -19352,7 +19339,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void ARSessionManager_set_Instanc
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/triosoft/ProtoShipra/Assets/Script/ARSessionManager.cs:6>
+		//<source_info:/Users/triosoft/ProtoShipra copy/Assets/Script/ARSessionManager.cs:6>
 		ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6* L_0 = ___0_value;
 		((ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_StaticFields*)il2cpp_codegen_static_fields_for(ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_il2cpp_TypeInfo_var))->___U3CInstanceU3Ek__BackingField = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&((ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_StaticFields*)il2cpp_codegen_static_fields_for(ARSessionManager_t70CCF0C34CAD996259354FA61B9279EFDE1C31D6_il2cpp_TypeInfo_var))->___U3CInstanceU3Ek__BackingField), (void*)L_0);
