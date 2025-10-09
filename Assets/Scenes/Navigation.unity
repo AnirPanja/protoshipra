@@ -3688,8 +3688,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -88.772}
+  m_SizeDelta: {x: 0, y: -177.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1102038641
 MonoBehaviour:
@@ -4630,7 +4630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28, y: 324}
+  m_AnchoredPosition: {x: -14, y: 207}
   m_SizeDelta: {x: 729.486, y: 536.294}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1486321886
@@ -4793,6 +4793,11 @@ MonoBehaviour:
   overlayPanel: {fileID: 1102038639}
   statusText: {fileID: 762500174}
   transcriptText: {fileID: 1486321886}
+  englishFont: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  hindiFont: {fileID: 11400000, guid: 17e224f0b4bb54391ae5fcd2494ba085, type: 2}
+  bhojpuriFont: {fileID: 11400000, guid: 17e224f0b4bb54391ae5fcd2494ba085, type: 2}
+  bengaliFont: {fileID: 11400000, guid: 77d650f024baf491fbef773ff7fc0fcd, type: 2}
+  gujaratiFont: {fileID: 11400000, guid: e77ceeb5a53374c5c8fa96ca51521eff, type: 2}
 --- !u!114 &1491630093
 MonoBehaviour:
   m_ObjectHideFlags: 0

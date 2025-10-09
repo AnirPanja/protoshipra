@@ -39,7 +39,12 @@ public class Voice_boat : MonoBehaviour
     private string botName = "";
     private string chatboatId = "";
     private string frontWebsiteWord = "";
-
+[Header("Fonts for Languages")]
+public TMP_FontAsset englishFont;
+public TMP_FontAsset hindiFont;
+public TMP_FontAsset bhojpuriFont;
+public TMP_FontAsset bengaliFont;
+public TMP_FontAsset gujaratiFont;
     // ====== Language ======
     private string languageFor  = "bho-IN";  // default; replaced by dropdown
     private string targetLanguage = "bho-IN";
@@ -111,26 +116,46 @@ public class Voice_boat : MonoBehaviour
         languagePopup.SetActive(true);
     }
 
-    public void OnLanguageConfirm()
+ public void OnLanguageConfirm()
+{
+    if (languageDropdown != null)
     {
-        if (languageDropdown != null)
-        {
-            languageFor = MapDropdownSelectionToLangCode(languageDropdown.value);
-            targetLanguage = languageFor;
-        }
-        if (languagePopup != null) languagePopup.SetActive(false);
-
-        // Start session: bot speaks first
-        uidForPerson = GenerateUID();
-        flagForStart = "1";
-        StartCoroutine(BotFirstTurn());
+        languageFor = MapDropdownSelectionToLangCode(languageDropdown.value);
+        targetLanguage = languageFor;
     }
 
+    // Apply the font immediately
+    ApplyLanguageFont(languageFor);
+
+    if (languagePopup != null) languagePopup.SetActive(false);
+
+    // Start session: bot speaks first
+    uidForPerson = GenerateUID();
+    flagForStart = "1";
+    StartCoroutine(BotFirstTurn());
+}
 public void OnLanguageCancel()
 {
     if (languagePopup != null)
         languagePopup.SetActive(false); // just close popup
 }
+private void ApplyLanguageFont(string langCode)
+{
+    TMP_FontAsset selectedFont = englishFont; // default fallback
+
+    switch (langCode)
+    {
+        case "hi-IN":  selectedFont = hindiFont; break;
+        case "bho-IN": selectedFont = bhojpuriFont != null ? bhojpuriFont : hindiFont; break;
+        case "bn-IN":  selectedFont = bengaliFont; break;
+        case "gu-IN":  selectedFont = gujaratiFont; break;
+        case "en-US":  selectedFont = englishFont; break;
+    }
+
+    if (transcriptText != null) transcriptText.font = selectedFont;
+    if (statusText != null) statusText.font = selectedFont;
+}
+
     // ====== Overlay helpers ======
     private void SetOverlay(bool show, string status = "", string transcript = "")
     {
@@ -287,12 +312,23 @@ speechRecognition.StartListening(sttLang);
         // Did we get destination?
         bool gotDestination = Math.Abs(r.lat) > 1e-9 && Math.Abs(r.lng) > 1e-9;
 
+        // ===== DEBUG LOGGING =====
+Debug.Log($"[XR-SERVER] Response received. for_front_flag={r.for_front_flag}, play_mic={r.play_mic}");
+Debug.Log($"[XR-LOCATION] lat={r.lat}, lng={r.lng}, place_name={r.place_name}");
+Debug.Log($"[XR-AUDIO] speak_txt={r.speak_txt}, file_path={r.file_path}");
+
+
         // If destination present, set it now (we will navigate after audio)
         if (gotDestination)
         {
             NavigationData.Destination = new GeoCoordinate(r.lat, r.lng);
             NavigationData.DestinationName = string.IsNullOrEmpty(r.place_name) ? "" : r.place_name;
+             Debug.Log($"[XR-NAV] Destination set: {NavigationData.DestinationName} ({r.lat}, {r.lng})");
         }
+        else
+{
+    Debug.Log("[XR-NAV] No destination data in this response.");
+}
 
         // Play TTS if provided; after speaking decide next
         if (!string.IsNullOrEmpty(r.file_path))

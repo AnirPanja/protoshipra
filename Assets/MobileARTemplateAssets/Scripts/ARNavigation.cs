@@ -123,6 +123,10 @@ public class ARNavigation : MonoBehaviour
 [SerializeField] private GameObject destinationPreviewPrefab; // optional: lighter UI-only prefab
 [SerializeField] private float destinationPreviewHeightOffset = 0.0f;
 
+[Header("Feedback Bot Integration")]
+[SerializeField] private FeedbackVoiceBot feedbackBot;   // drag your FeedbackVoiceBot here (optional; auto-find)
+[SerializeField] private bool autoStartFeedbackOnArrival = true;
+private bool feedbackStartedOnce = false;
 private GameObject destinationPreviewGO = null;
 private bool destinationWorldSpawned = false; // separate from preview
 
@@ -291,6 +295,7 @@ private string destDisplayName = "Destination";
                 guidanceArrowInstance.transform.localRotation = Quaternion.identity;
             }
         }
+if (feedbackBot == null) feedbackBot = FindObjectOfType<FeedbackVoiceBot>();
 
         SetUI(alignmentStatusText, "GPS Origin: pending…");
         SetUI(unityCompassText, "Course: (waiting for movement)");
@@ -339,7 +344,11 @@ private string destDisplayName = "Destination";
               $"Dest ({NavigationData.Destination.latitude:F8},{NavigationData.Destination.longitude:F8}) Name:'{destDisplayName}'");
 
     OnStartButtonPressed(source, destination);
-
+if (feedbackBot == null) feedbackBot = FindObjectOfType<FeedbackVoiceBot>();
+if (feedbackBot != null)
+{
+    feedbackBot.SetLocationName(destDisplayName);
+}
     // clear the static data flag (we keep the name in destDisplayName)
     NavigationData.HasData = false;
 }
@@ -367,6 +376,10 @@ else
 }
 
     // ====== PUBLIC NAV API ======
+    public string GetDestinationName()
+{
+    return string.IsNullOrEmpty(destDisplayName) ? "" : destDisplayName;
+}
     public void OnStartButtonPressed(Vector2 source, Vector2 dest)
     {
         destination = new Vector2(dest.x, dest.y);
@@ -1624,23 +1637,16 @@ List<KeyValuePair<string, float>> BuildRicherPreviewSegments_StepBased(float cur
 void CheckArrival()
 {
     float dToDest = HaversineDistance(currentLat, currentLon, destination.x, destination.y);
-
-    // Use locally-cached destination name (set in InitAndMaybeStartNav)
     string destName = string.IsNullOrEmpty(destDisplayName) ? "Destination" : destDisplayName;
 
-    // Format distance (m / km)
     string distStr = dToDest >= 1000f ? $"{(dToDest / 1000f):F1} km" : $"{Mathf.RoundToInt(dToDest)} m";
-
-    // Update debug UI every frame with name + remaining distance (or arrived)
     if (debugText != null)
     {
-        if (dToDest <= arrivalDistanceMeters)
-            debugText.text = $" {destName} — Arrived!";
-        else
-            debugText.text = $" {destName} — {distStr} away";
+        if (dToDest <= arrivalDistanceMeters) debugText.text = $" {destName} — Arrived!";
+        else debugText.text = $" {destName} — {distStr} away";
     }
 
-    // ---------- 1) PREVIEW: show a camera-parented marker when inside preview range ----------
+    // 1) Preview marker
     if (dToDest <= destinationPreviewMeters)
     {
         if (destinationPreviewGO == null)
@@ -1653,48 +1659,43 @@ void CheckArrival()
     }
     else if (destinationPreviewGO != null && dToDest > destinationPreviewHideMeters)
     {
-        // hysteresis: don't flicker on/off at the edge
         Destroy(destinationPreviewGO);
         destinationPreviewGO = null;
         Debug.Log("[DestinationPreview] Hidden (out of range).");
     }
 
-    // ---------- 2) ARRIVAL: world-anchored marker at the true destination ----------
+    // 2) World destination marker
     if (!destinationWorldSpawned && destinationPrefab != null && dToDest <= destinationPreviewMeters)
     {
         GameObject dst = SpawnARObjectAtLatLon(
-            destinationPrefab,
-            destination.x,          // latitude
-            destination.y,          // longitude
-            destName,
-            destinationHeightOffset,
-            destinationIcon,
-            destinationMaterial
+            destinationPrefab, destination.x, destination.y,
+            destName, destinationHeightOffset, destinationIcon, destinationMaterial
         );
-
-        if (dst == null)
-            Debug.LogWarning("[Destination] Failed to spawn world destination marker.");
-        else
-            Debug.Log($"[Destination] World marker spawned at ~{Mathf.RoundToInt(dToDest)} m.");
-
         destinationWorldSpawned = true;
     }
 
-    // ---------- 3) Final “arrived” UI at your tighter threshold (e.g., arrivalDistanceMeters) ----------
+    // 3) Final arrival UI + trigger feedback voice bot ONCE
     if (dToDest <= arrivalDistanceMeters)
     {
-        if (bigInstructionText != null)
-            bigInstructionText.text = "You have reached your destination 🎉";
+        if (bigInstructionText != null) bigInstructionText.text = "You have reached your destination 🎉";
+        if (stepsPreviewText != null) stepsPreviewText.text = "";
+        if (guidanceArrowInstance != null) guidanceArrowInstance.SetActive(false);
 
-        if (stepsPreviewText != null)
-            stepsPreviewText.text = "";
+        if (autoStartFeedbackOnArrival && !feedbackStartedOnce)
+    {
+        feedbackStartedOnce = true;
+        string friendly = string.IsNullOrEmpty(destDisplayName) ? "your destination" : destDisplayName;
 
-        if (guidanceArrowInstance != null)
-            guidanceArrowInstance.SetActive(false);
-
-        // debugText already set above
+        if (feedbackBot == null) feedbackBot = FindObjectOfType<FeedbackVoiceBot>();
+        if (feedbackBot != null)
+        {
+            Debug.Log("[ARNavigation] Starting feedback voice bot (arrival).");
+            feedbackBot.StartFeedbackFlow_AutoArrival(friendly);
+        }
+    }
     }
 }
+
 
 
 
