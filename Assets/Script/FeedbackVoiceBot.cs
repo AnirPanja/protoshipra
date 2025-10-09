@@ -132,6 +132,7 @@ public void StartFeedbackFlow_Button()
     // ========== Core flow ==========
     private void StartFeedbackFlow()
     {
+        HideShareFeedbackButton();
         uid_id = Guid.NewGuid().ToString("N").Substring(0, 20);
         flagForStart = botSpeaksFirst ? "1" : "1";
 
@@ -193,6 +194,17 @@ public void StartFeedbackFlow_Button()
     private void ShowListening(string t = "") => SetOverlay(true, "Listening…", t);
     private void ShowSpeaking(string t = "") => SetOverlay(true, "Speaking…", t);
     private void HideOverlay() => SetOverlay(false, "", "");
+private void HideShareFeedbackButton()
+{
+    if (shareFeedbackButton != null)
+        shareFeedbackButton.gameObject.SetActive(false);
+}
+
+private void ShowShareFeedbackButton()
+{
+    if (shareFeedbackButton != null)
+        shareFeedbackButton.gameObject.SetActive(true);
+}
 
     // ========== Server I/O ==========
     private void ServerTurn(string userText, string frontFlag)
@@ -245,6 +257,7 @@ public void StartFeedbackFlow_Button()
                 startServer = true;
                 HideOverlay();
             }
+            
         }
     }
 
@@ -271,6 +284,7 @@ public void StartFeedbackFlow_Button()
             {
                 if (playMic == "1" && flagForStart != "3") StartListening();
                 else HideOverlay();
+                 if (flagForStart == "3") ShowShareFeedbackButton();
                 startServer = true;
             }));
         }
@@ -278,6 +292,7 @@ public void StartFeedbackFlow_Button()
         {
             if (playMic == "1" && flagForStart != "3") StartListening();
             else HideOverlay();
+            if (flagForStart == "3") ShowShareFeedbackButton(); 
             startServer = true;
         }
     }

@@ -5284,7 +5284,7 @@ struct U3CBotFirstTurnU3Ed__34_tE97C7DA53DECD6B9AE99E4F87A9C3ECBD3FF8104  : publ
 	RuntimeObject* ___U3CU3E2__current;
 	FeedbackVoiceBot_t5476158BF173FF796DCAC272EC40BA7F531C180D* ___U3CU3E4__this;
 };
-struct U3CPlayAudioFromURLU3Ed__46_t0443A61A1F9B2B9873C731B42DF8CCF9E626E268  : public RuntimeObject
+struct U3CPlayAudioFromURLU3Ed__48_t0E92AF15430C1E35905CE60A2DC02E771310A646  : public RuntimeObject
 {
 	int32_t ___U3CU3E1__state;
 	RuntimeObject* ___U3CU3E2__current;
@@ -5293,7 +5293,7 @@ struct U3CPlayAudioFromURLU3Ed__46_t0443A61A1F9B2B9873C731B42DF8CCF9E626E268  : 
 	FeedbackVoiceBot_t5476158BF173FF796DCAC272EC40BA7F531C180D* ___U3CU3E4__this;
 	UnityWebRequest_t6233B8E22992FC2364A831C1ACB033EF3260C39F* ___U3CwwwU3E5__2;
 };
-struct U3CSendFeedbackRequestU3Ed__44_tEDC19CD3E225BA0EB65AED0B10725FC4D8DB30B8  : public RuntimeObject
+struct U3CSendFeedbackRequestU3Ed__46_t63D0B3FD3F2D352F35C9C5C3F447E72CD91655F4  : public RuntimeObject
 {
 	int32_t ___U3CU3E1__state;
 	RuntimeObject* ___U3CU3E2__current;
@@ -65229,9 +65229,9 @@ const Il2CppTypeDefinitionSizes g_typeDefinitionSize9014 = { sizeof(FeedbackResp
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize9015;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize9015 = { sizeof(U3CBotFirstTurnU3Ed__34_tE97C7DA53DECD6B9AE99E4F87A9C3ECBD3FF8104), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize9016;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize9016 = { sizeof(U3CPlayAudioFromURLU3Ed__46_t0443A61A1F9B2B9873C731B42DF8CCF9E626E268), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize9016 = { sizeof(U3CPlayAudioFromURLU3Ed__48_t0E92AF15430C1E35905CE60A2DC02E771310A646), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize9017;
-const Il2CppTypeDefinitionSizes g_typeDefinitionSize9017 = { sizeof(U3CSendFeedbackRequestU3Ed__44_tEDC19CD3E225BA0EB65AED0B10725FC4D8DB30B8), -1, 0, 0 };
+const Il2CppTypeDefinitionSizes g_typeDefinitionSize9017 = { sizeof(U3CSendFeedbackRequestU3Ed__46_t63D0B3FD3F2D352F35C9C5C3F447E72CD91655F4), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize9018;
 const Il2CppTypeDefinitionSizes g_typeDefinitionSize9018 = { sizeof(FeedbackVoiceBot_t5476158BF173FF796DCAC272EC40BA7F531C180D), -1, 0, 0 };
 IL2CPP_EXTERN_C_CONST Il2CppTypeDefinitionSizes g_typeDefinitionSize9019;
